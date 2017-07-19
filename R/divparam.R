@@ -1,0 +1,81 @@
+divparam <-
+function(comm, method = c("hill", "tsallis"), q = 2, tol = 1e-8){
+
+  m <- comm
+  method <- method[1]
+  if(!method%in%c("tsallis", "hill")) stop("Incorrect method")
+  nsp <- ncol(m)
+  if(any(m<0)) stop("m should contain nonnegative values")
+  if(any(rowSums(m)==0)) stop("empty communities should be discarded")
+  m <- sweep(m, 1, rowSums(m), "/")
+  m <- t(m)
+
+  tsallis <- function(x, q){
+        funtsallis <- function(y, q) {
+            y <- y[y>0]
+            if(abs(q-1) < tol){
+                resi <- -sum(y*log(y))
+            }
+            else{
+            	resi <- (1-sum(y^q))/(q-1)
+            }
+            return(resi)
+        }
+        if(ncol(x)==1) res <- funtsallis(x[, 1], q)
+        else res <- apply(x, 2, funtsallis, q)
+        return(res)
+    }
+    hill <- function(x, q){
+        funhill <- function(y, q) {
+            y <- y[y>0]
+            if(abs(q-1) < tol){
+                resi <- exp(-sum(y*log(y)))
+            }
+            else{
+            	resi <- (sum(y^q))^(1/(1-q))
+            }
+            return(resi)
+        }
+        if(ncol(x)==1) res <- funhill(x[, 1], q)
+        else res <- apply(x, 2, funhill, q)
+        return(res)
+
+    }
+    if( length(q)==1 ){
+        if(method == "tsallis"){
+            vres <- tsallis(m, q)
+            class(vres) <- "divparam"
+            return(vres)
+        }
+        if(method == "hill"){
+            vres <- hill(m, q) 
+            class(vres) <- "divparam"
+            return(vres)
+        }
+    }
+    if ( length(q) > 1){
+        if(method == "tsallis"){
+           calcul1 <- sapply(q, function(x) tsallis(m, x))
+           tab1 <- cbind.data.frame(calcul1)
+           rownames(tab1) <- colnames(m)
+           listtotale <- list()
+           listtotale$q <- q
+           listtotale$div <- tab1
+           class(listtotale) <- "divparam"
+           return(listtotale)
+        }
+        if(method == "hill"){
+           calcul1 <- sapply(q, function(x) hill(m, x))
+           tab1 <- cbind.data.frame(calcul1)
+           rownames(tab1) <- colnames(m)
+           listtotale <- list()
+           listtotale$q <- q
+           listtotale$div <- tab1
+           class(listtotale) <- "divparam"
+           return(listtotale)
+        }
+
+    }
+  
+
+}

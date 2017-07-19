@@ -1,0 +1,81 @@
+\name{divparam}
+\alias{divparam}
+\alias{plot.divparam}
+\title{
+Parametric Indices of Species Diversity
+}
+\description{
+The function \code{divparam} calculates parametric diversity indices. The parameter controls the relative importance given to rare versus abundant species in a community.
+}
+\usage{
+divparam(comm, method = c("hill", "tsallis"), q = 2, tol = 1e-08)
+
+\method{plot}{divparam}(x, legend = TRUE, 
+legendposi = "topright", type = "b", 
+col = if (is.numeric(x)) NULL 
+else sample(colors(distinct = TRUE), nrow(x$div)), 
+lty = if (is.numeric(x)) NULL else rep(1, nrow(x$div)), 
+pch = if (is.numeric(x)) NULL else 1:nrow(x$div), \dots)
+}
+\arguments{
+  \item{comm}{
+a data frame or a matrix typically with communities as rows, species as columns and presence/absence or an index of abundance as entries. 
+}
+  \item{method}{
+a character: either "hill" for the Hill numbers (Hill 1973) or "tsallis" for the Tsallis entropy (Harvda and Charvat ; Tsallis 1988).
+}
+  \item{q}{
+a positive numeric or a vector of positive numerics that give values for the \code{q} parameter.
+}
+  \item{tol}{
+numeric tolerance threshold: values between -tol and tol are considered equal to zero.
+}
+  \item{x}{
+an object of class \code{divparam} obtained with function \code{divparam}.
+}
+  \item{legend}{
+a logical. If TRUE a legend is given with the colour, the type of line (etc.) used to define the diversity curve of each community.
+}
+  \item{legendposi}{
+a character or a numeric that gives the position of the legend to be passed to function \code{legend} of the base of R.
+}
+  \item{type}{
+a character to be passed to the graphic parameter \code{type} of functions \code{plot} and \code{lines} used to draw the diversity curve of each community.
+}
+  \item{col}{
+colours to be passed to the graphic parameter \code{col} of function \code{lines} to define the colour of the diversity curve of each community.
+}
+  \item{lty}{
+type of line (plain, broken etc.) to be passed to the graphic parameter \code{lty} of functions \code{plot} and \code{lines} used to draw the diversity curve of each community.
+}
+  \item{pch}{
+type of point (open circle, close circle, square etc.) to be passed to the graphic parameter \code{pch} of functions \code{plot} and \code{lines} used to draw the diversity curve of each community.
+}
+  \item{\dots}{
+other parameters can be added and passed to the functions \code{plot} and \code{lines} used to draw the graphic.
+}
+}
+\value{
+Function \code{divparam}, if only one value of \code{q} is given, returns a vector with alpha, beta, and gamma diversities. If more than one value of \code{q} is given, a list of two objects is returned: 
+\item{q}{the vector of values for \code{q}}
+\item{div}{a data frame with alpha, beta, gamma calculated for all values of \code{q}}
+
+The function \code{plot.divparam} returns a graphic.
+}
+\references{
+Havrda, M., Charvat, F. (1967) Quantification method of classification processes: concept of structural alpha-entropy. \emph{Kybernatica}, \bold{3}, 30--35.
+
+Hill, M.O. (1973) Diversity and evenness: a unifying notation and its consequences. \emph{Ecology}, \bold{54}, 427--432.
+
+Tsallis, C. (1988) Possible generalization of Boltzmann-Gibbs statistics. \emph{Journal of Statistical Physics}, \bold{52}, 480--487.
+}
+\author{
+Sandrine Pavoine \email{sandrine.pavoine@mnhn.fr}
+}
+\examples{
+data(batcomm)
+ab <- batcomm$ab
+plot(divparam(ab))
+plot(divparam(ab, q=0:4))
+}
+\keyword{models}
