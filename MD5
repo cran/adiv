@@ -1,5 +1,5 @@
-b40235f7e01533e3c9b2de9c334f129e *DESCRIPTION
-c58a95653b1ea0fbedc016da9af4f2f5 *NAMESPACE
+6956932514a81b61eaaa16ade3b33509 *DESCRIPTION
+2455a36ad52f182252c547a21fbe9bd9 *NAMESPACE
 510d0c3278cb0c413925603314ef6f76 *R/CFbinary.R
 58b4f088e2caabd71876e99f7d3ac97b *R/CFprop.R
 8cba1d542dbc393bd3aa948e1ebcb224 *R/DJac.R
@@ -41,7 +41,7 @@ f6dfdb4b20f5c11ec8f9c20691561136 *R/evoCA.R
 de2d96581d75ae39a538d42eaf1f29f1 *R/evoNSCA.R
 faeaa0ee32a0944866da1ddefcd2636c *R/evodiss.R
 29bf418ec03e1d08dbad974844d763a0 *R/evodiss_family.R
-63787f20a626ebcc9eaffabb9253d261 *R/evodiss_ternaryplot.R
+245bd27d72c71df3bbf6be4afb715d11 *R/evodiss_ternaryplot.R
 f11e07dc8628d202689d1889a513e826 *R/evopcachord.R
 9a99f0e0eaa719f9a4e4b6d201b089fa *R/evopcahellinger.R
 c504715008ff3c17e81f77af3a826738 *R/multiCFbinary.R
@@ -52,7 +52,7 @@ c504715008ff3c17e81f77af3a826738 *R/multiCFbinary.R
 421363fde81c342db34e05380eb73bb9 *R/plot.abgevodivparam.R
 fab3d806ae7ed4a09dbd7abea8c213b9 *R/plot.aptree.R
 7060a4e1d665097a749ffd301bda879d *R/plot.divparam.R
-fda8b532f0f6c9ec700f254f29b54214 *R/plot.rlqESLTP.R
+38adaccd733e66c929713fb8a2349be7 *R/plot.rlqESLTP.R
 f014409f810670951c9976a0f5504fdf *R/plot.rtestaptree.R
 c70f42ac36551001f6d9fac020d4b0af *R/qHdiv.R
 9627646667d049b8a78696941e9d76c5 *R/randEH.R
@@ -68,7 +68,7 @@ e591ede8c34ffe74858c7b74024b3bfe *R/summary.rlqESLTP.R
 4a54934b23e6aa76d6278f15b6ce433a *R/twoHmax.R
 95986aa7e30f7d44cf6b7a0ccf366d9e *R/uniqueness.R
 b0b51b1c71e5dd050d9e8f556526852c *R/wapqe.R
-ea170c0264b546a9bd80bf6757dffb65 *build/partial.rdb
+8415f09ae8933417b35c9b293bb0cbe1 *build/partial.rdb
 5ba3e91c2406e5a1add642d1ebf31f35 *data/RDMCCP16.rda
 bd3ffc521e094d8372292968bed77189 *data/RP15EI.rda
 57943449bf0704c6b0fb58955bd57241 *data/RP15JVS.rda
@@ -102,17 +102,17 @@ a8cc0e3c1cea31e2b8e7ec16423e55ea *man/distinctTree.Rd
 0ce8de04490f82cd4d0410bfe77d2816 *man/distinctUltra.Rd
 f1e5e96a183e03e1a9a7a35168cedc3e *man/divparam.Rd
 cb2e731aeaebc666cf2fc88a3191de7a *man/dsimcom.Rd
-5ab1041ac6d7ff97a13ed9fbd8b57d2a *man/evoCA.Rd
-57cfeb5be40a586dd7336f8390b2b5ff *man/evoNSCA.Rd
+c75d5ae125b13823b2e6062125cfd200 *man/evoCA.Rd
+341685b750a39959dd62e2dd3227e6b7 *man/evoNSCA.Rd
 adeb39c79ca23c3c0fbece1537f12fc2 *man/evodiss.Rd
-3784148e236c8e787bb4977600c4e629 *man/evodiss_family.Rd
-771c2da29353aeb2de39b9071aaab54e *man/evopca.Rd
+2f9be7885bffee5c5b78f1fe9c8e8ca4 *man/evodiss_family.Rd
+be34420fd896bf798c4d9b30b974161c *man/evopca.Rd
 a704c332d51c1411a7c003b9e2d9b3ab *man/optimEH.Rd
 489856b0a5cff7923d8dc90b4c3f34d5 *man/orisaved.Rd
 4a1bd6e239c82f4048208e89174bdb04 *man/qHdiv.Rd
 f58a148474bf7231c7f27f3915d9618f *man/randEH.Rd
 998ac78fcda08a773ccc47f2b0854734 *man/rare_Rao.Rd
-df7d089366d138c908f8675aba57243b *man/rlqESLTP.Rd
+66e8591db9497b2826be77a73fdd4a0d *man/rlqESLTP.Rd
 ba94a68702d03e4c1f923f92f502b8b6 *man/rockfish.Rd
 85b90b73f15aa923327c8ca1a7a6fb06 *man/twoHmax.Rd
 0408f053fd366084805ad96b07ed63a3 *man/uniqueness.Rd

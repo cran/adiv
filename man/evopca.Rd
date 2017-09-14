@@ -85,10 +85,9 @@ dist(evopcaHbat$li)
 evodiss(phy, ab, "Hellinger")
 
 evopcaHbat$eig/sum(evopcaHbat$eig)
-scatter(evopcaHbat)
 s.label(evopcaHbat$li)
-s.label(evopcaHbat$co, clab=0.7)
-s.arrow(evopcaHbat$co, clab=0.7)
+s.label(evopcaHbat$co)
+s.arrow(evopcaHbat$co)
 inertia.dudi(evopcaHbat, row=TRUE)$row.abs
 inertia.dudi(evopcaHbat, col=TRUE)$col.abs
 
@@ -97,10 +96,9 @@ dist(evopcaCbat$li)
 evodiss(phy, ab, "Chord")
 
 evopcaCbat$eig/sum(evopcaCbat$eig)
-scatter(evopcaCbat)
 s.label(evopcaCbat$li)
-s.label(evopcaCbat$co, clab=0.7)
-s.arrow(evopcaCbat$co, clab=0.7)
+s.label(evopcaCbat$co)
+s.arrow(evopcaCbat$co)
 inertia.dudi(evopcaCbat, row=TRUE)$row.abs
 inertia.dudi(evopcaCbat, col=TRUE)$col.abs
 }

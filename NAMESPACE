@@ -2,11 +2,12 @@ importFrom("stats", "as.dist", "dist", "hclust", "as.hclust", "sd", "cutree", "m
 importFrom("grDevices", "colors", "n2mfrow")
 importFrom("graphics", "plot", "lines", "par", "legend", "abline", "dotchart", "barplot")
 importFrom("adephylo", "distTips", "distRoot", "listDD", "listTips", "table.phylo4d", ".tipToRoot")
-importFrom("ade4", "as.dudi", "as.randtest", "as.krandtest", "dudi.pco", "s.label", "s.arrow", "s.value", "scatter", "triangle.plot", "dudi.pca", "ktab.list.df", "rlq", "sco.distri", "scalewt", "is.euclid", "apqe", "divcmax", "disc", "dist.taxo")
+importFrom("ade4", "as.dudi", "as.randtest", "as.krandtest", "dudi.pco", "dudi.pca", "ktab.list.df", "rlq", "scalewt", "is.euclid", "apqe", "divcmax", "disc", "dist.taxo")
 importFrom("ape", "as.phylo", "plot.phylo", "read.tree", "is.ultrametric", "vcv.phylo", "compute.brlen", "is.binary.tree", "cophenetic.phylo", "drop.tip")
 importFrom("cluster", "daisy")
 importFrom("methods", "as")
-import(phylobase, except="plot")
+importFrom("adegraphics", "s.label", "s.class", "s.value", "s.arrow", "s1d.distri", "triangle.label", "ADEgS")
+importFrom("phylobase", "ancestors", "descendants", "edgeLength", "edgeLength<-", "extractTree", "getEdge", "getNode", "hasEdgeLength", "hasNodeLabels", "isRooted", "MRCA", "nodeLabels", "nodeLabels<-", "nNodes", "nTips", "phylo4d", "reorder", "rootNode", "subset", "sumEdgeLength", "tipLabels")
 
 exportPattern("^[^\\.]")
 

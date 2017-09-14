@@ -14,7 +14,7 @@ evodiss_family(phyl, comm, method = NULL, abundance = TRUE,
 squareroot = TRUE, diag = FALSE, upper = FALSE, tol = 1e-08)
 
 evodiss_ternaryplot(phyl, comm, abundance = TRUE, 
-tol = 1e-08, clabel = 1, ...)
+tol = 1e-08, ...)
 }
 \arguments{
   \item{phyl}{
@@ -39,8 +39,6 @@ parameter (bolean) passed to function as.dist (R base).
   \item{tol}{
 numeric tolerance threshold: values between -\code{tol} and \code{tol} are considered equal to zero.
 }
-  \item{clabel}{
-numeric: the size of the labels.}
    \item{\dots}{
 other parameters can be added and passed to the function \code{triangle.plot} of the ade4 package (labels cannot be changed and are defined thanks to the row names of \code{comm}).
 }
@@ -147,10 +145,10 @@ evodiss_ternaryplot(phy, ab, abundance = TRUE)
 # as indicated by the embedded close grey triangle 
 # at the left-hand corner of ternary plot given above):
 
-evodiss_ternaryplot(phy, ab, abundance = FALSE, scale=FALSE, show.position=FALSE)
+evodiss_ternaryplot(phy, ab, abundance = FALSE, adjust=FALSE, showposition=FALSE)
 # Incidence data
 
-evodiss_ternaryplot(phy, ab, abundance = TRUE, scale=FALSE, show.position=FALSE)
+evodiss_ternaryplot(phy, ab, abundance = TRUE, adjust=FALSE, showposition=FALSE)
 # abundance data
 }
 \keyword{models}

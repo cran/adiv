@@ -45,10 +45,9 @@ phy <- read.tree(text=batcomm$tre)
 plot(phy, show.node=TRUE)
 evoCAbat <- evoCA(phy, ab, scan=FALSE, nf=2)
 evoCAbat$eig/sum(evoCAbat$eig)
-scatter(evoCAbat)
 s.label(evoCAbat$li)
-s.label(evoCAbat$co, clab=0.7)
-s.arrow(evoCAbat$co, clab=0.7)
+s.label(evoCAbat$co)
+s.arrow(evoCAbat$co)
 inertia.dudi(evoCAbat, row=TRUE)$row.abs
 inertia.dudi(evoCAbat, col=TRUE)$col.abs
 

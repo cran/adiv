@@ -7,17 +7,13 @@ function(x, which = NULL, phyl = NULL, xy = NULL, traits = NULL,
 	if(which == "S"){
 	if(is.null(xy)) stop("xy required")
     if(!is.null(x$lR_givenE)){
-	par(mfrow = c(1, 3))
-	s.value(xy, x$lR_givenE[, ax], zmax = max(x$lR[, ax]), addaxes = F, clegend = 2,
-		sub = "environment-based", csub = 2, include.origin = FALSE)
-	s.value(xy, x$lR_givenS[, ax], zmax = max(x$lR[, ax]), addaxes = F, clegend = 2,
-		sub = "space-based", csub = 2, include.origin = FALSE)
-	s.value(xy, x$lR[,ax], zmax = max(x$lR[, ax]), addaxes = F, clegend = 2,
-		sub = "global", csub = 2, include.origin = FALSE)
+	g1 <- s.value(xy, x$lR_givenE[, ax], breaks = pretty(as.vector(x$lR[, ax])), paxes.draw = F, psub.text = "environment-based", porigin.include= FALSE)
+	g2 <- s.value(xy, x$lR_givenS[, ax], breaks = pretty(as.vector(x$lR[, ax])), paxes.draw = F, psub.text = "space-based", porigin.include= FALSE)
+	g3 <- s.value(xy, x$lR[,ax], breaks = pretty(as.vector(x$lR[, ax])), paxes.draw = F, psub.text = "global", porigin.include= FALSE)
+     ADEgS(c(g1, g2, g3))
     }
     else
-	s.value(xy, x$lR[,ax], zmax = max(x$lR[, ax]), addaxes = F, clegend = 2,
-		sub = "global", csub = 2, include.origin = FALSE)        
+	s.value(xy, x$lR[,ax], breaks = pretty(as.vector(x$lR[, ax])), paxes.draw = F, clegend = 2, psub.text = "global", porigin.include= FALSE)        
 	}
 
 	if(which == "P"){
@@ -135,12 +131,12 @@ table.phylo4d(X.4d, show.node.label=FALSE, symbol="squares", center=FALSE, scale
                     }
                     res <- cbind.data.frame(apply(thetab, 2, funmod))
                     res[is.na(res)] <- 0
-                    sco.distri(sco1[, ax], res)
+                    s1d.distri(sco1[, ax], res)
 			}
 			if(type[i] == "F" | type[i] == "B" | type[i] == "D"){
                 thetab <- ltab[[i]]
                 thetab[is.na(thetab)] <- 0
-				sco.distri(sco1[, ax], thetab)
+				s1d.distri(sco1[, ax], thetab)
 			}
             if(type[i] == "C"){
                 thetab <- ltab[[i]]

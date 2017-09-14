@@ -96,15 +96,20 @@ xy <- mafragh$xy
 #The object that defines the neighbourhood between plots is in
 mneig <- mafragh$neig
 #mneig is an object of class neig
-s.label(xy, include.origin = FALSE, addaxes = FALSE, 
-neig = mneig, sub = "Samples & Neighbourhood graph")
+s.label(mafragh$xy, nb = mafragh$nb, paxes.draw = FALSE)
 
 #The environmental variables are in
 env <- mafragh$env
 names(env)
 #The abundance data are in
 flo <- mafragh$flo
-colnames(flo) <- mafragh$spenames
+# Adjustement of the writing of species names
+names <- gsub(" ", "_", mafragh$spenames[colnames(flo), 1])
+for(i in 1:26){
+names <- gsub(LETTERS[i], letters[i], names)
+}
+names <- gsub("alisma_plantago", "alisma_plantago_aquatica", names)
+colnames(flo) <- names
 #The data on traits are in
 traits <- lapply(mafragh$traits, function(x) x[colnames(flo), , drop=FALSE])
 #The phylogenetic tree is in
@@ -123,9 +128,7 @@ vecspa <- scores.neig(mneig)
 pcaspa <- dudi.pca(vecspa, coaflo$lw, scan = FALSE, nf = 96)
 #We first removed environmental variables
 env <- env[-(8:10)]
-env[c(4,6,7,8)] <- log(env[c(4,6,7,8)])
-stand <- apply(env[4:8], 2, max) - apply(env[4:8], 2, min)
-env[4:8] <- sweep(env[4:8], 2, stand, "/")
+env[4:8] <- log(env[4:8])
 pcaenv <- dudi.pca(env, coaflo$lw, scale = FALSE, scan = FALSE, nf = 8)
 disT <- dist.ktab(ktab.list.df(list(tabBinary,
 tabOrdinal[c("Spikiness", "Hairy leaves")])), c("B", "O"))

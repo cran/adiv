@@ -1,5 +1,5 @@
 evodiss_ternaryplot <-
-function(phyl, comm, abundance = TRUE, tol = 1e-8, clabel=1, ...){
+function(phyl, comm, abundance = TRUE, tol = 1e-8, ...){
   tre <- .checkphyloarg(phyl)
   tre4 <- tre$phyl
   m <- comm
@@ -108,6 +108,6 @@ function(phyl, comm, abundance = TRUE, tol = 1e-8, clabel=1, ...){
    part2 <- rep(rownames(m), (ncom-1):0)
    part1 <- unlist(sapply(2:ncom, function(x) rownames(m)[x:ncom]))
    rownames(tabc) <- paste(part1, part2, sep=":")
-   triangle.plot(tabc, label=rownames(tabc), clabel=clabel, ...)
+   triangle.label(tabc, labels=rownames(tabc), ...)
 
 }
