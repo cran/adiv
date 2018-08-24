@@ -43,7 +43,7 @@ an  integer  (1, 2, 3, 4, 5)  indicating  which basic coefficient  should  be  u
   \item{option}{
 a  character. If  \code{option = "relative"},  the  rows  of  \code{comm}  are  standardized  into proportions that sum to 1.  If \code{option = "absolute"}, raw values are retained in \code{comm}.}
   \item{tax}{an object of class \code{taxo} (of package ade4).}
-  \item{type}{a character. If \code{type = "similarity"}, similarities (S) between communities are calculated. If \code{type = "dissimilarity"}, dissimilarities between communities are calculated (1-S).}
+  \item{type}{a character. If \code{type = "similarity"}, the functions \code{dsimcom} and \code{SQ} calculates  similarities (S) between communities and the functions \code{dsimTaxo}, \code{dsimTree} and \code{dsimFun} calculates similarities between species. If \code{type = "dissimilarity"}, the functions \code{dsimcom} and \code{SQ} calculates  dissimilarities (1-S) between communities and the functions \code{dsimTaxo}, \code{dsimTree} and \code{dsimFun} calculates dissimilarities between species.}
    \item{phyl}{an object inheriting the class \code{phylo} (see package ape), \code{phylo4} (see package phylobase), or \code{hclust}.}
    \item{rootedge}{a numeric equal to the length of the branch at the nearest common ancestor of  all  species (here referred to as the root node). This branch is thus anterior to the root.  It is ignored if \code{rootedge} is NULL.}
    \item{df}{either a data frame, a matrix or an object of class \code{ktab} of package ade4. If class \code{ktab} is used, each data frame must contain a single type of traits (see parameter \code{vartype}).}

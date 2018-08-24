@@ -60,6 +60,7 @@ TRUE){
   rownames(Z) <- rownames(m)
   colnames(Z) <- colnames(mBabtot)
   X <- as.dudi(as.data.frame(Z), poidsco, poidsli, scannf = scannf, nf = nf, call = match.call(), type = "evoCA")
+  attributes(X)$phy <- as(tre4, "phylo")
   return(X)
 
 }

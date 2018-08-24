@@ -19,7 +19,7 @@ function(comm, Sigma = NULL, method = 1:5, option=c("relative", "absolute"), typ
         dfp <- t(t(df)/colSums(df))
     else
         dfp <- as.matrix(df)
-    fun2 <- function(df, S){
+    fun2 <- function(dfp, S){
         A <- t(dfp)%*%S%*%dfp
         B <- matrix(1, ncol(dfp), ncol(dfp))%*%diag(diag(A))
         C <- diag(diag(A))%*%matrix(1, ncol(dfp), ncol(dfp))
@@ -29,7 +29,7 @@ function(comm, Sigma = NULL, method = 1:5, option=c("relative", "absolute"), typ
         s[s>1]<-1
         return(s)
     }
-    fun1 <- function(df, S){
+    fun1 <- function(dfp, S){
         A <- t(dfp)%*%S%*%dfp
         B <- matrix(1, ncol(dfp), ncol(dfp))%*%diag(diag(A))
         C <- diag(diag(A))%*%matrix(1, ncol(dfp), ncol(dfp))
@@ -39,7 +39,7 @@ function(comm, Sigma = NULL, method = 1:5, option=c("relative", "absolute"), typ
         s[s>1]<-1
         return(s)
     }
-    fun3 <- function(df, S){
+    fun3 <- function(dfp, S){
         A <- t(dfp)%*%S%*%dfp
         B <- matrix(1, ncol(dfp), ncol(dfp))%*%diag(diag(A))
         C <- diag(diag(A))%*%matrix(1, ncol(dfp), ncol(dfp))
@@ -49,7 +49,7 @@ function(comm, Sigma = NULL, method = 1:5, option=c("relative", "absolute"), typ
         s[s>1]<-1
         return(s)
     }
-    fun4 <- function(df, S){
+    fun4 <- function(dfp, S){
         C <- t(dfp)%*%S%*%dfp
         W <- diag(1/sqrt(diag(C)))
         Scom <- W%*%C%*%W
@@ -58,7 +58,7 @@ function(comm, Sigma = NULL, method = 1:5, option=c("relative", "absolute"), typ
         Scom[Scom>1]<-1
         return(Scom)
     }
-    fun5 <- function(df, S){
+    fun5 <- function(dfp, S){
         A <- t(dfp)%*%S%*%dfp
         B <- matrix(1, ncol(dfp), ncol(dfp))%*%diag(diag(A))
         C <- diag(diag(A))%*%matrix(1, ncol(dfp), ncol(dfp))
@@ -70,26 +70,26 @@ function(comm, Sigma = NULL, method = 1:5, option=c("relative", "absolute"), typ
     }
     if(type=="similarity"){
     if(method == 1)
-        return(fun1(df, S))
+        return(fun1(dfp, S))
     if(method == 2)
-        return(fun2(df, S))
+        return(fun2(dfp, S))
     if(method == 3)
-        return(fun3(df, S))
+        return(fun3(dfp, S))
     if(method == 4)
-        return(fun4(df, S))
+        return(fun4(dfp, S))
     if(method == 5)
-        return(fun5(df, S))
+        return(fun5(dfp, S))
     }
     else{
     if(method == 1)
-        return(as.dist(1-fun1(df, S)))
+        return(as.dist(1-fun1(dfp, S)))
     if(method == 2)
-        return(as.dist(1-fun2(df, S)))
+        return(as.dist(1-fun2(dfp, S)))
     if(method == 3)
-        return(as.dist(1-fun3(df, S)))
+        return(as.dist(1-fun3(dfp, S)))
     if(method == 4)
-        return(as.dist(1-fun4(df, S)))
+        return(as.dist(1-fun4(dfp, S)))
     if(method == 5)
-        return(as.dist(1-fun5(df, S)))
+        return(as.dist(1-fun5(dfp, S)))
     }
 }

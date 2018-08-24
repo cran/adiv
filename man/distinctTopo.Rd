@@ -49,5 +49,11 @@ parmar <- par()$mar
 par(mar=rep(.1,4))
 table.phylo4d(U.4d, show.node=FALSE, symbol="squares", center=FALSE, scale=FALSE, cex.symbol=2)
 par(mar=parmar)
+
+\dontrun{
+if(requireNamespace("phylosignal", quietly = TRUE)) {
+dotplot.phylo4d(U.4d, center = FALSE, scale = FALSE)
+}
+}
 }
 \keyword{models}

@@ -1,13 +1,16 @@
 \name{evoCA}
 \alias{evoCA}
+\alias{plot.evoCA}
 \title{
 Evolutionary Correspondence Analysis
 }
 \description{
-The function performs evoCA (Pavoine 2016): an adaptation of the correspondence analysis (CA) to analyse the distributions of lineages among sites and, simultaneously, to analyse the phylogenetic composition of sites.
+The function \code{evoCA} performs the evolutionary correspondence analysis (evoCA) (Pavoine 2016): an adaptation of the correspondence analysis (CA) to analyse the distributions of lineages among sites and, simultaneously, to analyse the phylogenetic composition of sites. The function \code{plot.evoCA} displays the phylogeny on the factorial maps of evoCA.
 }
 \usage{
 evoCA(phyl, comm, scannf = TRUE, nf = 2, abundance = TRUE)
+
+\method{plot}{evoCA}(x, xaxis = 1, yaxis = 2, \dots)
 }
 \arguments{
   \item{phyl}{
@@ -24,19 +27,49 @@ a logical value indicating whether the screeplot (eigenvalues) should be display
 if \code{scannf} is \code{FALSE}, an integer indicating the number of axes to be kept.
 }
   \item{abundance}{
-a logical value, if \code{FALSE}, only the presences/absences of the \bold{evolutionary units} in sites are considered.}
+a logical value, if \code{FALSE}, only the presences/absences of the \bold{evolutionary units} in sites are considered.
+}
+  \item{x}{
+an object of class \code{evoCA}}
+  \item{xaxis}{
+the number of the evoCA axis chosen for the x-axis of the 3d plot
+}
+  \item{yaxis}{
+the number of the evoCA axis chosen for the y-axis of the 3d plot
+}
+  \item{\dots}{
+other parameters can be added and passed to the function \code{plot3d} of package rgl.
+}
 }
 \value{
-an object of class \code{dudi} (see package ade4, \code{?dudi}). Graphical tools are associated with this class (see example section below and \code{?scatter.dudi}).
+\code{evoCA} returns an object of class \code{evoCA} and of class \code{dudi} (see package ade4, \code{?dudi}). Graphical tools are associated with class \code{dudi} in packages ade4 and adegraphics (see example section below and \code{?scatter.dudi}).
+
+The object returned contains the following components:
+
+\item{tab}{a data frame with n rows and p columns, with communities as rows and nodes of the phylogeny as columns; the entries of the data frame evaluate the degree of dependence (values that depart from zero)/independence(close-to-zero values) between the occurrence in a community and the position in the phylogeny}
+\item{cw}{weights attributed to the nodes of the phylogeny, a vector with n components}
+\item{lw}{weights attributed to the communities, a vector with p components}
+\item{eig}{eigenvalues, a vector with min(n,p) components}
+\item{rank}{integer, number of axes}
+\item{nf}{integer, number of kept axes}
+\item{c1}{normed scores for the nodes of the phylogeny, data frame with p rows and nf columns}
+\item{l1}{normed scores for the communities, data frame with n rows and nf columns}
+\item{co}{scores for the nodes of the phylogeny, data frame with p rows and nf columns}
+\item{li}{scores for the communities, data frame with n rows and nf columns}
+\item{call}{the original call}
+
+If X is an object of class \code{evoCA}, then \code{attributes(X)$phy} contains the phylogenetic tree (of class \code{phylo}) with names for internal nodes. 
+
+\code{plot.evoCA} returns a dynamics 3-dimensional plot
 }
 \references{
-Pavoine, S. (2016) A guide through a family of phylogenetic dissimilarity measures among sites. \emph{Oikos}, \bold{125}, 1719--1732. 
+Pavoine, S. (2016) A guide through a family of phylogenetic dissimilarity measures among sites. \emph{Oikos}, \bold{125}, 1719--1732.
 }
 \author{
 Sandrine Pavoine \email{sandrine.pavoine@mnhn.fr}
 }
 \seealso{
-See Also \code{\link{evoCA}}, \code{\link{evopcachord}}, \code{\link{evopcahellinger}}, \code{\link{evodiss}}
+See Also \code{\link{evoNSCA}}, \code{\link{evopcachord}}, \code{\link{evopcahellinger}}, \code{\link{evodiss}}
 }
 \examples{
 data(batcomm)
@@ -56,5 +89,9 @@ evoCAbat <- evoCA(phy, ab, scan=FALSE, nf=3) ## All axes are now retained
 dist(evoCAbat$li)
 # which is equal to evoDchi2:
 evodiss(phy, ab, "chi2")
+
+plot(evoCAbat)
+
+plot(evoCAbat, xaxis=1, yaxis=3)
 }
 \keyword{models}

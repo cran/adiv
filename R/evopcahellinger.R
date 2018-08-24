@@ -94,7 +94,8 @@ function(phyl, comm, option = c("centred", "decentred"), w = c("evoab", "even", 
   }
   else stop("Incorrect option")
   X$call <- match.call()
-  X$type <- "evoPCAHellinger"
+  class(X) <- c("evopca", class(X))
+  attributes(X)$phy <- as(tre4, "phylo")
   return(X)
 
 }

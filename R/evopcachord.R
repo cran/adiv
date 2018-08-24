@@ -92,9 +92,9 @@ function(phyl, comm, option = c("centred", "decentred"), w = c("evoab", "even", 
     vcenter <- colSums(tabw1)/sqrt(sum(colSums(tabw1)^2*branchlengths))
     X <- dudi.pca(Z, col.w = poidsco, row.w = w, center = vcenter, scale = FALSE, scannf = scannf, nf = nf)
   }
-
   X$call <- match.call()
-  X$type <- "evoPCAchord"
+  class(X) <- c("evopca", class(X))
+  attributes(X)$phy <- as(tre4, "phylo")
   return(X)
 
 }

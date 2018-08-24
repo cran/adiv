@@ -73,7 +73,7 @@ If only one value of \code{q} is given, a vector with alpha, beta, and gamma div
 If more than one value of \code{q} is given, a list of two objects is returned: 
 \item{q}{the vector of values for \code{q}}
 \item{div}{a data frame with alpha, beta, gamma calculated for all values of \code{q}}
-Only if \code{option}= \code{"C"}, \code{"U"}, \code{"V"}, or \code{"S"}, the index \eqn{1-C_{qm}}{1-C_qm} (for \code{"C"}), \eqn{1-U_{qm}}{1-U_qm} (for \code{"U"}), \eqn{1-V_{qm}}{1-V_qm} (for \code{"V"}) or \eqn{1-S_{qm}}{1-S_qm} (for \code{"S"}) is also provided in the \code{div} data frame under the name "tranformed.beta".
+Only if \code{option}= \code{"C"}, \code{"U"}, \code{"V"}, or \code{"S"}, the index \eqn{1-C_{qm}}{1-C_qm} (for \code{"C"}), \eqn{1-U_{qm}}{1-U_qm} (for \code{"U"}), \eqn{1-V_{qm}}{1-V_qm} (for \code{"V"}) or \eqn{1-S_{qm}}{1-S_qm} (for \code{"S"}) is also provided in the \code{div} data frame under the name "transformed.beta".
 
 The function \code{plot.abgevodivparam} returns a graphic.
 }

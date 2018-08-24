@@ -60,7 +60,23 @@ or as
 (option \code{"decentered"}).
 }
 \value{
-An object of class \code{dudi} (see package ade4, \code{?dudi}). Graphical tools are associated with this class (see example section below and \code{?scatter.dudi}).
+\code{evopcachord} (\code{evopcahellinger}) returns an object of class \code{evopca} and of class \code{dudi} (see package ade4, \code{?dudi}). Graphical tools are associated with class \code{dudi} in packages ade4 and adegraphics (see example section below and \code{?scatter.dudi}).
+
+The object returned contains the following components:
+
+\item{tab}{a data frame with n rows and p columns, with communities as rows and nodes of the phylogeny as columns. Internal data frame used by the algorithm.}
+\item{cw}{weights attributed to the nodes of the phylogeny, a vector with n components}
+\item{lw}{weights attributed to the communities, a vector with p components}
+\item{eig}{eigenvalues, a vector with min(n,p) components}
+\item{rank}{integer, number of axes}
+\item{nf}{integer, number of kept axes}
+\item{c1}{normed scores for the nodes of the phylogeny, data frame with p rows and nf columns}
+\item{l1}{normed scores for the communities, data frame with n rows and nf columns}
+\item{co}{scores for the nodes of the phylogeny, data frame with p rows and nf columns}
+\item{li}{scores for the communities, data frame with n rows and nf columns}
+\item{call}{the original call}
+
+If X is an object of class \code{evopca}, then \code{attributes(X)$phy} contains the phylogenetic tree (of class \code{phylo}) with names for internal nodes. 
 }
 \references{
 Pavoine, S. (2016) A guide through a family of phylogenetic dissimilarity measures among sites. \emph{Oikos}, \bold{125}, 1719--1732.

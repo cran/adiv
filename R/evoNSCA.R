@@ -65,6 +65,7 @@ function(phyl, comm, scannf = TRUE, nf = 2, abundance = TRUE){
   }
   X <- as.dudi(as.data.frame(Z), poidsco, poidsli, scannf = scannf, nf = nf,
         call = match.call(), type = "phynsc")
+  attributes(X)$phy <- as(tre4, "phylo")
   return(X)
 
 }

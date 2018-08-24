@@ -1,6 +1,7 @@
 dissABC <-
 function(comm, dis, option = 1:4, method = c("J", "S", "O", "K", "SS"))
 {
+    method <- method[1]
     if(inherits(dis, "dist")) dis <- as.matrix(dis)
     if(any(dis>1)){
         warning("Phylogenetic dissimilarities are not in the range 0-1. They have been normalized by the maximum")

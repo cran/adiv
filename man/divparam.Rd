@@ -6,23 +6,25 @@ Parametric Indices of Species Diversity
 }
 \description{
 The function \code{divparam} calculates parametric diversity indices. The parameter controls the relative importance given to rare versus abundant species in a community.
+The function \code{plot.divparam} plots the results of function \code{divparam}.
 }
 \usage{
-divparam(comm, method = c("hill", "tsallis"), q = 2, tol = 1e-08)
+divparam(comm, method = c("hill", "tsallis", "renyi"), q = 2, tol = 1e-08)
 
 \method{plot}{divparam}(x, legend = TRUE, 
 legendposi = "topright", type = "b", 
 col = if (is.numeric(x)) NULL 
 else sample(colors(distinct = TRUE), nrow(x$div)), 
 lty = if (is.numeric(x)) NULL else rep(1, nrow(x$div)), 
-pch = if (is.numeric(x)) NULL else 1:nrow(x$div), \dots)
+pch = if (is.numeric(x)) NULL else rep(19, nrow(x$div)), 
+\dots)
 }
 \arguments{
   \item{comm}{
-a data frame or a matrix typically with communities as rows, species as columns and presence/absence or an index of abundance as entries. 
+a data frame or a matrix typically with communities as rows, species as columns and abundance as entry. 
 }
   \item{method}{
-a character: either "hill" for the Hill numbers (Hill 1973) or "tsallis" for the Tsallis entropy (Harvda and Charvat ; Tsallis 1988).
+a character: either "hill" for the Hill numbers (Hill 1973), "tsallis" for the Tsallis or HCDT entropy (Harvda and Charvat 1967; Daroczy 1970; Tsallis 1988), or "renyi" for Renyi's entropy (Renyi 1960).
 }
   \item{q}{
 a positive numeric or a vector of positive numerics that give values for the \code{q} parameter.
@@ -43,7 +45,7 @@ a character or a numeric that gives the position of the legend to be passed to f
 a character to be passed to the graphic parameter \code{type} of functions \code{plot} and \code{lines} used to draw the diversity curve of each community.
 }
   \item{col}{
-colours to be passed to the graphic parameter \code{col} of function \code{lines} to define the colour of the diversity curve of each community.
+colours to be passed to the graphic parameter \code{col} of functions \code{plot} and \code{lines} to define the colour of the diversity curve of each community.
 }
   \item{lty}{
 type of line (plain, broken etc.) to be passed to the graphic parameter \code{lty} of functions \code{plot} and \code{lines} used to draw the diversity curve of each community.
@@ -56,16 +58,20 @@ other parameters can be added and passed to the functions \code{plot} and \code{
 }
 }
 \value{
-Function \code{divparam}, if only one value of \code{q} is given, returns a vector with alpha, beta, and gamma diversities. If more than one value of \code{q} is given, a list of two objects is returned: 
+Function \code{divparam}, if only one value of \code{q} is given, returns a vector with communities' diversities. If more than one value of \code{q} is given, a list of two objects is returned: 
 \item{q}{the vector of values for \code{q}}
-\item{div}{a data frame with alpha, beta, gamma calculated for all values of \code{q}}
+\item{div}{a data frame with communities' diversities calculated for all values of \code{q}}
 
 The function \code{plot.divparam} returns a graphic.
 }
 \references{
+Daroczy, Z. (1970) Generalized information functions. \emph{Information and Control}, \bold{16}, 36--51.
+
 Havrda, M., Charvat, F. (1967) Quantification method of classification processes: concept of structural alpha-entropy. \emph{Kybernatica}, \bold{3}, 30--35.
 
 Hill, M.O. (1973) Diversity and evenness: a unifying notation and its consequences. \emph{Ecology}, \bold{54}, 427--432.
+
+Renyi, A. (1960) On measures of entropy and information. \emph{Proceedings of the Fourth Berkeley Symposium on Mathematical Statistics and Probability}, \bold{1}, 547--561.
 
 Tsallis, C. (1988) Possible generalization of Boltzmann-Gibbs statistics. \emph{Journal of Statistical Physics}, \bold{52}, 480--487.
 }

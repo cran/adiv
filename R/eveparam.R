@@ -1,5 +1,5 @@
-divparam <-
-function(comm, method = c("hill", "tsallis", "renyi"), q = 2, tol = 1e-8){
+eveparam <-
+function(comm, method = c("hill", "tsallis","renyi"), q = 2, tol = 1e-8){
 
   m <- comm
   method <- method[1]
@@ -13,11 +13,12 @@ function(comm, method = c("hill", "tsallis", "renyi"), q = 2, tol = 1e-8){
   tsallis <- function(x, q){
         funtsallis <- function(y, q) {
             y <- y[y>0]
+            if(length(y)==1) return(0)
             if(abs(q-1) < tol){
-                resi <- -sum(y*log(y))
+                resi <- -sum(y*log(y))/log(length(y))
             }
             else{
-            	resi <- (1-sum(y^q))/(q-1)
+            	resi <- (1-sum(y^q))/(1-(length(y))^(1-q))
             }
             return(resi)
         }
@@ -29,10 +30,10 @@ function(comm, method = c("hill", "tsallis", "renyi"), q = 2, tol = 1e-8){
         funhill <- function(y, q) {
             y <- y[y>0]
             if(abs(q-1) < tol){
-                resi <- exp(-sum(y*log(y)))
+                resi <- exp(-sum(y*log(y)))/length(y)
             }
             else{
-            	resi <- (sum(y^q))^(1/(1-q))
+            	resi <- (sum(y^q))^(1/(1-q))/length(y)
             }
             return(resi)
         }
@@ -45,10 +46,10 @@ function(comm, method = c("hill", "tsallis", "renyi"), q = 2, tol = 1e-8){
         funrenyi <- function(y, q) {
             y <- y[y>0]
             if(abs(q-1) < tol){
-                resi <- -sum(y*log(y))
+                resi <- -sum(y*log(y))/log(length(y))
             }
             else{
-            	resi <- log((sum(y^q))^(1/(1-q)))
+            	resi <- log((sum(y^q))^(1/(1-q)))/log(length(y))
             }
             return(resi)
         }
@@ -59,17 +60,17 @@ function(comm, method = c("hill", "tsallis", "renyi"), q = 2, tol = 1e-8){
     if( length(q)==1 ){
         if(method == "tsallis"){
             vres <- tsallis(m, q)
-            class(vres) <- "divparam"
+            class(vres) <- "eveparam"
             return(vres)
         }
         if(method == "hill"){
             vres <- hill(m, q) 
-            class(vres) <- "divparam"
+            class(vres) <- "eveparam"
             return(vres)
         }
         if(method == "renyi"){
             vres <- renyi(m, q) 
-            class(vres) <- "divparam"
+            class(vres) <- "eveparam"
             return(vres)
         }
     }
@@ -80,8 +81,8 @@ function(comm, method = c("hill", "tsallis", "renyi"), q = 2, tol = 1e-8){
            rownames(tab1) <- colnames(m)
            listtotale <- list()
            listtotale$q <- q
-           listtotale$div <- tab1
-           class(listtotale) <- "divparam"
+           listtotale$eve <- tab1
+           class(listtotale) <- "eveparam"
            return(listtotale)
         }
         if(method == "hill"){
@@ -90,8 +91,8 @@ function(comm, method = c("hill", "tsallis", "renyi"), q = 2, tol = 1e-8){
            rownames(tab1) <- colnames(m)
            listtotale <- list()
            listtotale$q <- q
-           listtotale$div <- tab1
-           class(listtotale) <- "divparam"
+           listtotale$eve <- tab1
+           class(listtotale) <- "eveparam"
            return(listtotale)
         }
         if(method == "renyi"){
@@ -100,11 +101,10 @@ function(comm, method = c("hill", "tsallis", "renyi"), q = 2, tol = 1e-8){
            rownames(tab1) <- colnames(m)
            listtotale <- list()
            listtotale$q <- q
-           listtotale$div <- tab1
-           class(listtotale) <- "divparam"
+           listtotale$eve <- tab1
+           class(listtotale) <- "eveparam"
            return(listtotale)
         }
-
     }
   
 
