@@ -143,7 +143,12 @@ function(phyl, comm, method = c("hill", "tsallis", "renyi"), q = 2, tol = 1e-8){
     }
     if ( length(q) > 1){
            calcul1 <- sapply(q, funq)
-           tab1 <- cbind.data.frame(calcul1)
+           if(ncom>1)
+               tab1 <- cbind.data.frame(calcul1)
+           else{
+               tab1 <- as.data.frame(matrix(calcul1, 1, byrow=TRUE))
+               rownames(tab1) <- rownames(m)
+           }
            listtotale <- list()
            listtotale$q <- q
            listtotale$div <- tab1

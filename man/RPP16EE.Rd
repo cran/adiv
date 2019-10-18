@@ -23,7 +23,17 @@ Ricotta, C., Podani, J., Pavoine, S. (2016) A family of functional dissimilarity
 }
 \examples{
 data(RPP16EE)
-table.value(RPP16EE$Com)
+RPP16EE$Com
 Jac(RPP16EE$Com)
+\dontrun{
+if(require(ade4) && require(adegraphics)){
+oldparamadeg <- adegpar()
+adegpar("plegend.drawKey" = FALSE)
+table.value(RPP16EE$Com)
+adegpar(oldparamadeg)
+# In this graph, black squares indicate 
+# which species (S1-S15) are present in which plot (P1-P9)
+}
+}
 }
 \keyword{datasets}

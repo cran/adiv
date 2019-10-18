@@ -18,12 +18,12 @@ function(phyl, comm, method = NULL, q = NULL, w = c("evoab", "even", "speciesab"
     stop("Unavailable method")
 
   r <- q
-  if(is.null(colnames(m))) stop("m must have names for column")
-  if(ncom < 2) stop("At least two rows for m are required")
-  if(is.null(colnames(m))) stop("m must have names for column")
-  if(any(!colnames(m) %in%tipLabels(tre4))) stop("m contains tip names that are not available in phyl")
-  if(any(m<0)) stop("m should contain nonnegative values")
-  if(any(rowSums(m)==0)) stop("empty communities should be discarded")
+  if(is.null(colnames(m))) stop("comm must have names for column")
+  if(ncom < 2) stop("At least two rows for comm are required")
+  if(is.null(colnames(m))) stop("comm must have names for column")
+  if(any(!colnames(m) %in%tipLabels(tre4))) stop("comm contains tip names that are not available in phyl")
+  if(any(m<0)) stop("comm should contain nonnegative values")
+  if(any(rowSums(m)==0)) stop("empty communities should be discarded in comm")
   if(!hasEdgeLength(tre4)){
       treape <- as(tre4, "phylo")
       tre4 <- as(compute.brlen(treape, 1), "phylo4")

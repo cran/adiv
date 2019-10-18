@@ -12,7 +12,7 @@ The function \code{plot.divparam} plots the results of function \code{divparam}.
 divparam(comm, method = c("hill", "tsallis", "renyi"), q = 2, tol = 1e-08)
 
 \method{plot}{divparam}(x, legend = TRUE, 
-legendposi = "topright", type = "b", 
+legendposi = "topright", axisLABEL = "Diversity", type = "b", 
 col = if (is.numeric(x)) NULL 
 else sample(colors(distinct = TRUE), nrow(x$div)), 
 lty = if (is.numeric(x)) NULL else rep(1, nrow(x$div)), 
@@ -24,10 +24,10 @@ pch = if (is.numeric(x)) NULL else rep(19, nrow(x$div)),
 a data frame or a matrix typically with communities as rows, species as columns and abundance as entry. 
 }
   \item{method}{
-a character: either "hill" for the Hill numbers (Hill 1973), "tsallis" for the Tsallis or HCDT entropy (Harvda and Charvat 1967; Daroczy 1970; Tsallis 1988), or "renyi" for Renyi's entropy (Renyi 1960).
+a string: either "hill" for the Hill numbers (Hill 1973), "tsallis" for the Tsallis or HCDT entropy (Harvda and Charvat 1967; Daroczy 1970; Tsallis 1988), or "renyi" for Renyi's entropy (Renyi 1960).
 }
   \item{q}{
-a positive numeric or a vector of positive numerics that give values for the \code{q} parameter.
+a positive numeric or a vector of positive numerics that gives values for the \code{q} parameter.
 }
   \item{tol}{
 numeric tolerance threshold: values between -tol and tol are considered equal to zero.
@@ -39,28 +39,31 @@ an object of class \code{divparam} obtained with function \code{divparam}.
 a logical. If TRUE a legend is given with the colour, the type of line (etc.) used to define the diversity curve of each community.
 }
   \item{legendposi}{
-a character or a numeric that gives the position of the legend to be passed to function \code{legend} of the base of R.
+a string or a numeric that gives the position of the legend to be passed to function \code{legend} of the base of R.
+}
+\item{axisLABEL}{
+a string to diplay on the main axis of the plot to designate what we are measuring. The default is \code{"Diversity"}. 
 }
   \item{type}{
-a character to be passed to the graphic parameter \code{type} of functions \code{plot} and \code{lines} used to draw the diversity curve of each community.
+a string to be passed to the graphic argument \code{type} of functions \code{plot} and \code{lines} used to draw the diversity curve of each community.
 }
   \item{col}{
-colours to be passed to the graphic parameter \code{col} of functions \code{plot} and \code{lines} to define the colour of the diversity curve of each community.
+colours to be passed to the graphic argument \code{col} of functions \code{plot} and \code{lines} to define the colour of the diversity curve of each community.
 }
   \item{lty}{
-type of line (plain, broken etc.) to be passed to the graphic parameter \code{lty} of functions \code{plot} and \code{lines} used to draw the diversity curve of each community.
+type of line (plain, broken etc.) to be passed to the graphic argument \code{lty} of functions \code{plot} and \code{lines} used to draw the diversity curve of each community.
 }
   \item{pch}{
-type of point (open circle, close circle, square etc.) to be passed to the graphic parameter \code{pch} of functions \code{plot} and \code{lines} used to draw the diversity curve of each community.
+type of point (open circle, close circle, square etc.) to be passed to the graphic argument \code{pch} of functions \code{plot} and \code{lines} used to draw the diversity curve of each community.
 }
   \item{\dots}{
-other parameters can be added and passed to the functions \code{plot} and \code{lines} used to draw the graphic.
+other arguments can be added and passed to the functions \code{plot} and \code{lines} used to draw the graphic.
 }
 }
 \value{
-Function \code{divparam}, if only one value of \code{q} is given, returns a vector with communities' diversities. If more than one value of \code{q} is given, a list of two objects is returned: 
+If only a single value of \code{q} is given, function \code{divparam} returns a vector with the diversities of the communities. If more than one value of \code{q} is given, a list of two objects is returned: 
 \item{q}{the vector of values for \code{q}}
-\item{div}{a data frame with communities' diversities calculated for all values of \code{q}}
+\item{div}{a data frame with the diversities of the communities calculated for all values of \code{q}}
 
 The function \code{plot.divparam} returns a graphic.
 }

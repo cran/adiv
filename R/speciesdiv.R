@@ -11,7 +11,7 @@ if(all(rowSums(comm)<tol)) stop("All communities are empty")
 
 if(any(rowSums(comm)<tol)) warning("Empty communities were discarded")
 
-comm <- comm[rowSums(comm)>tol, ]
+comm <- comm[rowSums(comm)>tol, , drop = FALSE]
 
 FUNshannon <- function(v){
     if(length(v[v>0])==1) return(0)

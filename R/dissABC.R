@@ -1,7 +1,8 @@
 dissABC <-
-function(comm, dis, option = 1:4, method = c("J", "S", "O", "K", "SS"))
+function(comm, dis, option = 1:4, method = c("J", "S", "O", "K", "SS", "Si"))
 {
     method <- method[1]
+    if(!method%in%c("J", "S", "O", "K", "SS", "Si")) stop("method must be J, S, O, K, SS, or Si")
     if(inherits(dis, "dist")) dis <- as.matrix(dis)
     if(any(dis>1)){
         warning("Phylogenetic dissimilarities are not in the range 0-1. They have been normalized by the maximum")
@@ -48,6 +49,7 @@ function(comm, dis, option = 1:4, method = c("J", "S", "O", "K", "SS"))
         else if(method == "O") index <- A/(sqrt(A+B)*sqrt(A+C))
         else if(method == "K") index <- 0.5*(A/(A+B)+A/(A+C))
         else if(method == "SS") index <- A/(A+2*B+2*C)
+        else if(method == "Si") index <- A/(A+min(c(B,C)))
         sim.matrix[i, j] <- index
     }
     }

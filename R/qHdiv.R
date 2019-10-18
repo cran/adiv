@@ -5,7 +5,7 @@ function(comm, C, q=2){
         stop("comm must be a data frame or a matrix")
     if (any(comm < 0))
         stop("non-negative values expected in comm")
-    comms <- apply(comm, 2, sum)
+    comms <- apply(comm, 1, sum)
     if (any(comms == 0))
         stop("column in comm with zero values only")
     fun <- function(x){
@@ -15,7 +15,7 @@ function(comm, C, q=2){
         divx <- (sum(d^q))^(1/1-q)
         return(divx)
     }
-    div <- apply(comm, 2, fun)
+    div <- apply(comm, 1, fun)
     return(div)
 
 }

@@ -14,15 +14,14 @@ qHdiv(comm, C, q = 2)
 a data frame or a matrix typically with communities as rows, species as columns and an index of abundance as entries.
 }
   \item{C}{
-a matrix that contains measures of the chosen intraspecific components (as defined in Pavoine and IZsak 2014) on the diagonal and measures of interspecific components off diagonal. These interspecific components reflect functional or phylogenetic similarities among species.
+a matrix that contains measures of the chosen intraspecific components (as defined in Pavoine and Izsak 2014) on the diagonal and measures of interspecific components off diagonal. These interspecific components reflect functional or phylogenetic similarities among species.
 }
   \item{q}{
 a positive numeric for the value of the parameter \code{q}.
 }
 }
 \value{
-a vector with the diversity in each of the communities (same order as in \code{comm}.
-)
+a vector with the diversity in each of the communities (same order as in \code{comm}).
 }
 \references{
 Pavoine, S., Izsak, J. (2014) New biodiversity measure that includes consistent interspecific and intraspecific components. \emph{Methods in Ecology and Evolution}, \bold{5}, 165--172.}
@@ -30,20 +29,24 @@ Pavoine, S., Izsak, J. (2014) New biodiversity measure that includes consistent 
 Sandrine Pavoine \email{sandrine.pavoine@mnhn.fr}
 }
 \seealso{
-See Also \code{\link{twoHmax}}, \code{\link{CFprop}}, \code{\link{CFbinary}}
+\code{\link{twoHmax}}, \code{\link{CFprop}}, \code{\link{CFbinary}}
 }
 \examples{
+\dontrun{
+if(require(ape)){
+
+# First case study on phylogenetic diversity:
+# Below is a phylogenetic tree in newick format
 tre <-"((((((sA:4,sB:1):1,sC:3):2,((sD:2,sE:1):1,sF:1):2):1,sG:7):1,sH:1):3,(sI:2,sJ:1):2):0;"
 #The number of tips is kept in parameter n:
 n<-10
-# Next we need to obtain matrix CP. 
-library(ape)
+# Next we need to obtain matrix CP (see Pavoine and Izsak 2014). 
 phyape <- read.tree(text = tre)
 plot(phyape)
 CP <- vcv(phyape)
 WP <- diag(diag(CP))
 # With this particular illustration, a maximizing vector, 
-# for 2H used with CP, that does not contain any zero can be found. 
+# for 2H applied to CP, that does not contain any zero can be found. 
 # This maximizing vector can thus be obtained directly, 
 # instead of being estimated. 
 # Two equivalent equations have been given to obtain 
@@ -61,11 +64,11 @@ Pmax<-(solve(WP)\%*\%solve(Z)\%*\%rep(1,n))/sum(solve(WP)\%*\%solve(Z))
 Pmax
 
 # Applied to our case study, the function twoHmax 
-# provides good approximations:
+# provides a good approximation of the maximizing vector:
 
 twoHmax(CP)
 
-# Redundancy among variables:
+# Second case study on the redundancy among variables:
 data(rhone, package="ade4")
 V <- rhone$tab
 # First consider the covariances among the variables:
@@ -100,21 +103,23 @@ dotchart(as.matrix(pmax_correlations))
 # from 0 if all variables are completely correlated 
 # with each other to n if they are not correlated 
 # and have similar variances.
-C <- cor(V)
-equalproportions <- cbind.data.frame(rep(1/ncol(C), ncol(C)))
-names(equalproportions) <- "equalprop"
-qHdiv(equalproportions, C)
 
 #Even if the data set contains 15 variables, 
 # the effective number of variables is lower:
-C <- cov(V)
+C <- cor(V)
 equalproportions <- cbind.data.frame(rep(1/ncol(C), ncol(C)))
 names(equalproportions) <- "equalprop"
+equalproportions <- t(equalproportions)
 qHdiv(equalproportions, C)
 
 # When considering the covariances, instead of the correlations, 
-# the effective number of variables is even lower:
+# the effective number of variables is even lower,
 # indicating also an imbalance in the variances 
 # of the variables.
+C <- cov(V)
+qHdiv(equalproportions, C)
+
+}
+}
 }
 \keyword{models}

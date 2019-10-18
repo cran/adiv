@@ -1,12 +1,12 @@
 distinctUltra <-
-function (phyl, method = 1:2) 
+function (phyl, method = c("Qb","2Hb")) 
 {
   arg.phyl <- .checkphyloarg(phyl)
   phyl.phylo <- arg.phyl$phyl.phylo
   phyl <- arg.phyl$phyl
   ## phyl is a phylo4 object, phyl.phylo is a phylo object
 
-   if (any(is.na(match(method, 1:2)))) 
+   if (any(is.na(match(method, c("Qb","2Hb"))))) 
         stop("unconvenient method")
     nbMeth <- length(method)
     nbesp <- nTips(phyl)
@@ -15,7 +15,7 @@ function (phyl, method = 1:2)
     rownames(resWeights) <- tipLabels(phyl)
     for (k in 1:nbMeth) {
         meth <- method[k]
-        if (meth == 1) {
+        if (meth == "Qb") {
           if(!is.ultrametric(phyl.phylo))
             stop("phyl must be an ultrametric tree")
           D <- cophenetic.phylo(phyl.phylo)/2
@@ -25,7 +25,7 @@ function (phyl, method = 1:2)
           resWeights[, k] <- res
           names(resWeights)[k] <- "QEbased"
         }
-        if (meth == 2) {
+        if (meth == "2Hb") {
           if(!is.ultrametric(phyl.phylo))
             stop("phyl must be an ultrametric tree")
           C <- vcv.phylo(phyl.phylo)
@@ -35,7 +35,7 @@ function (phyl, method = 1:2)
           denum.Orig <- sum(num.Orig)
           res <- num.Orig/denum.Orig
           resWeights[, k] <- res
-          names(resWeights)[k] <- "2Hbased"
+          names(resWeights)[k] <- "twoHbased"
         }
      }
      return(resWeights)

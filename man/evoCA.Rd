@@ -14,11 +14,11 @@ evoCA(phyl, comm, scannf = TRUE, nf = 2, abundance = TRUE)
 }
 \arguments{
   \item{phyl}{
-an object inheriting the class \code{phylo} (see package ape), \code{phylo4} (see package phylobase) or \code{hclust}. To ease the interpretation of factorial maps, it is advised to add labels to the nodes of the phylogeny. For example, If your phylogeny is named 'tree' and is of class \code{phylo}, you can name the nodes with the following command:
-\code{tree$node.label <- paste("n", 1:tree$Nnode, sep="")}. If it is of class \code{phylo4}, you can use: \code{nodeLabels(tree) <- paste("n", 1:nNodes(tree), sep="")}. Use \code{plot(tree)} to see the result.
+an object inheriting the class \code{phylo} (see package ape), \code{phylo4} (see package phylobase) or \code{hclust}. To ease the interpretation of factorial maps, it is advised to use a rooted phylogenetic tree and to add labels to the nodes of the phylogeny. For example, If you phylogeny is named 'tree' and is of class \code{phylo}, you can root the phylogeny using \code{tree$root.edge <- 0} and you can name the nodes with the following command:
+\code{tree$node.label <- paste("n", 1:tree$Nnode, sep="")}. Use \code{plot(tree, show.node.label=TRUE)} to see the result. If it is rooted and of class \code{phylo4}, you can use: \code{nodeLabels(tree) <- paste("n", 1:nNodes(tree), sep="")}.
 }
   \item{comm}{
-a data frame or a matrix typically with communities (or sites, plots, etc.) as rows, species as columns and presence/absence or an index of abundance as entries. Species should be labeled as in the phylogenetic tree where they are the tips.
+a data frame or a matrix typically with communities (or sites, plots, etc.) as rows, species as columns and presence/absence (1/0) or an index of abundance as entries. Species should be labeled as in the phylogenetic tree where they are the tips.
 }
   \item{scannf}{
 a logical value indicating whether the screeplot (eigenvalues) should be displayed for choosing the number of axes to be kept.
@@ -32,31 +32,31 @@ a logical value, if \code{FALSE}, only the presences/absences of the \bold{evolu
   \item{x}{
 an object of class \code{evoCA}}
   \item{xaxis}{
-the number of the evoCA axis chosen for the x-axis of the 3d plot
+the number of the evoCA axis chosen for the x-axis of the 3d plot.
 }
   \item{yaxis}{
-the number of the evoCA axis chosen for the y-axis of the 3d plot
+the number of the evoCA axis chosen for the y-axis of the 3d plot.
 }
   \item{\dots}{
-other parameters can be added and passed to the function \code{plot3d} of package rgl.
+other arguments can be added and passed to the function \code{plot3d} of package rgl.
 }
 }
 \value{
 \code{evoCA} returns an object of class \code{evoCA} and of class \code{dudi} (see package ade4, \code{?dudi}). Graphical tools are associated with class \code{dudi} in packages ade4 and adegraphics (see example section below and \code{?scatter.dudi}).
 
-The object returned contains the following components:
+The returned object contains the following components:
 
-\item{tab}{a data frame with n rows and p columns, with communities as rows and nodes of the phylogeny as columns; the entries of the data frame evaluate the degree of dependence (values that depart from zero)/independence(close-to-zero values) between the occurrence in a community and the position in the phylogeny}
-\item{cw}{weights attributed to the nodes of the phylogeny, a vector with n components}
-\item{lw}{weights attributed to the communities, a vector with p components}
-\item{eig}{eigenvalues, a vector with min(n,p) components}
-\item{rank}{integer, number of axes}
-\item{nf}{integer, number of kept axes}
-\item{c1}{normed scores for the nodes of the phylogeny, data frame with p rows and nf columns}
-\item{l1}{normed scores for the communities, data frame with n rows and nf columns}
-\item{co}{scores for the nodes of the phylogeny, data frame with p rows and nf columns}
-\item{li}{scores for the communities, data frame with n rows and nf columns}
-\item{call}{the original call}
+\item{tab}{a data frame with n rows and p columns, with communities as rows and nodes of the phylogeny as columns; the entries of the data frame evaluate the degree of dependence (values that depart from zero)/independence(close-to-zero values) between the occurrence in a community and the position in the phylogeny;}
+\item{cw}{weights attributed to the nodes of the phylogeny, a vector with p components;}
+\item{lw}{weights attributed to the communities, a vector with n components;}
+\item{eig}{vector of eigenvalues;}
+\item{rank}{integer, number of axes;}
+\item{nf}{integer, number of kept axes;}
+\item{c1}{normed scores for the nodes of the phylogeny, data frame with p rows and nf columns;}
+\item{l1}{normed scores for the communities, data frame with n rows and nf columns;}
+\item{co}{scores for the nodes of the phylogeny, data frame with p rows and nf columns;}
+\item{li}{scores for the communities, data frame with n rows and nf columns;}
+\item{call}{the original call.}
 
 If X is an object of class \code{evoCA}, then \code{attributes(X)$phy} contains the phylogenetic tree (of class \code{phylo}) with names for internal nodes. 
 
@@ -69,9 +69,14 @@ Pavoine, S. (2016) A guide through a family of phylogenetic dissimilarity measur
 Sandrine Pavoine \email{sandrine.pavoine@mnhn.fr}
 }
 \seealso{
-See Also \code{\link{evoNSCA}}, \code{\link{evopcachord}}, \code{\link{evopcahellinger}}, \code{\link{evodiss}}
+\code{\link{evoNSCA}}, \code{\link{evopcachord}}, \code{\link{evopcahellinger}}, \code{\link{evodiss}}
 }
 \examples{
+\dontrun{
+if(require(ade4) && require(ape) && require(adegraphics)){
+O <- adegpar()$plabels$optim
+adegpar("plabels.optim" = TRUE)
+
 data(batcomm)
 ab <- batcomm$ab
 phy <- read.tree(text=batcomm$tre)
@@ -93,5 +98,9 @@ evodiss(phy, ab, "chi2")
 plot(evoCAbat)
 
 plot(evoCAbat, xaxis=1, yaxis=3)
+adegpar("plabels.optim" = O)
+
+}
+}
 }
 \keyword{models}

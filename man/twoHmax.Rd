@@ -22,8 +22,8 @@ a logical value: if \code{TRUE}, the estimated positive proportions are checked 
 a logical value indicating whether or not comments on the optimization technique should be printed.}
 }
 \value{
-A list of two objects
-\item{value}{the maximum value of index 2H (see function \code{qHdiv}).}
+A list of two objects:
+\item{value}{the maximum value of index 2H (see function \code{qHdiv});}
 \item{vector}{a data frame with the vector pmax that maximizes index 2H (see function \code{qHdiv}).}
 }
 \references{
@@ -34,9 +34,12 @@ Sandrine Pavoine \email{sandrine.pavoine@mnhn.fr}
 The code is a modification of function divcmax of package ade4 written by Stephane Champely.
 }
 \seealso{
-See Also \code{\link{qHdiv}}, \code{\link{CFprop}}, \code{\link{CFbinary}}
+\code{\link{qHdiv}}, \code{\link{CFprop}}, \code{\link{CFbinary}}
 }
 \examples{
+\dontrun{
+if(require(ape)){
+
 tre <-"((((((sA:4,sB:1):1,sC:3):2,((sD:2,sE:1):1,sF:1):2):1,sG:7):1,sH:1):3,(sI:2,sJ:1):2):0;"
 #The number of tips is kept in parameter n:
 n<-10
@@ -97,22 +100,23 @@ dotchart(as.matrix(pmax_correlations))
 # from 0 if all variables are completely correlated 
 # with each other to n if they are not correlated 
 # and have similar variances.
-C <- cor(V)
-equalproportions <- cbind.data.frame(rep(1/ncol(C), ncol(C)))
-names(equalproportions) <- "equalprop"
-qHdiv(equalproportions, C)
 
 #Even if the data set contains 15 variables, 
 # the effective number of variables is lower.
-
-C <- cov(V)
+C <- cor(V)
 equalproportions <- cbind.data.frame(rep(1/ncol(C), ncol(C)))
 names(equalproportions) <- "equalprop"
+equalproportions <- t(equalproportions)
 qHdiv(equalproportions, C)
 
 # When considering the covariances among species, 
 # instead of the correlations, the effective number 
-# of variables is even lower: indicating also an imbalance 
+# of variables is even lower, indicating also an imbalance 
 # in the variances of the variables.
+C <- cov(V)
+qHdiv(equalproportions, C)
+
+}
+}
 }
 \keyword{models}

@@ -4,17 +4,17 @@
 Tree-based Species' Originality 
 }
 \description{
-The function calculates two indices of species' originality that rely on the structure and branch lengths of (phylogenetic) trees.
+The function calculates two indices of species' originality that rely on the structure and branch lengths of (phylogenetic) trees. Trees with polytomies are allowed.
 }
 \usage{
 distinctTree(phyl, method = c("ED", "ES"), standardized = FALSE)
 }
 \arguments{
   \item{phyl}{
-an object inheriting the class \code{phylo} (see package ape), \code{phylo4} (see package phylobase) or \code{hclust}. Polytomies are allowed.
+an object inheriting the class \code{phylo} (see package ape), \code{phylo4} (see package phylobase) or \code{hclust}. 
 }
   \item{method}{
-a character a vector of characters. Possible values are \code{"ED"} and \code{"ES"}. \code{"ED"} is for the evolutionary distinctiveness, also named fair-proportion, index (Redding 2003; Isaac et al. 2007); \code{"ES"} is for the Equal-Splits index (Redding and Mooers 2006).
+a string or a vector of strings. Possible values are \code{"ED"} and \code{"ES"}. \code{"ED"} is for the evolutionary distinctiveness, also named fair-proportion, index (Redding 2003; Isaac et al. 2007); \code{"ES"} is for the Equal-Splits index (Redding and Mooers 2006).
 }
   \item{standardized}{
 a logical. If \code{TRUE}, the vector of originalities is divided by its sum (transforming absolute originalities into relative originalities).
@@ -34,20 +34,21 @@ Isaac, N.J., Turvey, S.T., Collen, B., Waterman, C., Baillie, J.E. (2007) Mammal
 Sandrine Pavoine \email{sandrine.pavoine@mnhn.fr}
 }
 \seealso{
-See Also \code{\link{distinctDis}}, \code{\link{distinctTopo}}, \code{\link{distinctUltra}}
+\code{\link{distinctDis}}, \code{\link{distinctTopo}}, \code{\link{distinctUltra}}
 }
 \examples{
+\dontrun{
+if(require(ape) && require(adephylo) && require(phylobase) && require(phylosignal)){
 data(carni70, package = "adephylo")
 tre <- read.tree(text=carni70$tre)
 U <- distinctTree(tre, standardize = TRUE)
 U.4d <- phylo4d(tre, as.matrix(U))
+## Display with package adegraphics
 parmar <- par()$mar
 par(mar=rep(.1,4))
 table.phylo4d(U.4d, show.node=FALSE, symbol="squares", center=FALSE, scale=FALSE, cex.symbol=2)
 par(mar=parmar)
-
-\dontrun{
-if(requireNamespace("phylosignal", quietly = TRUE)) {
+## Display with package phylosignal
 dotplot.phylo4d(U.4d, center = FALSE, scale = FALSE)
 }
 }

@@ -12,9 +12,9 @@ The densities and a phylogenetic tree are provided for all observed species.
 \format{
 \code{birdData} is a list of 4 objects:
 
-\code{fau}, a data frame with communities as rows, species as columns and densities as entries. The names of the communities start with the first three letters of the location and ends with the seral stage number. See details.
+\code{fau}, a data frame with communities as rows, species as columns and densities as entries. The names of the communities start with the first three letters of the location and end with the seral stage number. See details.
 
-\code{tre}, a character. It contains the phylogeny in a newick format.
+\code{tre}, a string. It contains the phylogeny in a newick format.
 
 \code{facA}, a factor. It indicates which location each community belongs to.
 
@@ -40,6 +40,8 @@ Davis, K.E. (2008) \emph{Reweaving the tapestry: a supertree of birds} [PhD thes
 Pavoine, S., Blondel, J., Dufour, A.-B., Gasc, A., Bonsall, M.B. (2013) A new technique for analysing interacting factors affecting biodiversity patterns: crossed-DPCoA. \emph{PloS One}, \bold{8}, e54530. 
 }
 \examples{
+\dontrun{
+if(require(ape) && require(adephylo)){
 data(birdData)
 phy <- read.tree(text=birdData$tre)
 phydis <- sqrt(distTips(phy, method="nNodes")+1)
@@ -50,5 +52,7 @@ facB <- birdData$facB
 
 cd_mainB <- crossdpcoa_maineffect(fau, facB, facA, phydis, w=rep(1/30, 30), scannf = FALSE)
 s.label(cd_mainB$l2)
+}
+}
 }
 \keyword{datasets}

@@ -24,7 +24,7 @@ a logical indicating whether a list of optimizing species should be provided. If
 If \code{give.list=FALSE}, function \code{optimEH} returns a numeric.
 
 If \code{give.list=TRUE}, function \code{optimEH} returns a list containing:
-\item{value}{a real value providing the amount of evolutionary history preserved.}
+\item{value}{a real value providing the amount of evolutionary history preserved;}
 \item{selected.sp}{a data frame containing the list of the k species which optimize the amount of evolutionary history preserved and are the most original species in their clades.}
 }
 \references{
@@ -32,16 +32,21 @@ Pavoine, S., Ollier, S. and Dufour, A.-B. (2005) Is the originality of a species
 }
 \author{
 Sandrine Pavoine \email{sandrine.pavoine@mnhn.fr}
-
 with contributions of Stephane Dray
 }
 \seealso{
-See Also \code{\link{randEH}}
+\code{\link{randEH}}
 }
 \examples{
+\dontrun{
+if(require(ape) && require(adephylo)){
+
 data(carni70, package="adephylo")
 tre <- read.tree(text=carni70$tre)
-EH(tre)
-optimEH(tre, 10)
+adiv:::EH(tre)
+adiv:::optimEH(tre, 10)
+
+}
+}
 }
 \keyword{models}

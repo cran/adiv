@@ -155,7 +155,7 @@ function(phyl, comm, w = c("evoab","even","speciesab"), method = c("hillCJC", "h
             if(option == "additive"){
                 beta <- gamma - alpha
             }
-            else if(option %in% c("multiplicative", "C", "U", "V", "S")){
+            else if(option %in% c("multiplicative", "C", "U", "V", "S", "Renyi")){
                 beta <- gamma / alpha
             }
             else if(option == "proportional"){
@@ -225,7 +225,7 @@ function(phyl, comm, w = c("evoab","even","speciesab"), method = c("hillCJC", "h
             if(option == "additive"){
                 beta <- vresgamma - vresalpha
             }
-            else if(option %in% c("multiplicative", "C", "U", "V", "S")){
+            else if(option %in% c("multiplicative", "C", "U", "V", "S", "Renyi")){
                 beta <- vresgamma / vresalpha
             }
             else if(option == "proportional"){

@@ -2,32 +2,28 @@ evodiss_family <-
 function(phyl, comm, method = NULL, abundance = TRUE, squareroot = TRUE, diag = FALSE, upper = FALSE, tol = 1e-8){
 
   m <- comm
-  METHODS <- c("Phylo - JACCARD", "Phylo - SOCKAL & MICHENER", "Phylo - SOCKAL & SNEATH",
-        "Phylo - ROGERS & TANIMOTO", "Phylo - CZEKANOWSKI", "Phylo - GOWER & LEGENDRE S9",
-        "Phylo - OCHIAI", "Phylo - SOKAL & SNEATH", "Phylo - Phi of PEARSON",
-        "Phylo - GOWER & LEGENDRE S2")
+  METHODS <- c("Phylo - Jaccard", "Phylo - Sockal & Michener", "Phylo - Gower & Legendre S5",
+        "Phylo - Rogers & Tanimoto", "Phylo - Czekanowski", "Phylo - Gower & Legendre S9",
+        "Phylo - Ochiai", "Phylo - Gower & Legendre S13", "Phylo - Phi of PEARSON",
+        "Phylo - Gower & Legendre S2", "Phylo - Kulczynski", "Phylo - Gower & Legendre S11", "Phylo - Gower & Legendre S8")
   if (is.null(method)) {
-        cat("1 = JACCARD index (1901) S3 coefficient of GOWER & LEGENDRE\n")
-        cat("s1 = a/(a+b+c) --> d = 1 - s or d = sqrt(1 - s) depending on squareroot parameter\n")
-        cat("2 = SOCKAL & MICHENER index (1958) S4 coefficient of GOWER & LEGENDRE \n")
-        cat("s2 = (a+d)/(a+b+c+d) --> d = 1 - s or d = sqrt(1 - s) depending on squareroot parameter\n")
-        cat("3 = SOCKAL & SNEATH(1963) S5 coefficient of GOWER & LEGENDRE\n")
-        cat("s3 = a/(a+2(b+c)) --> d = 1 - s or d = sqrt(1 - s) depending on squareroot parameter\n")
-        cat("4 = ROGERS & TANIMOTO (1960) S6 coefficient of GOWER & LEGENDRE\n")
-        cat("s4 = (a+d)/(a+2(b+c)+d) --> d = 1 - s or d = sqrt(1 - s) depending on squareroot parameter\n")
-        cat("5 = CZEKANOWSKI (1913) or SORENSEN (1948) S7 coefficient of GOWER & LEGENDRE\n")
-        cat("s5 = 2*a/(2*a+b+c) --> d = 1 - s or d = sqrt(1 - s) depending on squareroot parameter\n")
-        cat("6 = S9 index of GOWER & LEGENDRE (1986)\n")
-        cat("s6 = (a-(b+c)+d)/(a+b+c+d) --> d = 1 - s or d = sqrt(1 - s) depending on squareroot parameter\n")
-        cat("7 = OCHIAI (1957) S12 coefficient of GOWER & LEGENDRE\n")
-        cat("s7 = a/sqrt((a+b)(a+c)) --> d = 1 - s or d = sqrt(1 - s) depending on squareroot parameter\n")
-        cat("8 = SOKAL & SNEATH (1963) S13 coefficient of GOWER & LEGENDRE\n")
-        cat("s8 = ad/sqrt((a+b)(a+c)(d+b)(d+c)) --> d = 1 - s or d = sqrt(1 - s) depending on squareroot parameter\n")
-        cat("9 = Phi of PEARSON = S14 coefficient of GOWER & LEGENDRE\n")
-        cat("s9 = (ad-bc)/sqrt((a+b)(a+c)(b+d)(d+c)) --> d = 1 - s or d = sqrt(1 - s) depending on squareroot parameter\n")
-        cat("10 = S2 coefficient of GOWER & LEGENDRE\n")
-        cat("s10 =  a/(a+b+c+d) --> d = 1 - s or d = sqrt(1 - s) depending on squareroot parameter and unit self-similarity\n")
-        cat("Select an integer (1-10): ")
+        cat("Below are the possible methods for similarities (s) between communities\n")
+        cat("dissimilarities between communities are defined as d = 1 - s or d = sqrt(1 - s) depending on the squareroot parameter\n")
+        cat("1 = Jaccard index (1901) S3 coefficient of Gower and Legendre (1986) = a/(a+b+c)\n")
+        cat("2 = Sokal & Michener index (1958) S4 coefficient of Gower and Legendre (1986) = (a+d)/(a+b+c+d)\n")
+        cat("3 = Sokal & Sneath (1963) S5 coefficient of Gower and Legendre (1986) = a/(a+2(b+c))\n")
+        cat("4 = Rogers & Tanimoto (1960) S6 coefficient of Gower and Legendre (1986) = (a+d)/(a+2(b+c)+d)\n")
+        cat("5 = Czekanowski (1913) or SORENSEN (1948) S7 coefficient of Gower and Legendre (1986) = 2*a/(2*a+b+c)\n")
+        cat("6 = S9 index of Gower and Legendre (1986) = (a-(b+c)+d)/(a+b+c+d)\n")
+        cat("7 = Ochiai (1957) S12 coefficient of Gower and Legendre (1986) = a/sqrt((a+b)(a+c))\n")
+        cat("8 = Sokal & Sneath (1963) S13 coefficient of Gower and Legendre (1986) = ad/sqrt((a+b)(a+c)(d+b)(d+c))\n")
+        cat("9 = Phi of Pearson = S14 coefficient of Gower and Legendre (1986) = (ad-bc)/sqrt((a+b)(a+c)(b+d)(d+c))\n")
+        cat("10 = S2 coefficient of Gower and Legendre (1986) =  a/(a+b+c+d)\n")
+        cat("11 = Kulczynski index; S10 coefficient of Gower and Legendre (1986) = 0.5 * (a/(a+b) + a/(a+c)) \n")
+        cat("12 = S11 coefficient of Gower and Legendre (1986) = 0.25 * (a/(a+b) + a/(a+c) + d/(b+d) + d/(c+d)) \n")
+        cat("13 = S8 coefficient of Gower and Legendre (1986)  = (a+d)/(a+0.5*(b+c)+d)\n")
+        cat("14 = Simpson coefficient = a/min(b,c) \n")
+        cat("Select an integer (1-14): ")
         method <- as.integer(readLines(n = 1))
   }
   nsp <- ncol(m)
@@ -144,14 +140,35 @@ function(phyl, comm, method = NULL, abundance = TRUE, squareroot = TRUE, diag = 
         d[is.na(d)] <- 0
     }
     else if (method == 9) {
-        dis <- (a * d - b * c)/sqrt((a + b) * (a + c) * (b + d) *
-            (d + c))
+        dis <- (a * d - b * c)/sqrt((a + b) * (a + c) * 
+            (b + d) * (d + c))
         dis[(a+b) < tol | (a+c) < tol | (b+d) < tol | (d+c) < tol] <- 0
         d <- dis
     }
     else if (method == 10) {
         d <- a/(a + b + c + d)
         diag(d) <- 1
+    }
+    else if (method == 11) {
+        dis <- 0.5 * (a/(a+b) + a/(a+c))
+        dis[a < tol] <- 0
+        d <- dis
+    }
+    else if (method == 12) {
+        dis <- 0.25 * (a/(a+b) + a/(a+c) + d/(b+d) + d/(c+d))
+        dis[a < tol & d < tol] <- 0
+        disA <- 0.25 * (a/(a+b) + a/(a+c))
+        dis[a < tol & d >= tol] <- disA[a < tol & d >= tol]
+        disD <- 0.25 * (d/(b+d) + d/(c+d))
+        dis[a >= tol & d < tol] <- disD[a >= tol & d < tol]
+        d <- dis
+    }
+    else if (method == 13) {
+        d <- (a+d)/(a+0.5*(b+c)+d)
+    }
+    else if (method == 14) {
+        minbc <- (b<=c)*b+(b>c)*c
+        d <- a/(a+minbc)
     }
     else stop("Non convenient method")
     if(squareroot) d <- sqrt(1 - d)

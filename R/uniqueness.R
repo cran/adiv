@@ -8,6 +8,11 @@ function(comm, dis, tol = 1e-8, abundance = TRUE){
 	else if(ncol(comm)!=attributes(dis)$Size) stop("the number of species in comm must be equal to that in dis") 		
 
 	D <- as.matrix(dis)
+     if(any(D>1)){
+         D <- D/max(D)
+         warnings("All values in dis have been divided by their maximum (highest observed value in D)")
+     }
+
 	if(!abundance){
 		comm[comm>0] <- 1
 	}
@@ -51,10 +56,13 @@ function(comm, dis, tol = 1e-8, abundance = TRUE){
                 return(N)
 	}
         N <- unlist(sapply(commt, funN))
-	U <- Q/Sim
+	   U <- Q/Sim
+        R <- 1- U
+        Ustar <- (1-Sim)/(1-Q)
+        Rstar <- 1-Ustar
 
 
-	red <- cbind.data.frame(N=N, D=Sim, Q=Q, U=U)
+	red <- cbind.data.frame(N=N, D=Sim, Q=Q, U=U, R=R, Ustar=Ustar, Rstar=Rstar)
 	rownames(red) <- rownames(comm)
 
         res <- list()

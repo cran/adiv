@@ -38,7 +38,9 @@ function (comm, dis, method = NULL, diag = FALSE, upper = FALSE)
         cat("d4 = [sqrt((A+B)(A+C))-A]/sqrt((a+b)(a+c))\n")
         cat("5 = Simpson (1943) \n")
         cat("d5 = min(B,C)/(a+min(b,c))\n")
-        cat("Select an integer (0-5): ")
+        cat("6 = Kulczynski (1943) \n")
+        cat("d6 = 0.5*(B/(a+b)+C/(a+c))\n")
+        cat("Select an integer (0-6): ")
         method <- as.integer(readLines(n = 1))
     }
     a <- df %*% t(df)
@@ -86,6 +88,9 @@ function (comm, dis, method = NULL, diag = FALSE, upper = FALSE)
         minBC <- (B<=C)*B+(B>C)*C
         minbc <- (b<=c)*b+(b>c)*c
         d <- minBC / (a + minbc)
+    }
+    else if (method == 6) {
+        d <- 0.5*(B/(a+b) + C/(a+c))
     }
     else stop("Non convenient method")
     d <- as.dist(d)

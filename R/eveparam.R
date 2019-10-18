@@ -5,6 +5,7 @@ function(comm, method = c("hill", "tsallis","renyi"), q = 2, tol = 1e-8){
   method <- method[1]
   if(!method%in%c("tsallis", "hill", "renyi")) stop("Incorrect method")
   nsp <- ncol(m)
+  ncom <- nrow(m)
   if(any(m<0)) stop("m should contain nonnegative values")
   if(any(rowSums(m)==0)) stop("empty communities should be discarded")
   m <- sweep(m, 1, rowSums(m), "/")
@@ -77,7 +78,10 @@ function(comm, method = c("hill", "tsallis","renyi"), q = 2, tol = 1e-8){
     if ( length(q) > 1){
         if(method == "tsallis"){
            calcul1 <- sapply(q, function(x) tsallis(m, x))
-           tab1 <- cbind.data.frame(calcul1)
+           if(ncom>1)
+               tab1 <- cbind.data.frame(calcul1)
+           else
+               tab1 <- as.data.frame(matrix(calcul1, 1, byrow=TRUE))
            rownames(tab1) <- colnames(m)
            listtotale <- list()
            listtotale$q <- q
@@ -87,7 +91,10 @@ function(comm, method = c("hill", "tsallis","renyi"), q = 2, tol = 1e-8){
         }
         if(method == "hill"){
            calcul1 <- sapply(q, function(x) hill(m, x))
-           tab1 <- cbind.data.frame(calcul1)
+           if(ncom>1)
+               tab1 <- cbind.data.frame(calcul1)
+           else
+               tab1 <- as.data.frame(matrix(calcul1, 1, byrow=TRUE))
            rownames(tab1) <- colnames(m)
            listtotale <- list()
            listtotale$q <- q
@@ -97,7 +104,10 @@ function(comm, method = c("hill", "tsallis","renyi"), q = 2, tol = 1e-8){
         }
         if(method == "renyi"){
            calcul1 <- sapply(q, function(x) renyi(m, x))
-           tab1 <- cbind.data.frame(calcul1)
+           if(ncom>1)
+               tab1 <- cbind.data.frame(calcul1)
+           else
+               tab1 <- as.data.frame(matrix(calcul1, 1, byrow=TRUE))
            rownames(tab1) <- colnames(m)
            listtotale <- list()
            listtotale$q <- q

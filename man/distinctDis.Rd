@@ -7,14 +7,14 @@ Dissimilarity-based Species' Originality
 The function calculates three indices of species' originality.
 }
 \usage{
-distinctDis(dis, method = 1:3, standardized = FALSE)
+distinctDis(dis, method = c("Rb","AV","FV","NN","full"), standardized = FALSE)
 }
 \arguments{
   \item{dis}{
 an object of class \code{dist} containing pair-wise (functional or phylogenetic) dissimilarities between species.
 }
   \item{method}{
-a numeric or a vector of numerics. Possible values are 1, 2 and 3. \code{1} is for Pavoine et al. (2017) index Rb; \code{2} is for AV, the average dissimilarity between a species and all others in a set (Eiswerth and Haney 1992; Ricotta 2004); \code{3} is for FV, the average dissimilarity between a species and any other (including the focal species itself) (Schmera et al. 2009).
+a vector of strings. Possible values are \code{"Rb"}, \code{"AV"}, \code{"FV"}, \code{"NN"} and \code{"full"}. \code{"Rb"} is for Pavoine et al. (2017) index Rb; \code{"AV"} is for AV, the average dissimilarity between a species and all others in a set (Eiswerth and Haney 1992; Ricotta 2004); \code{"FV"} is for FV, the average dissimilarity between a species and any other (including the focal species itself) (Schmera et al. 2009); \code{"NN"} is for the minimum dissimilarity between a species and any other (the dissimilarity to its Nearest Neighbor) (Pavoine et al. 2017); \code{"full"} returns all indices.
 }
   \item{standardized}{
 a logical. If \code{TRUE}, the vector of originalities is divided by its sum (transforming absolute originalities into relative originalities).
@@ -30,13 +30,13 @@ Ricotta, C. (2004) A parametric diversity measure combining the relative abundan
 
 Schmera, D., Podani, J., Eros, T. (2009) Measuring the contribution of community members to functional diversity. \emph{Oikos}, \bold{118}, 961--971.
 
-Pavoine, S., Bonsall, M.B., Dupaix, A., Jacob, U., Ricotta, C. (2017) From phylogenetic to functional originality: guide through indices and new developments. \code{Ecological Indicators}, \bold{82}, 196--205.
+Pavoine, S., Bonsall, M.B., Dupaix, A., Jacob, U., Ricotta, C. (2017) From phylogenetic to functional originality: guide through indices and new developments. \emph{Ecological Indicators}, \bold{82}, 196--205.
 }
 \author{
 Sandrine Pavoine \email{sandrine.pavoine@mnhn.fr}
 }
 \seealso{
-See Also \code{\link{distinctTopo}}, \code{\link{distinctTree}}, \code{\link{distinctUltra}}
+\code{\link{distinctTopo}}, \code{\link{distinctTree}}, \code{\link{distinctUltra}}
 }
 \examples{
 e <- rlnorm(10)
@@ -47,14 +47,16 @@ barplot(e)
 
 D <- distinctDis(d, standardized = TRUE)
 
-par(mfrow=c(3,1))
+par(mfrow=c(4,2))
 plot(e, D[,1], xlab="trait", ylab="Rb")
 plot(e, D[,2], xlab="trait", ylab="AV")
 plot(e, D[,3], xlab="trait", ylab="FV")
+plot(e, D[,4], xlab="trait", ylab="NN")
 
 plot(D[,1], D[,2], xlab="Rb", ylab="AV")
 plot(D[,1], D[,3], xlab="Rb", ylab="FV")
 plot(D[,2], D[,3], xlab="AV", ylab="FV")
+plot(D[,2], D[,4], xlab="AV", ylab="NN")
 par(mfrow=c(1,1))
 }
 \keyword{models}

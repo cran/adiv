@@ -14,7 +14,7 @@ speciesdiv(comm, method = "full", tol = 1e-8)
 a data frame or a matrix typically with communities as rows, species as columns and presence/absence or abundance as entry. Note that with presence/absence (0/1) data, only species richness will be calculated correctly.
 }
   \item{method}{
-a character or a vector of characters: one or several of "richness", "GiniSimpson", "Simpson", "Shannon", "Margalef", "Menhinick", "McIntosh", "full". See details.
+a string or a vector of strings: one or several of "richness", "GiniSimpson", "Simpson", "Shannon", "Margalef", "Menhinick", "McIntosh", "full". See details.
 }
   \item{tol}{
 a tolerance threshold (a value between -\code{tol} and \code{tol} is considered equal to zero)}
@@ -29,9 +29,9 @@ If \code{method="GiniSimpson"}, the diversity index is that of Gini (1912) and S
 If \code{method="Simpson"}, the diversity index is (Simpson 1949): \eqn{1/\sum_j p_{ij}^2}{1/(sum_j p_ij^2)}.
 If \code{method="Shannon"}, the diversity index is that of Shannon (1948) with neperian logarithm: \eqn{-\sum_j p_{ij}log(p_{ij})}{-sum_j p_ij log(p_ij)}.
 If \code{method="Margalef"}, the diversity index is that of Margalef (1972): \eqn{(S_i-1)/log(N_i)}.
-If \code{method="Menhinick"}, the diversity index is that of Menhinick (): \eqn{S_i/\sqrt{N_i}}{S_i/sqrt(N_i)}.
-If \code{method="McIntosh"}, the diversity index is that of McIntosh (1967): \eqn{(N_i-\sqrt{\sum_j n_{ij}^2})/(N_i-\sqrt{N_i})}{(N_i-sqrt(sum_j n_{ij}^2))/(N_i-sqrt(N_i))}.
-If one of the characters is "full", then all indices are calculated.
+If \code{method="Menhinick"}, the diversity index is that of Menhinick (1964): \eqn{S_i/\sqrt{N_i}}{S_i/sqrt(N_i)}.
+If \code{method="McIntosh"}, the diversity index is that of McIntosh (1967): \eqn{(N_i-\sqrt{\sum_j n_{ij}^2})/(N_i-\sqrt{N_i})}{(N_i-sqrt(sum_j n_ij^2))/(N_i-sqrt(N_i))}.
+If one of the strings is "full", then all indices are calculated.
 }
 
 \references{
@@ -41,7 +41,9 @@ Magurran, A.E. (2004) Measuring biological diversity. Blackwell Publishing, Oxfo
 
 Margalef, R. (1972) Homage to Evelyn Hutchinson, or why is there an upper limit to diversity? \emph{Transactions of the Connecticut Academy of Arts and Sciences}, \bold{44}, 211--235.
 
-McIntosh, R.P. (1967) An index of diversity and the relation of certain conepts to diversity. \emph{Ecology}, \bold{48}, 392--404. 
+McIntosh, R.P. (1967) An index of diversity and the relation of certain concepts to diversity. \emph{Ecology}, \bold{48}, 392--404. 
+
+Menhinick, E.F. (1964) A Comparison of some species-individuals diversity indices applied to samples of field insects. \emph{Ecology}, \bold{45}, 859--861.
 
 Shannon, C.E. (1948) A mathematical theory of communication. \emph{Bell System technical journal}, \bold{27}, 379--423, 623--656.
 

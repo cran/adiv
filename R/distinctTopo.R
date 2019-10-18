@@ -1,5 +1,5 @@
 distinctTopo <-
-function (phyl, method = 1:3, standardized = FALSE) 
+function (phyl, method = c("VW","M","A","full"), standardized = FALSE) 
 {
   arg.phyl <- .checkphyloarg(phyl)
   phyl <- arg.phyl$phyl
@@ -8,8 +8,9 @@ function (phyl, method = 1:3, standardized = FALSE)
 
   ## phyl is a phylo4 object, phyl.phylo is a phylo object
 
-    if (any(is.na(match(method, 1:3)))) 
+    if (any(is.na(match(method, c("VW","M","A","full"))))) 
         stop("unconvenient method")
+    if(any(method=="full")) method <- c("VW","M","A")
     nbMeth <- length(method)
     nbesp <- nTips(phyl)
     nbnodes <- nNodes(phyl)
@@ -17,7 +18,7 @@ function (phyl, method = 1:3, standardized = FALSE)
     rownames(resWeights) <- tipLabels(phyl)
     for (k in 1:nbMeth) {
         meth <- method[k]
-        if (meth == 1) {
+        if (meth == "VW") {
           interm <- distRoot(phyl, method = "nNodes")
           res <- 1/interm/min(1/interm)
           if(standardized)
@@ -25,7 +26,7 @@ function (phyl, method = 1:3, standardized = FALSE)
           resWeights[, k] <- res
           names(resWeights)[k] <- "VW"
         }
-        if (meth == 2) {
+        if (meth == "M") {
           interm <- distRoot(phyl, method = "sumDD")
           res <- 1/interm/min(1/interm)
           if(standardized)
@@ -33,7 +34,7 @@ function (phyl, method = 1:3, standardized = FALSE)
           resWeights[, k] <- res
           names(resWeights)[k] <- "M"
         }
-        if (meth == 3) {
+        if (meth == "A") {
           interm <- distRoot(phyl, method = "Abouheif")
           res <- 1/interm/min(1/interm)
           if(standardized)

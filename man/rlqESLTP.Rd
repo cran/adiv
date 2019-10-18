@@ -12,7 +12,8 @@ An extention of the RLQ approach to identify potential environmental filters in 
 rlqESLTP(dudiE, dudiS, dudiL, dudiT, dudiP, ...)
 
 \method{plot}{rlqESLTP}(x, which = NULL, phyl = NULL, 
-xy = NULL, traits = NULL, env = NULL, type = NULL, ax = 1, ...)
+    xy = NULL, traits = NULL, env = NULL, type = NULL, 
+    ax = 1, disp = c("dots", "squares"), ...)
 
 \method{summary}{rlqESLTP}(object, ...)
 }
@@ -37,20 +38,22 @@ an object of class \code{rlqESTP} (obtained with function \code{rqlESTP}).}
   \item{object}{
 an object of class \code{rlqESTP} (obtained with function \code{rqlESTP}).}
   \item{which}{
-a character that might be \code{"E"} (in that case parameters \code{env} and \code{type} must be given); \code{"S"} (in that case parameter \code{xy} must be given); \code{"T"} (in that case parameters \code{traits} and \code{type} must be given); or \code{"P"} (in that case parameter \code{phyl} must be given).}
+a character that might be \code{"E"} (in that case arguments \code{env} and \code{type} must be given); \code{"S"} (in that case argument \code{xy} must be given); \code{"T"} (in that case arguments \code{traits} and \code{type} must be given); or \code{"P"} (in that case argument \code{phyl} must be given).}
   \item{phyl}{
 an object inheriting the class \code{phylo} (see package ape), \code{phylo4} (see package phylobase) or \code{hclust}.
 }
   \item{xy}{
 a data frame with two columns giving the coordinates of the plots (longitude, latitude in that order).}
   \item{traits}{
-a list of data frames for the traits, each data frame contains variables from a single statistical type (see parameter \code{type} below). NAs are allowed. However, in that case, the calculations depend, for each trait, on the subset of available data only.}
+a list of data frames for the traits, each data frame contains variables from a single statistical type (see argument \code{type} below). NAs are allowed. However, in that case, the calculations depend, for each trait, on the subset of available data only.}
   \item{env}{
-a list of data frames for the environmental variables, each data frame contains variables from a single statistical type (see parameter \code{type} below). NAs are allowed. However, in that case, the calculations depend, for each variable, on the subset of available data only.}
+a list of data frames for the environmental variables, each data frame contains variables from a single statistical type (see argument \code{type} below). NAs are allowed. However, in that case, the calculations depend, for each variable, on the subset of available data only.}
   \item{type}{
 a vector that provides the type of each table to be analysed in \code{env} (if environemental variables should be displayed) or \code{traits} (if the focus is on species' traits). The possible types are \code{"Q"} (quantitative, numeric), \code{"O"} (ordinal), \code{"N"} (nominal), \code{"D"} (dichotomous), \code{"F"} (fuzzy, or expressed as a proportion), \code{"B"} (multichoice nominal variables, coded by binary columns), \code{"C"} (circular). Values in type must be in the same order as in \code{env} or \code{traits}.}
   \item{ax}{
 a numeric indicating the axis of interest.}
+  \item{disp}{
+a string indicating which method to use to display species scores in front of the phylogeny: one of "squares" (for vizualizing scores by the color [white = negative, black = positive] and sizes [absolute value] of squares) or "dots" (for a dot plot).}
   \item{\dots}{
 further arguments passed to or from other methods.}
 }
@@ -91,6 +94,11 @@ Pavoine, S., Vela, E., Gachet, S., de Belair, G., Bonsall, M.B. (2011) Linking p
 Sandrine Pavoine \email{sandrine.pavoine@mnhn.fr}
 }
 \examples{
+\dontrun{
+if(require(ade4) && require(adegraphics) && require(ape)){
+O <- adegpar()$plabels$optim
+adegpar("plabels.optim" = TRUE)
+
 data(mafragh, package="ade4")
 xy <- mafragh$xy
 #The object that defines the neighbourhood between plots is in
@@ -147,5 +155,9 @@ plot(rlqmix, phy=phy, ax=1, wh="P")
 plot(rlqmix, traits=tabBinary, ax=1, type="B", wh="T")
 plot(rlqmix, traits=tabOrdinal[2:3], ax=1, type="O", wh="T")
 plot(rlqmix, env=env, ax=1, type="Q", wh="E")
+
+adegpar("plabels.optim" = O)
+}
+}
 }
 \keyword{models}

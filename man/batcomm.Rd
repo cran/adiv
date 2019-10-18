@@ -21,20 +21,24 @@ In \code{ab}, four habitat types were analyzed: F=rainforest; P=cacao plantation
 The resolution of the bat phylogeny is uncertain especially at the older nodes (Pavoine 2016).
 }
 \source{
-\url{www.oikosjournal.org/appendix/oik-03262}
+\url{http://www.oikosjournal.org/appendix/oik-03262}
 }
 \references{
 Medellin, R. Equihua M., Amin,  M.A. (2000) Bat diversity and abundance as indicators of disturbance in Neotropical rainforest. \emph{Conservation Biology}, \bold{14}, 1666--1675.
 
-Fritz, S.A., Bininda-Emonds, O.R.P., Purvis, A. (2009)Geographic variation in predictors of mammalian extinction risk: big is bad, but only in the tropics. \emph{Ecology Letters}, \bold{12}, 538--549.
+Fritz, S.A., Bininda-Emonds, O.R.P., Purvis, A. (2009) Geographic variation in predictors of mammalian extinction risk: big is bad, but only in the tropics. \emph{Ecology Letters}, \bold{12}, 538--549.
 
 Pavoine, S. (2016) A guide through a family of phylogenetic dissimilarity measures among sites. \emph{Oikos}, \bold{125}, 1719--1732. 
 }
 \examples{
+\dontrun{
+if(require(ape)){
 data(batcomm)
 phy <- read.tree(text=batcomm$tre)
 plot(phy)
 ab <- batcomm$ab[,phy$tip.label]
 plot(abgevodivparam(phy, ab, q=0:4))
+}
+}
 }
 \keyword{datasets}

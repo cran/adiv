@@ -17,7 +17,7 @@ The format is a list of four objects:
 
 \code{D2}, a data frame of pairwise dissimilarities between species. In \code{D2}, dissimilarities were randomly assigned using an even distribution.
 
-\code{D3}, a data frame of pairwise dissimilarities between species. In \code{D3}, dissimilarities were uniformly set to \eqn{d_{ij} = 2/3}{d_ij = 2/3}.
+\code{D3}, a data frame of pairwise dissimilarities between species. In \code{D3}, dissimilarities were uniformly set to 2/3.
 }
 \source{
 Appendixes of Ricotta and Pavoine (2015)

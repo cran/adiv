@@ -24,10 +24,10 @@ labels = rownames(Ktab[[1]]), solution = c(2, 1))
 \arguments{
   \item{df}{a data frame or a matrix with species (or any entities of interest) as rows, functional attributes as columns, and proportions (for \code{CFprop}) or 0/1 values (for \code{CFbinary}) as entries. The sum of the columns will be standardized to equal 1 in function \code{CFprop} but not in \code{CFbinary}.}
   \item{wA}{a vector of weights that should be given to the attributes (same order as the columns of df).}
-  \item{Ktab}{a list of data frames, each of which represent a trait. For a given trait, the data frame should have species (or any entities of interest) as rows, functional attributes as columns, and proportions (for \code{multiCFprop}) or 0/1 values (for \code{multiCFbinary}) as entries. The sum of the columns will be standardized to equal 1 in function \code{multiCFprop} but not in \code{multiCFbinary}}
-  \item{w.attributes}{a list of weights that should be given to the attributes of each trait. Traits should be in the same order as they appear in the list of tables Ktab. The attributes of a trait should be ordered as the columns of the corresponding data frame in \code{Ktab}.}
-  \item{w.traits}{a vector of weights that should be given to the traits (same order as the tables of Ktab).}
-  \item{labels}{a vector of characters that gives the names of the species (or the other entities of interest; same order as the rows of all tables in Ktab).}
+  \item{Ktab}{a list of data frames, each of which represents a trait. For a given trait, the data frame should have species (or any entities of interest) as rows, functional attributes as columns, and proportions (for \code{multiCFprop}) or 0/1 values (for \code{multiCFbinary}) as entries. The sum of the columns will be standardized to equal 1 in function \code{multiCFprop} but not in \code{multiCFbinary}.}
+  \item{w.attributes}{a list of weights that should be given to the attributes of each trait. Traits should be in the same order as they appear in the list of tables \code{Ktab}. The attributes of a trait should be ordered as the columns of the corresponding data frame in \code{Ktab}.}
+  \item{w.traits}{a numeric vector of weights that should be given to the traits (same order as the tables of \code{Ktab}).}
+  \item{labels}{a vector of strings that gives the names of the species (or the other entities of interest; same order as the rows of all tables in \code{Ktab}).}
   \item{solution}{a numeric value (either 1 or 2) that indicates which equations are used to summarize the information given by several traits among the 2 approaches given in Appendix S3 of Pavoine and Izsak (2014) page 9. If a vector is given, only the first value of the vector is considered.}
 }
 \value{

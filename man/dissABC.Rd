@@ -6,22 +6,22 @@ Phylogenetic and Functional Similarity between Communities
 \description{
 Coefficients of similarity between communities that rely on the presence/absence of species are generally based on various combinations of the matching/mismatching components of the classical 2 x 2 contingency table. Three of these components are: a=the number of species shared by the two communities; b=the number of species in the first community that are not in the second; c=the number of species in the second community that are not in the first. These coefficients are extended in \code{dissABC} to include phylogenetic or functional information on species (Ricotta and Pavoine 2015).}
 \usage{
-dissABC(comm, dis, option = 1:4, method = c("J", "S", "O", "K", "SS"))
+dissABC(comm, dis, option = 1:4, method = c("J", "S", "O", "K", "SS","Si"))
 }
 \arguments{
   \item{comm}{
 a data frame or a matrix typically with communities as rows, species as columns and relative abundance or absolute abundance as entries. Column labels (species names) should be assigned as in the object \code{dis}.
 }
-  \item{dis}{a matrix (or data frame) of (phylogenetic or functional) dissimilarities among species rescaled in the range [0, 1] or an object of class \code{dist} containing these dissimilarities [obtained by functions like \code{vegdist} in package vegan, \code{gowdis} in package FD, or \code{dist.ktab} in package ade4 for functional dissimilarities, or functions like \code{cophenetic.phylo} in package ape or \code{distTips} in package adephylo for phylogenetic dissimilarities]. Note that dissimilarities among species need first to be rescaled in the range [0, 1]. If the dissimilarities are outside the range 0-1, a warning message is displayed.}
+  \item{dis}{a matrix (or data frame) of (phylogenetic or functional) dissimilarities among species rescaled in the range [0, 1] or an object of class \code{dist} containing these dissimilarities [obtained by functions like \code{\link{dsimFun}} in this package adiv, \code{vegdist} in package vegan, \code{gowdis} in package FD, or \code{dist.ktab} in package ade4 for functional dissimilarities, or functions like \code{\link{dsimTree}} in this package adiv, \code{cophenetic.phylo} in package ape or \code{distTips} in package adephylo for phylogenetic dissimilarities]. See also function \code{\link{dsimTaxo}} for taxonomic data. Note that dissimilarities among species need first to be rescaled in the range [0, 1]. If the dissimilarities are outside the range 0-1, a warning message is displayed and each dissimilarity is divided by the maximum over all pair-wise dissimilarities.}
   \item{option}{
-a numeric, either 1, 2, 3, or 4 (if several characters are given only the first one is considered). See details.
+a numeric, either 1, 2, 3, or 4 (if several values are given only the first one is considered). See details.
 }
   \item{method}{
-a character, either \code{"J"}, \code{"S"}, \code{"O"}, \code{"K"}, or \code{"SS"} (if several characters are given only the first one is considered). See details.
+a character or string, either \code{"J"}, \code{"S"}, \code{"O"}, \code{"K"}, \code{"SS"}, or \code{"Si"} (if several values are given only the first one is considered). See details.
 }
 }
 \details{
-To obtain the dissimilarities among plots, one needs to choose the equations to be used for the (phylogenetic or functional) components A, B, and C thanks to parameter \code{option} and the way the parameters will be combined, thanks to parameter \code{method}.
+To obtain the dissimilarities among plots, one needs to choose the equations to be used for the (phylogenetic or functional) components A, B, and C thanks to argument \code{option} and the way the components will be combined, thanks to argument \code{method}.
 
 Let \eqn{\mathbf{D}=(d_{ij})}{D=(d_ij)} a matrix of (functional, morphological or phylogenetic) dissimilarities between pairs of species with \eqn{d_{ij} = d_{ji}}{d_ij = d_ji} and \eqn{d_{ii} = 0}{d_ii = 0}. If the dissimilarity coefficient \emph{d} is in the range [0, 1], it is possible to define a corresponding similarity coefficient \emph{s} as the complement of \emph{d}: \emph{s} = 1 - \emph{d}. Let \eqn{x_{ik}}{x_ik} the abundance of species \emph{i} in community \emph{k}. \emph{S(kh)} is the number of species in the pooled communities \emph{k} and \emph{h} (i.e. the species for which \eqn{min\{x_{ik}, x_{ih}\} > 0}{min(x_ik, x_ih) > 0}). The (absolute) abundance of species similar to \emph{i} in plot \emph{k} is
 \deqn{Z_{ik}=\sum_{j=1}^{S(kh)}x_{jk}s_{ij}}{Z_ik=sum_j^S(kh) x_jk s_ij}. 
@@ -50,9 +50,12 @@ If \code{method="K"}, the Kulczynski index is used:
 
 If \code{method="SS"}, the Sokal-Sneath index is used:
 \deqn{\frac{A}{A+2B+2C}}{A/(A+2B+2C)}
+
+If \code{method="Si"}, the Simpson index is used:
+\deqn{\frac{A}{A+min(B,C)}}{A/(A+min(B,2))}
 }
 \value{
-Function \code{dissABC} returns a matrix with the values of the proposed ISR-based similarities among communities.
+Function \code{dissABC} returns a matrix with the values of the proposed similarities among communities based on interspecies resemblances.
 }
 \references{
 Ricotta, C. and Pavoine, S. (2015) Measuring similarity among plots including similarity among species: an extension of traditional approaches. \emph{Journal of Vegetation Science}, \bold{26}, 1061--1067.
@@ -61,7 +64,7 @@ Ricotta, C. and Pavoine, S. (2015) Measuring similarity among plots including si
 Sandrine Pavoine \email{sandrine.pavoine@mnhn.fr}
 }
 \seealso{
-See Also \code{\link{discomQE}}, \code{\link{evodiss}}
+\code{\link{discomQE}}, \code{\link{evodiss}}
 }
 \examples{
 data(RP15JVS)

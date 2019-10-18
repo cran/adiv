@@ -1,15 +1,16 @@
 plot.rlqESLTP <-
 function(x, which = NULL, phyl = NULL, xy = NULL, traits = NULL,
-	env = NULL, type = NULL, ax = 1, ...){
+	env = NULL, type = NULL, ax = 1, disp = c("dots", "squares"), ...){
 
     if(is.null(which)) stop("Specify which graph you would like to plot")
-	
+	disp <- disp[1]
+     if(!disp%in%c("dots", "squares")) stop("Incorrect definition of argument disp")
 	if(which == "S"){
 	if(is.null(xy)) stop("xy required")
     if(!is.null(x$lR_givenE)){
-	g1 <- s.value(xy, x$lR_givenE[, ax], breaks = pretty(as.vector(x$lR[, ax])), paxes.draw = F, psub.text = "environment-based", porigin.include= FALSE)
-	g2 <- s.value(xy, x$lR_givenS[, ax], breaks = pretty(as.vector(x$lR[, ax])), paxes.draw = F, psub.text = "space-based", porigin.include= FALSE)
-	g3 <- s.value(xy, x$lR[,ax], breaks = pretty(as.vector(x$lR[, ax])), paxes.draw = F, psub.text = "global", porigin.include= FALSE)
+	g1 <- s.value(xy, x$lR_givenE[, ax], breaks = pretty(as.vector(x$lR[, ax])), paxes.draw = F, psub.text = paste("environment-based scores on axis", ax, sep=" "), porigin.include = FALSE, plot = FALSE)
+	g2 <- s.value(xy, x$lR_givenS[, ax], breaks = pretty(as.vector(x$lR[, ax])), paxes.draw = F, psub.text = paste("space-based scores on axis", ax, sep=" "), porigin.include = FALSE, plot = FALSE)
+	g3 <- s.value(xy, x$lR[,ax], breaks = pretty(as.vector(x$lR[, ax])), paxes.draw = F, psub.text = paste("global scores on axis", ax, sep=" "), porigin.include = FALSE, plot = FALSE)
      ADEgS(c(g1, g2, g3))
     }
     else
@@ -22,22 +23,30 @@ function(x, which = NULL, phyl = NULL, xy = NULL, traits = NULL,
      phyl <- arg.phyl$phyl.phylo
 
     if(!is.null(x$lQ_givenT)){
-    parmar <- par()$mar
-    par(mar=rep(.1,4))
      CB <- cbind.data.frame(x$lQ_givenT[phyl$tip.label, ax], x$lQ_givenP[phyl$tip.label, ax], x$lQ[phyl$tip.label, ax])
-     colnames(CB) <- c("trait-based", "phylogeny-based","global")  
+     colnames(CB) <- c("trait-based", "phylogeny-based","global scores")  
      X.4d <- phylo4d(phyl, as.matrix(CB))
-table.phylo4d(X.4d, show.node.label=FALSE, symbol="squares", center=FALSE, scale=FALSE)
-    par(mar=parmar)
+     if(disp == "squares"){
+         parmar <- par()$mar
+         par(mar=rep(.1,4))
+         table.phylo4d(X.4d, show.node.label=FALSE, symbol="squares", center=FALSE, scale=FALSE)
+         par(mar=parmar)
+    }
+    else 
+         dotplot.phylo4d(X.4d, center=FALSE, scale=FALSE)
     }
     else{
-    parmar <- par()$mar
-    par(mar=rep(.1,4))
 	CB <- as.data.frame(x$lQ[phyl$tip.label, ax])
       colnames(CB) <- "global"
      X.4d <- phylo4d(phyl, as.matrix(CB))
-table.phylo4d(X.4d, show.node.label=FALSE, symbol="squares", center=FALSE, scale=FALSE)
-    par(mar=parmar)
+     if(disp == "squares"){
+         parmar <- par()$mar
+         par(mar=rep(.1,4))
+         table.phylo4d(X.4d, show.node.label=FALSE, symbol="squares", center=FALSE, scale=FALSE)
+         par(mar=parmar)
+     }
+     else
+         dotplot.phylo4d(X.4d, center=FALSE, scale=FALSE)
      }   
 	}
 
@@ -80,7 +89,7 @@ table.phylo4d(X.4d, show.node.label=FALSE, symbol="squares", center=FALSE, scale
                     names(corS) <- names(thetab)
                 }
 				dotchart(sort(corS), labels = rownames(corS)[order(corS)],
-					main = "Pearson correlation")
+					main = "Pearson correlation", xlab=paste("Correlation with scores on axis", ax, sep=" "))
 				abline(v = 0)
 
 			}
@@ -106,7 +115,7 @@ table.phylo4d(X.4d, show.node.label=FALSE, symbol="squares", center=FALSE, scale
                     names(corS) <- names(thetab)
                 }
 				dotchart(sort(corS), labels = rownames(corS)[order(corS)],
-					main = "Spearman correlation")
+					main = "Spearman correlation", xlab=paste("Correlation with scores on axis", ax, sep=" "))
 				abline(v = 0)
 				
 			}
@@ -131,12 +140,12 @@ table.phylo4d(X.4d, show.node.label=FALSE, symbol="squares", center=FALSE, scale
                     }
                     res <- cbind.data.frame(apply(thetab, 2, funmod))
                     res[is.na(res)] <- 0
-                    s1d.distri(sco1[, ax], res)
+                    s1d.distri(sco1[, ax], res, xlab=paste("Scores on axis", ax, sep=" "))
 			}
 			if(type[i] == "F" | type[i] == "B" | type[i] == "D"){
                 thetab <- ltab[[i]]
                 thetab[is.na(thetab)] <- 0
-				s1d.distri(sco1[, ax], thetab)
+				s1d.distri(sco1[, ax], thetab, xlab=paste("Scores on axis", ax, sep=" "))
 			}
             if(type[i] == "C"){
                 thetab <- ltab[[i]]
@@ -169,7 +178,7 @@ table.phylo4d(X.4d, show.node.label=FALSE, symbol="squares", center=FALSE, scale
                     names(corC) <- names(thetab)
                 }
            		dotchart(sort(corC), labels = rownames(corC)[order(corC)],
-					main = "Circular correlation")
+					main = "Circular correlation", xlab=paste("Correlation with scores on axis", ax, sep=" "))
 				abline(v = 0)
 
             }

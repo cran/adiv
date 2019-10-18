@@ -10,7 +10,7 @@ Function \code{Rentropy} calculates Pavoine et al. (2017) functional or phylogen
 Rentropy(comm, dis = NULL, scale = FALSE)
 }
 \arguments{
-  \item{comm}{a data frame or a matrix with communities as rows and species as columns. Entries are abundances of species within sites}
+  \item{comm}{a data frame or a matrix with communities as rows and species as columns. Entries are abundances of species within sites.}
   \item{dis}{
 either \code{NULL} or an object of class \code{dist} that contains the (functional or phylogenetic) distances among species. If \code{NULL} species are said equidistant with a distance of 1 between any two species and a distance of 0 between a species and itself. 
 }
@@ -34,16 +34,28 @@ Pavoine, S., Bonsall, M.B., Dupaix, A., Jacob, U., Ricotta, C. (2017) From phylo
 Sandrine Pavoine \email{sandrine.pavoine@mnhn.fr}
 }
 \examples{
+\dontrun{
+if(require(ade4)){
+
 data(ecomor, package="ade4")
 dtaxo <- dist.taxo(ecomor$taxo)
 bird.R <- Rentropy(t(ecomor$habitat), dtaxo^2/2)
 dotchart(bird.R$diversity, labels = rownames(bird.R))
+
+}
+}
+
+\dontrun{
+if(require(ape)){
 
 data(batcomm)
 phy <- read.tree(text=batcomm$tre)
 dphy <- as.dist(cophenetic(phy))/2
 ab <- batcomm$ab[, phy$tip.label]
 bat.R <- Rentropy(ab, dphy)
-dotchart(bat.R$diversity, labels = rownames(bat.R))
+dotchart(bat.R$diversity, labels = rownames(bat.R), xlab = "Entropy")
+
+}
+}
 }
 \keyword{models}

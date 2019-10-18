@@ -30,18 +30,23 @@ Pavoine, S., Ollier, S. and Dufour, A.-B. (2005) Is the originality of a species
 }
 \author{
 Sandrine Pavoine \email{sandrine.pavoine@mnhn.fr}
-
 with contributions of Stephane Dray
 }
 \seealso{
-See Also \code{\link{optimEH}}, \code{\link{randEH}}
+\code{\link{optimEH}}, \code{\link{randEH}}
 }
 \examples{
+\dontrun{
+if(require(ape) && require(adephylo)){
+
 data(carni70, package="adephylo")
 tre <- read.tree(text=carni70$tre)
-tmax <- orisaved(tre, rate = 1 / 70, method = 1) 
-tmin <- orisaved(tre, rate = 1 / 70, method = 2) 
+tmax <- adiv:::orisaved(tre, rate = 1 / 70, method = 1) 
+tmin <- adiv:::orisaved(tre, rate = 1 / 70, method = 2) 
 plot(c(0, 1:70), tmax, xlab = "nb of species saved", ylab = "Originality saved", type = "l") 
 lines(c(0, 1:70), tmin, lty = 2) 
+
+}
+}
 }
 \keyword{models}

@@ -4,17 +4,17 @@
 Topology-based Species' Originality 
 }
 \description{
-The function calculates three indices of species' originality that rely on the topology of (phylogenetic) trees.
+The function calculates three indices of species' originality that rely on the topology of (phylogenetic) trees. Trees with polytomies are allowed.
 }
 \usage{
-distinctTopo(phyl, method = 1:3, standardized = FALSE)
+distinctTopo(phyl, method = c("VW","M","A","full"), standardized = FALSE)
 }
 \arguments{
   \item{phyl}{
 an object inheriting the class \code{phylo} (see package ape), \code{phylo4} (see package phylobase), or \code{hclust}.
 }
   \item{method}{
-a numeric or a vector of numerics. Possible values are 1, 2 and 3. \code{1} is for Vane-Wright et al. index (Vane-Wright et al. 1991) (noted VW); \code{2} is for May index (May 1990) (noted M); \code{3} is for Pavoine et al. index of originality derived from Abouheif (1999) (Pavoine et al. 2008) (noted A).
+a character or string or a vector of characters/strings. Possible values are \code{"VW"}, \code{"M"}, \code{"A"} and \code{"full"}. \code{"VW"} is for Vane-Wright et al. index (Vane-Wright et al. 1991); \code{"M"} is for May index (May 1990); \code{"A"} is for Pavoine et al. index of originality derived from Abouheif (1999) (Pavoine et al. 2008); and "full" returns all indices.
 }
   \item{standardized}{
 a logical. If \code{FALSE}, the minimum score is scaled to 1 as in May (1990). If \code{TRUE}, the vector of originalities is divided by its sum (transforming absolute originalities into relative originalities).
@@ -34,13 +34,14 @@ Pavoine, S., Ollier, S., Pontier, D., Chessel, D. (2008) Testing for phylogeneti
 }
 \author{
 Sandrine Pavoine \email{sandrine.pavoine@mnhn.fr}
-
 with contributions of Stephane Dray
 }
 \seealso{
-See Also \code{\link{distinctDis}}, \code{\link{distinctTree}}, \code{\link{distinctUltra}}
+\code{\link{distinctDis}}, \code{\link{distinctTree}}, \code{\link{distinctUltra}}
 }
 \examples{
+\dontrun{
+if(require(ape) && require(adephylo) && require(phylobase)){
 data(carni70, package = "adephylo")
 tre <- read.tree(text=carni70$tre)
 U <- distinctTopo(tre, standardized = TRUE)
@@ -49,9 +50,10 @@ parmar <- par()$mar
 par(mar=rep(.1,4))
 table.phylo4d(U.4d, show.node=FALSE, symbol="squares", center=FALSE, scale=FALSE, cex.symbol=2)
 par(mar=parmar)
-
+}
+}
 \dontrun{
-if(requireNamespace("phylosignal", quietly = TRUE)) {
+if(require("phylosignal")) {
 dotplot.phylo4d(U.4d, center = FALSE, scale = FALSE)
 }
 }

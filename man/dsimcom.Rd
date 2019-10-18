@@ -41,12 +41,12 @@ in the same order as in \code{comm}; values in \code{Sigma} are bounded between 
   \item{method}{
 an  integer  (1, 2, 3, 4, 5)  indicating  which basic coefficient  should  be  used: Sokal-Sneath, Jaccard, Sorensen, Ochiai, beta, respectively.}
   \item{option}{
-a  character. If  \code{option = "relative"},  the  rows  of  \code{comm}  are  standardized  into proportions that sum to 1.  If \code{option = "absolute"}, raw values are retained in \code{comm}.}
+a  string. If  \code{option = "relative"},  the  rows  of  \code{comm}  are  standardized  into proportions that sum to 1.  If \code{option = "absolute"}, raw values are retained in \code{comm}.}
   \item{tax}{an object of class \code{taxo} (of package ade4).}
-  \item{type}{a character. If \code{type = "similarity"}, the functions \code{dsimcom} and \code{SQ} calculates  similarities (S) between communities and the functions \code{dsimTaxo}, \code{dsimTree} and \code{dsimFun} calculates similarities between species. If \code{type = "dissimilarity"}, the functions \code{dsimcom} and \code{SQ} calculates  dissimilarities (1-S) between communities and the functions \code{dsimTaxo}, \code{dsimTree} and \code{dsimFun} calculates dissimilarities between species.}
+  \item{type}{a string. If \code{type = "similarity"}, the functions \code{dsimcom} and \code{SQ} calculates  similarities (S) between communities and the functions \code{dsimTaxo}, \code{dsimTree} and \code{dsimFun} calculates similarities between species. If \code{type = "dissimilarity"}, the functions \code{dsimcom} and \code{SQ} calculates  dissimilarities (1-S) between communities and the functions \code{dsimTaxo}, \code{dsimTree} and \code{dsimFun} calculates dissimilarities between species.}
    \item{phyl}{an object inheriting the class \code{phylo} (see package ape), \code{phylo4} (see package phylobase), or \code{hclust}.}
    \item{rootedge}{a numeric equal to the length of the branch at the nearest common ancestor of  all  species (here referred to as the root node). This branch is thus anterior to the root.  It is ignored if \code{rootedge} is NULL.}
-   \item{df}{either a data frame, a matrix or an object of class \code{ktab} of package ade4. If class \code{ktab} is used, each data frame must contain a single type of traits (see parameter \code{vartype}).}
+   \item{df}{either a data frame, a matrix or an object of class \code{ktab} of package ade4. If class \code{ktab} is used, each data frame must contain a single type of traits (see argument \code{vartype}).}
    \item{vartype}{a vector of characters indicating the type of traits used in each data frame of \code{df}: \code{"Q"} for quantitative; \code{"N"} for nominal; \code{"M"} for multichoice; \code{"P"} for traits that can be expressed as proportions. Values in type must be in the same order as data frames in \code{df} (one value per table).}
 }
 \details{
@@ -63,6 +63,8 @@ Pavoine, S., Ricotta, C. (2014) Functional and phylogenetic similarity among com
 Sandrine Pavoine \email{sandrine.pavoine@mnhn.fr}
 }
 \examples{
+\dontrun{
+if(require(ade4)){
 data(macroloire, package="ade4") 
 
 Ssokalsneath <- dsimcom(t(macroloire$fau), method=1, option=c("relative"))
@@ -83,7 +85,8 @@ s_species_ochiai_taxo <- dsimTaxo(macroloire$taxo, method=4) # Using a/sqrt((a+b
 s_species_beta_taxo <- dsimTaxo(macroloire$taxo, method=5) # Using 4a/(4a+b+c)
 
 
-# To check that these matrices of taxonomic similarities among species are p.s.d.
+# To check that these matrices of taxonomic similarities 
+# among species are positive semidefinite (p.s.d.)
 # we have to verify that their eigenvalues are all nonnegative:
 all(eigen(s_species_sokalsneath_taxo)$val>-(1e-8))
 all(eigen(s_species_jaccard_taxo)$val>-(1e-8))
@@ -208,5 +211,7 @@ plot(SQwith_species_sorensen_feed, Sbeta_feed, xlim=c(0,1), ylim=c(0,1) , asp=1)
 segments(0, 0, 1,1)
 
 par(mfrow=c(1,1))
+}
+}
 }
 \keyword{models}
