@@ -38,18 +38,19 @@ Sandrine Pavoine \email{sandrine.pavoine@mnhn.fr}
 }
 \examples{
 \dontrun{
-if(require(ape) && require(adephylo) && require(phylobase) && require(phylosignal)){
+if(require(ape) && require(adephylo) && require(phylobase)){
 data(carni70, package = "adephylo")
 tre <- read.tree(text=carni70$tre)
 U <- distinctTree(tre, standardize = TRUE)
 U.4d <- phylo4d(tre, as.matrix(U))
-## Display with package adegraphics
+dotp4d(U.4d, center = FALSE, scale = FALSE)
+barp4d(U.4d, center = FALSE, scale = FALSE)
+gridp4d(U.4d, center = FALSE, scale = FALSE)
+
 parmar <- par()$mar
 par(mar=rep(.1,4))
 table.phylo4d(U.4d, show.node=FALSE, symbol="squares", center=FALSE, scale=FALSE, cex.symbol=2)
 par(mar=parmar)
-## Display with package phylosignal
-dotplot.phylo4d(U.4d, center = FALSE, scale = FALSE)
 }
 }
 }

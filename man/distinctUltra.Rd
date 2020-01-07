@@ -39,15 +39,15 @@ data(carni70, package = "adephylo")
 tre <- read.tree(text=carni70$tre)
 U <- distinctUltra(tre)
 U.4d <- phylo4d(tre, as.matrix(U))
+
+dotp4d(U.4d, center = FALSE, scale = FALSE)
+barp4d(U.4d, center = FALSE, scale = FALSE)
+gridp4d(U.4d, center = FALSE, scale = FALSE)
+
 parmar <- par()$mar
 par(mar=rep(.1,4))
 table.phylo4d(U.4d, show.node=FALSE, symbol="squares", center=FALSE, scale=FALSE, cex.symbol=2)
 par(mar=parmar)
-}
-}
-\dontrun{
-if(require("phylosignal")) {
-dotplot.phylo4d(U.4d, center = FALSE, scale = FALSE)
 }
 }
 }

@@ -1,16 +1,16 @@
 Package: adiv
 Type: Package
 Title: Analysis of Diversity
-Version: 1.3
-Date: 2019-10-01
+Version: 1.4
+Date: 2020-01-03
 Author: Sandrine Pavoine 
 Maintainer: Sandrine Pavoine <sandrine.pavoine@mnhn.fr>
 Description: Functions, data sets and examples for the calculation of various indices of biodiversity including species, functional and phylogenetic diversity. Part of the indices are expressed in terms of equivalent numbers of species. The package also provides ways to partition biodiversity across spatial or temporal scales (alpha, beta, gamma diversities). In addition to the quantification of biodiversity, ordination approaches are available which rely on diversity indices and allow the detailed identification of species, functional or phylogenetic differences between communities.
 Depends: R (>= 3.5.0)
 Imports: ade4, adegraphics, adephylo, ape, cluster, methods, phylobase,
-        phylosignal, phytools, rgl, FactoMineR
+        phytools, rgl, FactoMineR
 License: GPL (>= 2)
 NeedsCompilation: no
-Packaged: 2019-10-18 15:04:22 UTC; Sandrine
+Packaged: 2020-01-03 14:33:50 UTC; Sandrine
 Repository: CRAN
-Date/Publication: 2019-10-18 18:40:02 UTC
+Date/Publication: 2020-01-07 11:50:07 UTC

@@ -1,10 +1,10 @@
 plot.rlqESLTP <-
 function(x, which = NULL, phyl = NULL, xy = NULL, traits = NULL,
-	env = NULL, type = NULL, ax = 1, disp = c("dots", "squares"), ...){
+	env = NULL, type = NULL, ax = 1, disp = c("dots", "bars", "grid", "squares"), ...){
 
     if(is.null(which)) stop("Specify which graph you would like to plot")
 	disp <- disp[1]
-     if(!disp%in%c("dots", "squares")) stop("Incorrect definition of argument disp")
+     if(!disp%in%c("dots", "bars", "grid", "squares")) stop("Incorrect definition of argument disp")
 	if(which == "S"){
 	if(is.null(xy)) stop("xy required")
     if(!is.null(x$lR_givenE)){
@@ -32,8 +32,12 @@ function(x, which = NULL, phyl = NULL, xy = NULL, traits = NULL,
          table.phylo4d(X.4d, show.node.label=FALSE, symbol="squares", center=FALSE, scale=FALSE)
          par(mar=parmar)
     }
+    else if(disp == "dots")
+         dotp4d(X.4d, center=FALSE, scale=FALSE)
+    else if(disp == "bars")
+         barp4d(X.4d, center=FALSE, scale=FALSE)
     else 
-         dotplot.phylo4d(X.4d, center=FALSE, scale=FALSE)
+         gridp4d(X.4d, center=FALSE, scale=FALSE)
     }
     else{
 	CB <- as.data.frame(x$lQ[phyl$tip.label, ax])
@@ -45,8 +49,12 @@ function(x, which = NULL, phyl = NULL, xy = NULL, traits = NULL,
          table.phylo4d(X.4d, show.node.label=FALSE, symbol="squares", center=FALSE, scale=FALSE)
          par(mar=parmar)
      }
-     else
-         dotplot.phylo4d(X.4d, center=FALSE, scale=FALSE)
+    else if(disp == "dots")
+         dotp4d(X.4d, center=FALSE, scale=FALSE)
+    else if(disp == "bars")
+         barp4d(X.4d, center=FALSE, scale=FALSE)
+    else 
+         gridp4d(X.4d, center=FALSE, scale=FALSE)
      }   
 	}
 

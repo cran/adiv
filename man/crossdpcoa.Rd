@@ -69,7 +69,7 @@ Sandrine Pavoine \email{sandrine.pavoine@mnhn.fr}
 \examples{
 \dontrun{
 if(require(ape) && require(phylobase) && require(adephylo) 
-   && require(adegraphics) && require(phylosignal)){
+   && require(adegraphics)){
 O <- adegpar()$plabels$optim
 adegpar("plabels.optim" = TRUE)
 
@@ -92,14 +92,18 @@ s.label(cd_mainB$l2)
 # The "d" value on graphs indicates the length of the edge of a grid cell (scale of the graphic). 
 
 #The coordinates of the species on the same axes 
-#can be displayed in front of the phylogeny:
+# can be displayed in front of the phylogeny 
+# (several possibilities are provided below, 
+# the last one use package adephylo)):
 mainBl1.4d <- phylo4d(phy, as.matrix(cd_mainB$l1))
+dotp4d(mainBl1.4d, center = FALSE, scale = FALSE)
+barp4d(mainBl1.4d, center = FALSE, scale = FALSE)
+gridp4d(mainBl1.4d, center = FALSE, scale = FALSE)
 parmar <- par()$mar
 par(mar=rep(.1,4))
 table.phylo4d(mainBl1.4d, show.node=FALSE, symbol="squares",
     center=FALSE, scale=FALSE, cex.label=0.5, ratio.tree=0.7)
 par(mar=parmar)
-dotplot.phylo4d(mainBl1.4d, center = FALSE, scale = FALSE)
 
 #If factor A is put first, the analysis focus 
 #on the main effect of the region:
@@ -112,14 +116,18 @@ s.label(cd_mainA$l2)
 # The "d" value on graphs indicates the length of the edge of a grid cell (scale of the graphic). 
 
 #The coordinates of the species on the same axes 
-# can be displayed in front of the phylogeny:
+# can be displayed in front of the phylogeny
+# (several possibilities are provided below, 
+# the last one use package adephylo)):
 mainAl1.4d <- phylo4d(phy, as.matrix(cd_mainA$l1))
+dotp4d(mainAl1.4d, center = FALSE, scale = FALSE)
+barp4d(mainAl1.4d, center = FALSE, scale = FALSE)
+gridp4d(mainAl1.4d, center = FALSE, scale = FALSE)
 parmar <- par()$mar
 par(mar=rep(.1,4))
 table.phylo4d(mainAl1.4d, show.node=FALSE, symbol="squares", 
    center=FALSE, scale=FALSE, cex.label=0.5, ratio.tree=0.7)
 par(mar=parmar)
-dotplot.phylo4d(mainAl1.4d, center = FALSE, scale = FALSE)
 
 #Crossed DPCoA Version 1
 cd_v1 <- crossdpcoa_version1(fau, facA, facB, phydis, w=rep(1/30, 30), scannf = FALSE)
@@ -131,12 +139,16 @@ s.label(cd_v1$l2)
 s.label(cd_v1$l3)
 #To view the positions of the species on the first two axes in front of the phylogeny, write:
 v1l1.4d <- phylo4d(phy, as.matrix(cd_v1$l1))
+# (then several functions can be used as shown below, 
+# the last function, table.phylo4d, is from package adephylo)):
+dotp4d(v1l1.4d, center = FALSE, scale = FALSE)
+barp4d(v1l1.4d, center = FALSE, scale = FALSE)
+gridp4d(v1l1.4d, center = FALSE, scale = FALSE)
 parmar <- par()$mar
 par(mar=rep(.1,4))
 table.phylo4d(v1l1.4d, show.node=FALSE, symbol="squares", 
    center=FALSE, scale=FALSE, cex.label=0.5, ratio.tree=0.7)
 par(mar=parmar)
-dotplot.phylo4d(v1l1.4d, center = FALSE, scale = FALSE)
 
 #Crossed DPCoA Version 2
 #Crossed DPCoA version 2 can now be performed as follows:
@@ -151,12 +163,16 @@ s.label(cd_v2$l2)
 s.label(cd_v2$l3)
 #To view the positions of the species on the first two axes in front of the phylogeny, write:
 v2l1.4d <- phylo4d(phy, as.matrix(cd_v2$l1))
+# (then several functions can be used as shown below, 
+# the last function, table.phylo4d, is from package adephylo)):
+dotp4d(v2l1.4d, center = FALSE, scale = FALSE)
+barp4d(v2l1.4d, center = FALSE, scale = FALSE)
+gridp4d(v2l1.4d, center = FALSE, scale = FALSE)
 parmar <- par()$mar
 par(mar=rep(.1,4))
 table.phylo4d(v2l1.4d, show.node=FALSE, symbol="squares", 
    center=FALSE, scale=FALSE, cex.label=0.5, ratio.tree=0.7)
 par(mar=parmar)
-dotplot.phylo4d(v2l1.4d, center = FALSE, scale = FALSE)
 
 adegpar("plabels.optim" = O)
 }

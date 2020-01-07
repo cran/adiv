@@ -1,5 +1,5 @@
-9447cca5bc74cfb7cf70aeef2bfe9a06 *DESCRIPTION
-74329dbb3588d27c836305e633f43dbb *NAMESPACE
+6cc7fe804c643da80b1a37979a1a8e26 *DESCRIPTION
+9b62ac7915a7ed91b22a59083cfe2ad7 *NAMESPACE
 510d0c3278cb0c413925603314ef6f76 *R/CFbinary.R
 58b4f088e2caabd71876e99f7d3ac97b *R/CFprop.R
 8cba1d542dbc393bd3aa948e1ebcb224 *R/DJac.R
@@ -20,6 +20,7 @@ a00face7256208ee24fe7942b71d7008 *R/abgdivparam.R
 6c07794dd1565be7855859426eabe3ff *R/abgevodivparam.R
 ec73baf77b87754df6e96452dac1db21 *R/apd.R
 6384be8078ba32bca95d5f70321c3474 *R/aptree.R
+861d8b02339f92049451cb9188216167 *R/barp4d.R
 52c520ba89f748a566c92d3de16b0683 *R/betastatjac.R
 16d72d02bf4c961d318233c8d02cdcfa *R/betastatsor.R
 ca6f0008266f8de9f04174832d203a39 *R/checkphyloarg.R
@@ -36,6 +37,7 @@ a01ac5bd9d66c048f35fb2687529db1d *R/dissABC.R
 918abb455b204edf57037ed3d55104e6 *R/distinctTree.R
 6afed8c8b893329e0fd0e90420b9dc7f *R/distinctUltra.R
 cc2780b27981a269cf0befdd4b11b9ff *R/divparam.R
+1b2ba00c03583d16b39cadb499c38b94 *R/dotp4d.R
 0896169e55e08dd233bcb7a07f19c056 *R/dsimFun.R
 62580296e56bfa5a1fff98ac01084bc5 *R/dsimTaxo.R
 55fa28032a6a841f40c1c5712b3a6e59 *R/dsimTree.R
@@ -54,6 +56,7 @@ cdf60e168e19a282f7a075c357ca3f5f *R/evoeveparam.R
 c34c6f91b1a0951233d8502a3199bf78 *R/evopcahellinger.R
 518b20dcc8e3e4347478448935426c06 *R/evouniparam.R
 adfcbff90a004d71e938b018031e7dfa *R/generalized_Tradidiss.R
+ccc246f38cd1af21609545f242fca1b6 *R/gridp4d.R
 c504715008ff3c17e81f77af3a826738 *R/multiCFbinary.R
 3883924197c95d781528112d7ad1c8dd *R/multiCFprop.R
 0e2bb35289b5a79dd0de1ce9c4262527 *R/optimEH.R
@@ -70,7 +73,8 @@ bed39a05e95ccbf4d50c118123271341 *R/plot.eveparam.R
 88cadf07c230b16cf056b64935d41c37 *R/plot.evodivparam.R
 e5105574aee8402919b39ca9bdaed032 *R/plot.evoeveparam.R
 8a3714b642e474762dbc888ae41d7b20 *R/plot.evouniparam.R
-451db28f5068ea0acf78ff393dc6eb23 *R/plot.rlqESLTP.R
+4a180e2c0b0421e9fa10bccc8842867b *R/plot.phylo4d.R
+f52515b37f2de8806e483ec434a7094d *R/plot.rlqESLTP.R
 f014409f810670951c9976a0f5504fdf *R/plot.rtestaptree.R
 8fb8404072db1d88c0cbd4e00000a275 *R/qDT.R
 baccd63a80a96dbb6a065f88ed359b9d *R/qHdiv.R
@@ -91,7 +95,7 @@ e591ede8c34ffe74858c7b74024b3bfe *R/summary.rlqESLTP.R
 4a54934b23e6aa76d6278f15b6ce433a *R/twoHmax.R
 b2558c980eeac65986846e25ff3803a0 *R/uniqueness.R
 b0b51b1c71e5dd050d9e8f556526852c *R/wapqe.R
-33e609b3bd2180facab4a5af48d3824e *build/partial.rdb
+d274a87d1caff531fab8b4e0e3afab2d *build/partial.rdb
 5ba3e91c2406e5a1add642d1ebf31f35 *data/RDMCCP16.rda
 bd3ffc521e094d8372292968bed77189 *data/RP15EI.rda
 57943449bf0704c6b0fb58955bd57241 *data/RP15JVS.rda
@@ -117,15 +121,15 @@ f1124c2ad8a088c1118d59de0b5c247c *man/RPP16EE.Rd
 e77b31e4277b49bebaad6a9b08f385d6 *man/batcomm.Rd
 5911c9b706dca4ee4b636c2d6fa46d23 *man/betastat.Rd
 32f8ae5677a1683b214a72f18a4777c4 *man/birdData.Rd
-c8b8074828fad1c1927c97d6a7b5061a *man/crossdpcoa.Rd
+50aa43d749018249610b92312805fc51 *man/crossdpcoa.Rd
 f5ca09bcc56c6ba484e745361b2bd3b8 *man/decdiv.Rd
 0f83df2cd72856f06468995e458fdd4d *man/dissABC.Rd
 689d2632ccc2e5addbedd70409289562 *man/dissRicotta.Rd
 2fdc880d1b47ae2cd530ba74c35d4459 *man/distMS.Rd
 db852d31008e0ee7a5630ee6b8302061 *man/distinctDis.Rd
-e8e863d7d8736fb1b326f4a0f5ba5875 *man/distinctTopo.Rd
-0b5cd3708b9e2dacedcfdcf9d176db69 *man/distinctTree.Rd
-d8c66e97bc0835b9534d9ae8f21a7b03 *man/distinctUltra.Rd
+4067734c975ea9d13de2af7a5f483899 *man/distinctTopo.Rd
+94a99685d13ad1e827dd20df68ddef6a *man/distinctTree.Rd
+8f9ee6e06edafb1e65cca246536b0443 *man/distinctUltra.Rd
 afd091135f19e574ef74d5c498a7b943 *man/divparam.Rd
 e4c908f628bd666062a8aab963f5c755 *man/dsimcom.Rd
 a91420f1fc9b949e3c9b7da7c1425875 *man/dspca.Rd
@@ -142,11 +146,12 @@ dbb639314fd8ecba41295b2538778f29 *man/evoeveparam.Rd
 958792dbedf67668d4c145b26bd6d3a7 *man/generalized_Tradidiss.Rd
 e19cfcb9d8bc7d72eb6289110b02afb5 *man/optimEH.Rd
 57d66ddf8c99a601b462d3eedd913aad *man/orisaved.Rd
+1bd7593dffd74341e8506008649d4478 *man/plot.phylo4d.Rd
 f9b80f37e3dd9abe13f1d2bdd22e7915 *man/qDT.Rd
 32f76111424f1ee4e508df5e9237483a *man/qHdiv.Rd
 4ff298e7336ccd25731c1d24785f6287 *man/randEH.Rd
 2927094a99c6b48b39c3a9deaf867011 *man/rare_Rao.Rd
-80596bf911032ccf7745304af09ed9d7 *man/rlqESLTP.Rd
+7a689a5741f35ed804eb4deca61365d7 *man/rlqESLTP.Rd
 2ee9fefa4d9b06cba4c6756d69a94339 *man/rockfish.Rd
 69a9a1978bedd88a964fe2473a8241f7 *man/speciesdiv.Rd
 f11375f5254e20cf9c515c9547f25712 *man/specieseve.Rd
