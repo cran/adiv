@@ -33,11 +33,8 @@ dsimFun(df, vartype = c("Q", "N", "M", "P"), method = 1:5,
 type = c("similarity", "dissimilarity"))
 }
 \arguments{
-  \item{comm}{
-a data frame or matrix with communities as rows, species as columns and non-negative values as entries.}
-  \item{Sigma}{
-matrix of similarities among species (species as rows and columns
-in the same order as in \code{comm}; values in \code{Sigma} are bounded between 0 and 1).}
+  \item{comm}{a data frame or matrix with communities as rows, species as columns and non-negative values as entries.}
+  \item{Sigma}{matrix of similarities among species (species as rows and columns in the same order as in \code{comm}; values in \code{Sigma} are bounded between 0 and 1). The matrix must be nonnegative definite, i.e. all its eigenvalues are nonnegative. Functions \code{dsimTaxo}, \code{dsimTree} and \code{dsimFun} can be used to obtain \code{Sigma} as these functions lead to nonnegative definite matrices.}
   \item{method}{
 an  integer  (1, 2, 3, 4, 5)  indicating  which basic coefficient  should  be  used: Sokal-Sneath, Jaccard, Sorensen, Ochiai, beta, respectively.}
   \item{option}{

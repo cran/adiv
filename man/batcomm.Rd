@@ -11,7 +11,7 @@ The data were collected by Medellin et al. (2000) on bats in four habitats in th
 \format{
 \code{batcomm} is a list of two components:
 
-\code{ab}, a data frame with species as rows, habitats as columns and abundance of species in habitats as entries.
+\code{ab}, a data frame with habitats as rows, species as columns and abundance of species in habitats as entries.
 
 \code{tre}, a phylogenetic tree in newick format for all bat species in \code{ab}.
 }
@@ -24,7 +24,7 @@ The resolution of the bat phylogeny is uncertain especially at the older nodes (
 \url{http://www.oikosjournal.org/appendix/oik-03262}
 }
 \references{
-Medellin, R. Equihua M., Amin,  M.A. (2000) Bat diversity and abundance as indicators of disturbance in Neotropical rainforest. \emph{Conservation Biology}, \bold{14}, 1666--1675.
+Medellin, R., Equihua M., Amin,  M.A. (2000) Bat diversity and abundance as indicators of disturbance in Neotropical rainforest. \emph{Conservation Biology}, \bold{14}, 1666--1675.
 
 Fritz, S.A., Bininda-Emonds, O.R.P., Purvis, A. (2009) Geographic variation in predictors of mammalian extinction risk: big is bad, but only in the tropics. \emph{Ecology Letters}, \bold{12}, 538--549.
 

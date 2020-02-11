@@ -1,0 +1,1037 @@
+\documentclass[a4paper]{article}
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{graphicx}
+\usepackage{lastpage}
+\usepackage{url}
+\usepackage{amsfonts}
+\usepackage{amsbsy}
+\usepackage{fancyhdr}
+\usepackage{color}
+\usepackage{wasysym}
+\usepackage[all]{xy}
+\usepackage{ccaption}
+\usepackage{moreverb}
+\usepackage[pdftex,colorlinks,bookmarksopen,bookmarksnumbered,citecolor=red,urlcolor=red]{hyperref}
+\usepackage{natbib}
+\usepackage{"Sweave"}
+\usepackage{longtable}
+\usepackage{chngcntr}
+\usepackage{amssymb}
+\usepackage{placeins}
+\RequirePackage{alltt}
+\newlength{\defaultparindent}
+\setlength{\defaultparindent}{\parindent}
+\newenvironment{Default Paragraph Font}{}{}
+\newcommand\BibTeX{{\rmfamily B\kern-.05em \textsc{i\kern-.025em b}\kern-.08em
+T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\SweaveOpts{echo=TRUE, keep.source=TRUE, png=TRUE, eps=FALSE, pdf=FALSE}
+
+\topmargin -1.5cm
+\headheight 0.5cm
+\headsep 1.0cm
+\topskip 0.5cm
+\textheight 24.5cm
+\footskip 1.0cm
+\oddsidemargin 0.0cm
+\evensidemargin 0.0cm
+\textwidth 16cm
+\parskip 0.2cm
+\parindent 1.0cm
+\baselineskip 0.2cm
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\counterwithin{figure}{section}
+\counterwithin{table}{section}
+
+\belowcaptionskip=8pt
+\newcommand{\sommairefiche}{}
+\fancyhead{}
+
+%\VignetteIndexEntry{adiv Package User Guide}
+%\VignetteKeywords{biodiversity, distinctiveness, evenness, originality, ordination, partitioning, permutation tests, phylogenetic signal}
+
+\makeatletter
+\def\@biblabel#1{}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+<<echo=FALSE>>=
+owidth <- getOption("width")
+options("width"=80)
+ow <- getOption("warn")
+options("warn"=-1)
+@
+
+\pagestyle{fancy}
+\setkeys{Gin}{width=0.8\textwidth}
+\title{Guide through the functions available in package adiv}
+\date{February, 2020}
+\author{Sandrine Pavoine}
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%                                                            %%%%
+%%%%                 Here begins the Vignette                   %%%%
+%%%%                                                            %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Sweave("adivGuide.Rnw")
+%system("pdflatex adivGuide.tex")
+
+\section{List of main functions}
+
+The functions in \texttt{adiv} have different objectives. Among the core 
+functions of \texttt{adiv} are those dedicated to the measurement of  
+diversity in an assemblage ($\alpha$ diversity, Table \ref{tab:alpha}).
+
+\subsection{$\alpha$ diversity}
+ 
+\texttt{adiv} contains two functions to calculate species diversity, but each 
+function implements several mathematical formulas (or indices). Function 
+\texttt{speciesdiv} permits the calculation of some of the most used 
+diversity indices, including the Shannon index \citep{Shannon1948}. Even if it allows for the 
+consideration of abundance data, function \texttt{speciesdiv} can also 
+calculate species richness in assemblages, that is to say the number of 
+present species. The second function, named \texttt{divparam}, implements 
+diversity indices said parametric because they depend on a parameter that 
+controls the importance given to rare compared to abundant species when 
+measuring diversity. 
+
+\begin{table} 
+\caption{\texttt{adiv} functions dedicated to the measurement 
+of diversity and evenness.} 
+\label{tab:alpha} 
+\begin{center} 
+\begin{tabular}{|l|p{10cm}|p{3cm}|} 
+  \hline
+  Main function	& Measured quantities &	Associated functions \\
+  \hline
+  \multicolumn{3}{|l|}{Species diversity} \\
+  \hline
+  \texttt{speciesdiv}	& diversity indices that rely on relative or absolute species abundance \citep{Gini1912,Shannon1948,Simpson1949,Menhinick1964,McIntosh1967,Margalef1972,Magurran2004} and species richness (the number of species)	& \\
+    \hline
+  \texttt{divparam}	& diversity indices where a parameter controls the relative importance given to rare versus abundant species \citep{Renyi1960,HavrdaCharvat1967,Daroczy1970,Hill1973,Tsallis1988}	& \texttt{plot.divparam} \\
+    \hline
+  \multicolumn{3}{|l|}{Species evenness} \\
+    \hline
+  \texttt{specieseve} &	evenness indices that rely on relative or absolute species abundance \citep{McIntosh1967,Heip1974,Pielou1975,SmithWilson1996,Magurran2004} & \\	
+    \hline
+  \texttt{eveparam}	& evenness indices where a parameter controls the relative importance given to rare versus abundant species \citep{Hill1973} &	\texttt{plot.eveparam} \\
+    \hline
+  \multicolumn{3}{|l|}{Tree-based diversity (e.g. phylogenetic diversity)} \\
+    \hline
+  \texttt{EH}	& sum of branch lengths on a phylogenetic tree \citep{Faith1992}	& \texttt{optimEH}, \texttt{randEH}, \texttt{orisaved} \\
+    \hline
+  \texttt{evodiv} &	diversity indices that rely on the presence, or the relative or absolute abundance of features on a phylogenetic tree, with the assumption that the number of features on a given branch of a phylogenetic tree is equal to the length of this branch \citep{Pavoine2016,PavoineRicotta2019a} & \\
+    \hline
+  \texttt{evodivparam}	& parametric diversity indices applied to phylogenetic diversity \citep{PavoineRicotta2019a} & \texttt{plot.evodivparam} \\
+    \hline
+  \texttt{pIa} & index $I_a$ by \citet{Pavoineetal2009} & \\
+    \hline
+  \texttt{qDT} & $^qD(T)$ index developed by \citet{Chaoetal2010} as the mean diversity of order \emph{q} over \emph{T} years in a phylogenetic tree. In function \texttt{qDT}, the index is computed over the whole tree from root to tips. The function uses the formula of the $^qD(T)$ index extended to non-ultrametric trees (where the distance from tip to root can vary).	& \\
+    \hline
+  \multicolumn{3}{|l|}{Tree-based evenness (e.g. phylogenetic evenness)} \\
+    \hline
+  \texttt{evoeveparam}	& Hill, HCDT and Renyi indices applied to phylogenetic evenness \citep{PavoineRicotta2019a}	& \texttt{plot.evoeveparam} \\
+    \hline
+  \multicolumn{3}{|l|}{(Dis)similarity-based diversity} \\
+    \hline
+  \texttt{QE} & Rao's quadratic entropy within communities \citep{Rao1982} & \texttt{discomQE}, \texttt{rare\textunderscore Rao}, \texttt{Rentropy}* \\
+    \hline
+  \texttt{qHdiv} & parametric index of functional and phylogenetic diversity that includes consistent interspecific and intraspecific components \citep{PavoineIzsak2014} &	\texttt{twoHmax} \\
+    \hline
+  \texttt{Rentropy}	& \citet{Pavoineetal2017} functional or phylogenetic entropy & \texttt{QE} \\
+   \hline
+\end{tabular} 
+* The quadratic entropy is also the core index used in functions \texttt{decdiv}, \texttt{wapqe}, \texttt{EqRao}, \texttt{EqRS}, \texttt{EqRSintra} (see Table \ref{tab:partitioning}).
+\end{center}
+\end{table}
+
+In the \texttt{adiv} package, four main functions consider the phylogeny of 
+species when measuring their diversity: \texttt{pIa}, \texttt{qDT}, 
+\texttt{evodiv} and \texttt{evodivparam}. \texttt{pIa}, \texttt{qDT}, and 
+\texttt{evodivparam} implement parametric indices. In a founding article, \citet{Faith1992} extended species richness to consider the 
+phylogeny of species when measuring their diversity. In \texttt{adiv} package, 
+Faith's phylogenetic diversity (PD) index, which is the sum of the branch lengths 
+on a phylogenetic tree, is available in a dedicated function named 
+\texttt{EH} for evolutionary history to avoid any confusion with the concept 
+of phylogeny-based diversity that is more commonly used in the package. 
+Indeed, when the branch lengths in an ultrametric phylogenetic tree are 
+expressed as divergence times, the sum of the branch lengths in that tree 
+indicates the amount of evolutionary history. \texttt{adiv} also contains 
+related functions for example to select \emph{k} species out of \emph{n} to 
+optimize the amount of evolutionary history that would be preserved if they 
+were saved and the others were driven to extinction (function 
+\texttt{optimEH}, see also functions \texttt{randEH} and \texttt{orisaved}). 
+Functions \texttt{pIa}, \texttt{qDT}, \texttt{evodiv} and 
+\texttt{evodivparam} in \texttt{adiv} all generalize Faith's PD index to 
+include information on species abundance when measuring phylogenetic diversity, although they do this 
+generalization in different ways. 
+
+\texttt{evodiv} and \texttt{evodivparam} simply replace species in 
+species diversity indices by features, which are branch length units on 
+the phylogenetic tree where species are the tips. A branch of length \emph{L} 
+is assumed to support \emph{L} features. A feature is assumed to be present 
+in a community if the community contains at least one of the species that 
+descend from that feature on the phylogenetic tree. The abundance of a 
+feature in the community is the summed abundance of all species descending 
+from that feature. For indices requiring relative abundance rather than 
+absolute abundance, the abundance of each feature is normalized by the summed 
+abundance of all \underline{features} \citep[see][for a detailed description of that 
+framework]{PavoineRicotta2019a}. Contrary to the indices developed in 
+\texttt{evodiv} and \texttt{evodivparam}, in \texttt{pIa} and \texttt{qDT}, 
+traditional diversity indices are applied to the abundance of (phylogenetic) 
+features normalized by the total abundance of all \underline{species} at a site 
+\citep{Pavoineetal2009, Chaoetal2010}. With this normalization, these 
+functions still focus on the species as the target unit to measure diversity, 
+even if they consider phylogenetic data. The selection among these different 
+approaches (\texttt{evodiv} and \texttt{evodivparam} versus \texttt{pIa} or 
+\texttt{qDT}) requires deciding which unit is of most interest for a given 
+study: species (characterized by their phylogeny) or features (branch units 
+on the phylogenetic tree). 
+
+Trait-based diversity can be quantified by the same functions as those dedicated to phylogenetic diversity (\texttt{pIa}, 
+\texttt{qDT}, \texttt{evodiv} and \texttt{evodivparam}) if a trait-based 
+dendrogram is obtained and used to replace the phylogenetic tree. The first step to obtain the dendrogram consists in 
+calculating trait-based dissimilarities between species. For that, several 
+functions can be used depending on the type of traits considered. For 
+example, function \texttt{dsimFun} in package \texttt{adiv}, function 
+\texttt{gowdis} in package \texttt{FD}, and \texttt{dist.ktab} in package 
+\texttt{ade4} can handle multiple types of traits (e.g. quantitative, 
+nominal, binary, and also fuzzy, circular for function \texttt{dist.ktab}). 
+Then the function \texttt{hclust} of package \texttt{stats} can be applied to trait-based 
+dissimilarities between species. Alternatively, the \texttt{adiv} package 
+implements diversity indices that include a matrix of (trait-based) 
+dissimilarities or a matrix of (trait-based) similarities between species in 
+addition to abundance data on the species (functions \texttt{QE}, 
+\texttt{qHdiv}, \texttt{Rentropy}, Table \ref{tab:alpha}) without the need to build a trait-based dendrogram.  
+
+Functions in \texttt{adiv} can also evaluate the evenness in species 
+abundances in a community (Table \ref{tab:alpha}). A modification of function 
+\texttt{evodivparam} also allows for the evaluation of the evenness in 
+feature abundance (\texttt{evoeveparam} function, Table \ref{tab:alpha}). 
+
+Other functions allow the measurement of trait-based, taxonomic or phylogenetic (dis)similarities between species and species-based, trait-based, taxonomic or phylogenetic dissimilarities between communities (Table \ref{tab:beta}).
+
+\begin{table}
+\caption{\texttt{adiv} functions dedicated to the measurement of (dis)similarities between species and between communities.}
+\label{tab:beta}
+\begin{center}
+\begin{tabular}{|p{2.5cm}|p{9cm}|p{3.5cm}|}
+   \hline
+Main function	& Aim	& Associated functions \\
+   \hline
+  \multicolumn{3}{|l|}{Similarities between species based on trait, taxonomic or phylogenetic data} \\
+     \hline
+  \texttt{multiCFprop} & intra- and inter-specific similarities applied to traits expressed as proportions \citep{PavoineIzsak2014} & \texttt{CFprop} \\
+     \hline
+  \texttt{multiCFbinary} & intra- and inter-specific similarities applied to binary traits \citep{PavoineIzsak2014} & \texttt{CFbinary} \\
+     \hline
+  \texttt{dsimFun} & pair-wise functional (dis)similarities between species \citep{PavoineRicotta2014} & \\
+     \hline
+  \texttt{dsimTax} & pair-wise taxonomic (dis)similarities between species \citep{PavoineRicotta2014} & \\
+     \hline
+  \texttt{dsimTree} & pair-wise (dis)similarities between species that rely on a (phylogenetic) tree with species as tips \citep{PavoineRicotta2014} & \\
+     \hline
+  \multicolumn{3}{|l|}{Dissimilarities between plots based on species presence-absence data} \\
+     \hline
+  \texttt{Jac} & additive decomposition of the Jaccard index into turnover and richness difference \citep{RicottaPodaniPavoine2016} & \texttt{DJac}, \texttt{PADDis} \\
+     \hline
+  \multicolumn{3}{|l|}{Dissimilarities between plots based on species abundance data} \\
+     \hline
+  \texttt{distMS} & Marczewski-Steinhaus coefficient of dissimilarity \citep{Orloci1978, LegendreLegendre1998} & \\
+     \hline
+  \multicolumn{3}{|l|}{(Dis)similarities between plots based on dissimilarities between species and species' presence/absence} \\
+     \hline
+  \texttt{dissABC}, \texttt{generalized\textunderscore Tradidiss} and \texttt{PADDis} & coefficients of similarity between communities that extend compositional similarity indices such as Jaccard and S\o rensen indices to functional and phylogenetic similarity \citep{RicottaPavoine2015b, RicottaPodaniPavoine2016, PavoineRicotta2019b} & \texttt{Jac}, \texttt{DJac} \\
+     \hline
+  \multicolumn{3}{|l|}{Dissimilarities between plots based on dissimilarities between species and species' abundance} \\
+     \hline
+  \texttt{discomQE} & Rao's coefficient of the dissimilarity between communities \citep[DISC index, ][]{Rao1982} & QE \\
+     \hline
+  \texttt{dissRicotta} & Ricotta et al. coefficient of the dissimilarities between communities \citep{Ricottaetal2015} & \\
+     \hline
+  \texttt{dsimcom} & \citet{PavoineRicotta2014} generalization of compositional similarity indices such as Jaccard and S\o rensen indices to include information on functional and phylogenetic similarity between species and abundance data for each species & sQ \\
+     \hline
+  \multicolumn{3}{|l|}{Dissimilarities between plots based on a (phylogenetic) tree with species as tips} \\
+     \hline
+  \texttt{DP} & \citet{Ricottaetal2020} plot-to-plot functional or phylogenetic dissimilarity \citep[index named $D_F$ for functional data and $D_P$ for phylogenetic data, calculated with equation 2 in ][]{Ricottaetal2020} & \\
+     \hline
+  \texttt{evodiss} & PD-dissimilarity indices described and/or discussed in \citet{Pavoine2016} & \\
+     \hline
+  \texttt{evodiss\textunderscore family} & family of indices defined by \citet{Nipperessetal2010} \citep[see ][]{Pavoine2016} & \texttt{evodiss\textunderscore ternaryplot} \\
+     \hline
+  \end{tabular}
+  \end{center}
+  \end{table}
+
+\subsection{On the species-to-species dissimilarity indices available in adiv}
+ 
+The few functions in \texttt{adiv} dedicated to the calculation of 
+dissimilarities or similarities between species using trait, taxonomic or 
+phylogenetic data (Table \ref{tab:beta}) complement others found in other 
+packages like function \texttt{gowdis} in package \texttt{FD} 
+\citep{Laliberteetal2014}, or \texttt{dist.ktab} in package \texttt{ade4} 
+\citep{Thioulouseetal2018} for functional dissimilarities, like function 
+\texttt{cophenetic.phylo} in package \texttt{ape} \citep{Paradisetal2004} or 
+\texttt{distTips} in package \texttt{adephylo} \citep{JombartDray2008} for 
+phylogenetic dissimilarities, or like function \texttt{dist.taxo} in package 
+\texttt{ade4} for taxonomic dissimilarities. 
+
+Compared to these alternative functions, the functions \texttt{CFprop}, \texttt{multiCFprop}, \texttt{CFbinary}, 
+\texttt{multiCFbinary}, \texttt{dsimFun}, \texttt{dsimTax}, and 
+\texttt{dsimTree} present in package \texttt{adiv} have the added benefit of 
+leading to positive semi-definite matrices of similarities and, for 
+\texttt{dsimFun}, \texttt{dsimTax}, and \texttt{dsimTree}, to dissimilarities 
+that are squared Euclidean. A matrix $\mathbf{A}=(a_{ij})_{1 \leqslant i 
+\leqslant n, 1 \leqslant j \leqslant n}$ is positive semi-definite (= 
+non-negative definite) if, for any vector $\mathbf{x}=(x_1 ... x_n)^t$, 
+$\sum_{i=0}^n \sum_{j=0}^n x_i x_j a_{ij} \geqslant 0$. Here $(x_1 ... 
+x_n)^t$ denotes the transpose of $(x_1 ... x_n)$. A matrix $\mathbf{D} = 
+(d_{ij})_{1 \leqslant i \leqslant n, 1 \leqslant j \leqslant n}$ is squared 
+Euclidean if one can find \emph{n} points $M_1, ..., M_n$ in a Euclidean 
+space, so that the Euclidean distance between any two points $M_i, M_j$ is  
+$\sqrt{d_{ij}}$ \citep{GowerLegendre1986}. 
+
+These properties are exploited in function \texttt{dsimcom} of \texttt{adiv} 
+to define the phylogenetic or functional dissimilarity between two 
+communities, as indicated in \citet{PavoineRicotta2014}. They are also 
+exploited in diversity indices, for example in the parametric diversity 
+coefficient $^qH$ developed by \citet{PavoineIzsak2014} (function 
+\texttt{qHdiv} in \texttt{adiv}) to measure trait-based and phylogenetic 
+diversities and in ordination analyses (see for example function 
+\texttt{dsimpca} in \texttt{adiv}). 
+
+\subsection{Plot-to-plot dissimilarities and $\beta$ diversity}
+
+Only few approaches exist in \texttt{adiv} to calculate dissimilarity between 
+communities on the basis of the presence-absence or abundance of species (see 
+e.g., functions \texttt{Jac}, \texttt{distMS}, Table \ref{tab:beta} and 
+functions \texttt{betastatjac} and \texttt{betastatsor}, Table 
+\ref{tab:partitioning}). This is because other packages of R implement such 
+approaches, see e.g., function \texttt{vegdist} in package \texttt{vegan} \citep{Oksanenetal2019} or 
+\texttt{dist.binary} in package \texttt{ade4}. Package \texttt{adiv} focuses 
+on trait-based (functional) and phylogenetic dissimilarities between 
+communities. It can calculate dissimilarities between communities using 
+species presences-absences or abundances in the communities and a matrix of 
+(trait-based or phylogenetic) (dis)similarities between species (e.g., 
+functions \texttt{discomQE}, \texttt{dissRicotta}, and \texttt{dsimcom}, 
+Table \ref{tab:beta}). It can also calculate dissimilarities between 
+communities using species presences-absences or abundances in the communities 
+and a phylogenetic (or trait-based) tree with species as tips (functions 
+\texttt{DP}, \texttt{evodiss}, and \texttt{evodiss\_family}, Table 
+\ref{tab:beta}). 
+
+\subsection{Partitioning of diversity ($\alpha$, $\beta$, $\gamma$)}
+
+The measurement of the diversity within communities ($\alpha$ diversity) and 
+that of the diversity between communities ($\beta$ diversity) complements 
+each other as both contribute to the global diversity of all combined 
+communities ($\gamma$ diversity). \texttt{adiv} contains functions to 
+partition $\gamma$ diversity into a component of $\alpha$ diversity and one 
+or several components of $\beta$ diversity (Table \ref{tab:partitioning}). 
+For example several components of $\beta$ diversity are needed if diversity 
+is studied across nested spatial scales (plot, site, region, continent, 
+etc.). In the current version of \texttt{adiv}, these partitioning approaches 
+depend on Rao's quadratic entropy \citep[see function \texttt{QE} 
+and][]{Rao1982}.  
+
+Other approaches allow: \begin{enumerate}
+  \item partitioning phylogenetic diversity between 
+evolutionary periods, indicating which amount of independent evolutionary 
+history the species in a community represent (function \texttt{aptree} and 
+related functions, Table \ref{tab:partitioning}).
+  \item partitioning phylogenetic $\alpha$, $\beta$, $\gamma$ diversities between 
+evolutionary periods to reveal at which evolutionary periods two or more 
+communities differ in their composition. For example, if two communities have 
+different species and if these species speciated a long time ago, then the 
+partitioning approach will reveal that the compositions of the communities 
+have profound phylogenetic differences; in contrast, if  two communities have 
+different species but if these species splitted very recently, then the 
+partitioning approach will reveal that the evolutionary period that best 
+represent the differences between the compositions of the communities is 
+recent (function \texttt{abgaptree}, Table \ref{tab:partitioning}). This 
+approach was defined by \citet{Pavoineetal2009}, see also 
+\citet{Chiuetal2014} for an alternative approach.  
+  \item partitioning species $\beta$ diversity into species nestedness and turnover (functions \texttt{betastatjac} and \texttt{betastatsor}, table \ref{tab:partitioning}).
+\end{enumerate}
+
+
+\begin{table}
+\caption{\texttt{adiv} functions dedicated to the partitioning of diversity at different scales}
+\label{tab:partitioning}
+\begin{center}
+\begin{tabular}{|l|p{8.5cm}|p{3.5cm}|}
+   \hline
+Main function & Aim & Associated functions \\
+   \hline
+\multicolumn{3}{|l|}{$\alpha$, $\beta$, $\gamma$ diversities and the nested apportionment of diversity} \\
+   \hline
+\texttt{abgdivparam} & apportionment of parametric indices of species diversity & \texttt{plot.abgdivparam} \\
+   \hline
+\texttt{abgevodivparam} & apportionment of parametric indices of phylogenetic diversity \citep{Pavoine2016} & \texttt{plot.abgevodivparam} \\
+   \hline
+\texttt{wapqe} & additive apportionment of quadratic entropy \citep{Rao1986} & \texttt{rtestwapqe} \\
+   \hline
+\texttt{EqRao} & apportionment of quadratic entropy \citep{Rao1986} for unbalanced sampling designs and uneven weights for samples \citep{Pavoineetal2016} & \texttt{rtestEqRao} \\
+   \hline
+\texttt{EqRSintra} & apportionment of quadratic entropy \citep{Rao1986} for unbalanced sampling designs and even weights for samples \citep{Pavoineetal2016} & \texttt{rtestEqRSintra} \\
+   \hline
+\texttt{EqRS} & apportionment of quadratic entropy \citep{Rao1986} for balanced sampling designs and even weights for samples \citep{Pavoineetal2016} & \texttt{rtestEqRS} \\
+   \hline
+\multicolumn{3}{|l|}{Evolutionary partitioning in phylogenetically-structured species assemblages} \\
+   \hline
+\texttt{aptree} & apportionment of phylogenetic diversity within one or several communities between evolutionary periods \citep{Pavoineetal2009} & \texttt{plot.aptree}, \texttt{rtestaptree}, \texttt{plot.rtestaptree}, \texttt{tecAptree} \\
+   \hline
+\texttt{decdiv} & apportionment of trait-based diversity within one or several communities between phylogenetic clades \citep{Pavoineetal2010} & \texttt{plot.decdiv}, \texttt{rtestdecdiv} \\
+   \hline
+\multicolumn{3}{|l|}{Evolutionary partitioning of $\alpha$, $\beta$, $\gamma$ diversities} \\
+   \hline
+\texttt{abgaptree} & apportionment of $\alpha$, $\beta$, $\gamma$ diversities between evolutionary periods \citep{Pavoineetal2009} & \\
+   \hline
+\multicolumn{3}{|l|}{Partitioning of $\beta$ diversity into species nestedness and species turnover} \\
+   \hline
+\texttt{betastatjac} & multiple-site dissimilarity derived from Jaccard coefficient of similarity \citep{RicottaPavoine2015a} (presence-absence data for species) & \\
+   \hline
+\texttt{betastatsor} & multiple-site dissimilarity derived from S\o rensen coefficient of similarity \citep{RicottaPavoine2015a} (presence-absence data for species) & \\	
+   \hline
+\end{tabular}
+Note: Functions \texttt{wapqe}, \texttt{EqRao}, \texttt{EqRS} and \texttt{EqRSintra} can handle any number of nested factors characterizing species communities. For example, they can be used to evaluate the diversity within plots ($\alpha$ diversity), the diversity among plots but within regions (a first level of $\beta$ diversity), the diversity among regions within a continent (a second level of $\beta$ diversity) and the diversity within the continent ($\gamma$ diversity).
+\end{center}
+\end{table}
+
+\subsection{Ordination analyses}
+
+\texttt{adiv} contains functions to display and depict trait-based and 
+phylogenetic differences between communities thanks to ordination analyses 
+(Table \ref{tab:ordination}). Function \texttt{rlqESLTP} implements 
+\citet{Pavoineetal2011} extension of the RLQ ordination approach 
+\citep{Doledecetal1996}. It searches connections of species' traits 
+and phylogenetic positions with the environmental conditions and spatial 
+positions where they have been observed. Functions \texttt{evoCA}, 
+\texttt{evoNSCA}, \texttt{evopcachord}, and \texttt{evopcahellinger} use a 
+matrix of presences-absences or abundances of species in communities and a 
+phylogenetic tree with species as tips to apply correspondence analysis 
+(function \texttt{evoNSCA}), non-symmetric correspondence analysis \citep[][function \texttt{evoNSCA}]{LauroDAmbra1984, KroonenbergLombardo1999}, or principal component analysis (functions 
+\texttt{evopcachord} and \texttt{evopcahellinger}) to the abundance of 
+phylogenetic features in communities. As for phylogenetic diversity, a 
+feature here represents a unit of branch length on a phylogenetic tree. A 
+feature on a given branch is assumed to be present in a community if one of 
+the species descending from the branch occurs in the community. The abundance 
+of a feature on a branch of the phylogenetic tree is the summed abundance of 
+all species descending from that branch. By this feature-based approach, 
+functions \texttt{evoCA}, \texttt{evoNSCA}, \texttt{evopcachord}, and 
+\texttt{evopcahellinger} allow depicting phylogenetic dissimilarities between 
+communities and identifying the species and the branches of the phylogenetic 
+tree that drive these dissimilarities. The crossed double principal coordinate 
+analysis (functions \texttt{crossdpcoa\_maineffect}, 
+\texttt{crossdpcoa\_version1} and \texttt{crossdpcoa\_version2}) allow to 
+disentangle the effect of two crossed factors (e.g., space and time) on the 
+trait-based (functional) or phylogenetic compositions of communities. 
+Finally, the double similarity principal component analysis (function \texttt{dsimpca}) 
+can focus either on trait-based diversity or on phylogenetic diversity. It 
+allows the description of functional or phylogenetic similarities between 
+communities, and the identification of species and their traits or 
+phylogenetic positions that best characterize a community in comparison with 
+the other communities but also in reference to its own functional or 
+phylogenetic diversity. 
+
+\begin{table}
+\begin{center}
+\caption{\texttt{adiv} functions for ordination approaches}
+\label{tab:ordination}
+\begin{tabular}{|l|p{7.5cm}|p{3.5cm}|}
+   \hline
+Main function & Aim & Associated functions \\
+   \hline
+\texttt{crossdpcoa\textunderscore maineffect} & the crossed double principal coordinate analysis typically analyzes the phylogenetic or functional compositions of communities according to two factors affecting the communities (e.g. space and time; habitat and region) \citep{Pavoineetal2013} & \texttt{crossdpcoa\textunderscore version1}, \texttt{crossdpcoa\textunderscore version2} \\
+   \hline
+\texttt{dspca} & double similarity principal component analysis (DSPCA) \citep{Pavoine2019}: an ordination approach to analyse functional or phylogenetic similarities between communities & \texttt{plot.dspca} \\
+   \hline
+\texttt{evoCA} & evolutionary (phylogenetic) correspondence analysis \citep{Pavoine2016} & \texttt{plot.evoCA} \\
+   \hline
+\texttt{evoNSCA} & evolutionary non-symmetric correspondence analysis \citep{Pavoine2016} & \\
+   \hline
+\texttt{evopcachord} & evolutionary principal component analysis based on the chord distance \citep{Pavoine2016} & \\	
+   \hline
+\texttt{evopcahellinger} & evolutionary principal component analysis based on Hellinger distance \citep{Pavoine2016} & \\	
+   \hline
+\texttt{rlqESLTP} & linking patterns in phylogeny, traits, abiotic variables and space \citep{Pavoineetal2013} & \texttt{plot.rlqESLTP}, \texttt{summary.rlqESLTP} \\
+   \hline
+\end{tabular}
+Note: Function \texttt{rlqESLTP} integrates, altogether, trait-based information and phylogenetic data to describe species, and spatial data and environmental data to describe sampled sites.
+\end{center}
+\end{table}
+
+\subsection{Originality, distinctiveness, uniqueness and redundancy}
+
+In complement, \texttt{adiv} contains functions to evaluate the contribution 
+each species has to trait-based diversity or to phylogenetic diversity. These 
+contributions are reflected by originality indices (also named uniqueness, 
+isolation, distinctness or distinctiveness indices) (see functions \texttt{distinctDis}, \texttt{distinctTopo}, \texttt{distinctTree}, \texttt{distinctUltra}, Table \ref{tab:ori}). If the species of a 
+community are trait-based or phylogenetically redundant, then the trait-based 
+or phylogenetic diversity of the community is expected to be much lower than 
+species diversity. Species diversity here represents a scenario where species 
+would be maximally dissimilar. The ratio of trait-based (or phylogenetic) 
+diversity over species diversity thus represents the trait-based (or 
+phylogenetic) uniqueness ($U_{\alpha}$) in the community and its 
+complement ($R_{\alpha}=1-U_{\alpha}$) represents the trait-based (or 
+phylogenetic) redundancy in the community \citep{Ricottaetal2016, Ricottaetal2018}. \texttt{adiv} contains such 
+indices of the trait-based (or phylogenetic) uniqueness of a community (functions \texttt{uniqueness}, \texttt{treeUniqueness}, and \texttt{evouniparam}, Table \ref{tab:ori}). 
+Similarly, if two communities have different species but if each species in 
+the first community has a sibling species with close trait values or a close 
+phylogenetic position, then the trait-based (or phylogenetic) $\beta$ diversity 
+between the two community is expected to be much lower than the species-based 
+$\beta$ diversity. Species-based $\beta$ diversity here represents a scenario 
+where species are assumed to be maximally dissimilar. The ratio of 
+trait-based (or phylogenetic) $\beta$ diversity over species-based $\beta$ 
+diversity thus could represent the trait-based (or phylogenetic) $\beta$ 
+uniqueness ($U_{\beta}$) between communities and its complement 
+($R_\beta=1-U_{\beta}$) would represent  trait-based (or phylogenetic) $\beta$ 
+redundancy provided the trait-based diversity measure always is lower than or 
+equal to the species-based $\beta$ diversity \citep{Ricottaetal2020}. 
+\texttt{adiv} contains such indices of the $\beta$ trait-based (or 
+phylogenetic) uniqueness across two communities (function \texttt{betaTreeUniqueness}, Table \ref{tab:ori}). 
+
+\begin{table}
+\begin{center}
+\caption{\texttt{adiv} functions of originality, uniqueness and redundancy.}
+\label{tab:ori}
+\begin{tabular}{|l|p{8cm}|p{3cm}|}
+   \hline
+Main function & Aim & Associated functions \\
+   \hline
+\multicolumn{3}{|l|}{Originality (=distinctiveness) of each species at a given place} \\
+   \hline
+\texttt{distinctDis} & dissimilarity-based species' originality \citep{EiswerthHaney1992,Ricotta2004,Schmeraetal2009, Pavoineetal2017} & \\
+   \hline
+\texttt{distinctTopo} & species' originality calculated from the topology of a (phylogenetic) tree with species as tips \citep{May1990, VaneWrightetal1991, Pavoineetal2008} & \\	
+   \hline
+\texttt{distinctTree} & species' originality that rely on the structure and branch lengths of (phylogenetic) trees \citep{Redding2003,ReddingMooers2006, Isaacetal2007} & \\
+   \hline
+\texttt{distinctUltra} & species' originality that rely on the structure and branch lengths of ultrametric (phylogenetic) trees \citep{Pavoineetal2005, PavoineIzsak2014} & \texttt{orisaved} \\
+   \hline
+\multicolumn{3}{|l|}{Uniqueness versus redundancy in the whole community*} \\
+   \hline
+\texttt{uniqueness} & community-level functional uniqueness and redundancy \citep{Ricottaetal2016} & \\
+   \hline
+\texttt{treeUniqueness} & community-level phylogenetic (or tree-based) redundancy taking into account the branching pattern of the underlying phylogenetic tree (or any other tree, like a functional dendrogram) \citep{Ricottaetal2018, PavoineRicotta2019a} & \\	
+   \hline
+\texttt{betaTreeUniqueness} & \citet{Ricottaetal2020} plot-to-plot functional or phylogenetic $\beta$ uniqueness \citep[index named $U_F$ for functional data and $U_P$ for phylogenetic data in ][]{Ricottaetal2020} & \\
+   \hline
+\texttt{evouniparam} & parametric diversity indices applied to phylogenetic uniqueness \citep{PavoineRicotta2019a} & \texttt{plot.evouniparam} \\
+   \hline
+\end{tabular}
+\vskip 1pt
+* compared to a scenario where species would be maximally dissimilar. 
+\end{center}
+\end{table}
+
+\subsection{Phylogenetic signal}
+
+Some other functions perform tests for phylogenetic signal in traits (Table 
+\ref{tab:signal}): the fact that closely-related species in a phylogenetic 
+tree tend to share similar or close trait values whereas distantly-related 
+species tend to have different trait values. These functions complement those 
+available in other packages like \texttt{picante} \citep{Kembeletal2010}. 
+Among the functions available in \texttt{adiv}, function \texttt{rtestdecdiv} 
+can handle multiple numbers and multiple types of traits (e.g., nominal, 
+quantitative, ordinal, fuzzy, circular). Functions \texttt{K}, \texttt{Kstar} 
+and \texttt{Kw} focus on quantitative traits and are all related to \citet{Blombergetal2003} statistics. As written in 
+the help file of these three functions, "\citet{Blombergetal2003} introduced two statistics of phylogenetic signal: $K = MSE0 / MSE$ and $K^* = MSE^* / 
+MSE$, where $MSE$ is the mean squared error of the trait values calculated 
+using the variance-covariance matrix derived from the phylogenetic tree, 
+$MSE0$ is the mean squared error of the tip trait values, measured from a 
+phylogenetically correct mean of tip trait values and $MSE^*$ is the mean 
+squared error of the tip trait values, measured from the estimate of the mean 
+of the raw tip trait values. In both statistics $K$ and $K^*$, the value of 
+$MSE$ will be relatively small if the phylogenetic tree accurately describes 
+the variance-covariance pattern observed in the data, leading to high values 
+for $K$ and $K^*$ (meaning high phylogenetic signal). In functions \texttt{K} 
+and \texttt{Kstar}, $K$ and $K^*$, respectively, are divided (normalized) by their expected 
+value if the trait evolved under a Brownian motion along the branches of the 
+phylogenetic tree (this expected value is invariant under permutation of 
+trait values among the tips of the phylogeny). 
+
+To test for phylogenetic signal, \citet{Blombergetal2003} actually considered 
+neither $K$ nor $K^*$ but $MSE$ as the core statistic associated with 
+random permutations of trait values among tips of the phylogenetic 
+tree. Although the literature on phylogenetic signal has currently 
+mostly ignored $K^*$ focusing on statistic $K$, $K^*$ could thus actually have 
+been considered as the core statistic of \citet{Blombergetal2003} test for 
+phylogenetic signal. Indeed, as MSE* is independent of permutations of trait 
+values among the tips of the phylogeny while $MSE0$ is, 
+\citet{Blombergetal2003} approach corresponds to considering $K^*$ and not $K$ 
+as the statistic of the test for phylogenetic signal in traits. This test is also equivalent to an alternative 
+implemented via phylogenetically independent contrasts also proposed by 
+\citet{Blombergetal2003}. 
+
+Function \texttt{Kw} implements index $K_w$, a modified version of $K^*$ that grants a higher importance in the 
+calculation of phylogenetic signal to the tips that have many closely related 
+tips \citep{PavoineRicotta2013}. 
+
+In functions, \texttt{K}, \texttt{Kstar} and \texttt{Kw}, I considered the 
+same permutation scheme as in \citet{Blombergetal2003} but used $K$, $K^*$ and 
+$K_w$, as the core statistic, respectively. The test developed by 
+\citet{Blombergetal2003} thus corresponds to function \texttt{Kstar}." 
+
+\begin{table}
+\begin{center}
+\caption{Tests for phylogenetic signal and graphical display of traits in front of the phylogeny}
+\label{tab:signal}
+\begin{tabular}{|l|p{10cm}|p{3cm}|}
+  \hline
+  Main function & Aim & Associated functions \\
+  \hline 
+  \texttt{apd} & \citet{Hardy2008}'s test for phylogenetic structure in species abundance distribution &  \\
+     \hline
+  \texttt{rtestdecdiv} & tests, for one community (with presence/absence or abundance data), if a representation of trait diversity on a phylogenetic tree highlights a nonrandom pattern \citep{Pavoineetal2010} & \texttt{decdiv}, \texttt{plot.decdiv} \\
+     \hline
+  \texttt{K} and \texttt{Kstar} & \citet{Blombergetal2003} \emph{K} and \emph{K*} statistics and permutation test &    \\		
+     \hline
+  \texttt{Kw} & \citet{PavoineRicotta2013} statistic $K_w$ and permutation test &   \\
+  \hline
+  \texttt{barp4d}* & barplots of trait values associated with the tips of a phylogenetic tree & \\
+    \hline
+  \texttt{dotp4d}* & dotplots of trait values associated with the tips of a phylogenetic tree & \\   
+    \hline
+  \texttt{gridp4d}* & gridplots of trait values associated with the tips of a phylogenetic tree & \\
+    \hline
+  \texttt{plot.phylo4d}* & general interface for functions \texttt{barp4d}, \texttt{dotp4d}, and \texttt{gridp4d} & \\
+    \hline
+\end{tabular}
+* As written in the help file of the functions \texttt{plot.phylo4d, barp4d, dotp4d, gridp4d}, "the four functions were written by Francois Keck in the package named \texttt{phylosignal}. Functions were there named as follows: \texttt{multiplot.phylo4d}, \texttt{barplot.phylo4d}, \texttt{dotplot.phylo4d}, and \texttt{gridplot.phylo4d}. At the end of 2019, the package was orphaned and the functions were integrated in package \texttt{adiv}. The versions of the functions have been slightly modified compared to those developed by Francois Keck."
+\end{center}
+\end{table}
+
+\subsection{Graphics}
+
+Package \texttt{adiv} contains a few graphical functions to: 
+\begin{enumerate}
+  \item display profiles of parametric species or phylogenetic diversity, evenness, and uniqueness indices (see functions 
+\texttt{plot.divparam, plot.eveparam, plot.evodivparam, plot.evoeveparam, 
+plotevouniparam} in Table \ref{tab:alpha}, and function 
+\texttt{plot.abgdivparam, plot.abgevodivparam} in Table 
+\ref{tab:partitioning});\\ 
+  \item display results of ordination methods (functions \texttt{plot.dspca, 
+plot.evoCA, plot.rlqESLTP} in Table \ref{tab:ordination});\\
+  \item display data in front of a phylogenetic tree (functions 
+\texttt{plot.phylo4d, barp4d, dotp4d, gridp4d} in Table \ref{tab:signal}) or 
+at the nodes of a phylogenetic tree (function \texttt{decdiv}, Tables 
+\ref{tab:signal} and \ref{tab:partitioning});\\
+  \item display an ultrametric phylogenetic tree with vertical lines at each 
+speciation event (limits of evolutionary periods, function 
+\texttt{plot.aptree} in Table \ref{tab:partitioning});\\
+  \item display results of permutation tests (functions 
+\texttt{plot.rtestaptree} in Table \ref{tab:partitioning});\\
+  \item display three key components of the phylogenetic dissimilarities between communities on a ternary plot (function \texttt{evodiss\_ternaryplot}, Table \ref{tab:beta}).\\
+\end{enumerate} 
+The help files of \texttt{adiv} functions also contain 
+suggestions and examples for the use of other packages to have more options in order to 
+display their results. 
+
+\section{Applications}
+ 
+Install package \texttt{adiv}:
+<<echo=TRUE,eval=FALSE,results=verbatim>>=
+install.packages("adiv")
+@
+
+Then, load the package:
+<<echo=TRUE,eval=TRUE,results=verbatim>>=
+library(adiv)
+@
+
+For the illustrations below, you will also be required to install other packages:
+
+<<echo=TRUE,eval=FALSE,results=verbatim>>=
+install.packages("ape")
+install.packages("phylobase")
+install.packages("ade4")
+@
+
+Load the packages:
+<<echo=TRUE,eval=TRUE,results=verbatim>>=
+library(ape)
+library(phylobase)
+library(ade4)
+@ 
+
+These packages will allow us to read, manipulate and display phylogenetic trees \citep[packages \texttt{ape} and \texttt{phylobase}, ][]{Paradisetal2004,RHackathon2019},  estimate the contribution of each node of the phylogenetic tree to the factorial map of the evolutionary correspondence analysis \citep[package \texttt{ade4},][]{Thioulouseetal2018}. 
+
+Load the data set named \texttt{batcomm} on bat communities. It is a list 
+that contains bat phylogeny (in 
+\texttt{batcomm\$tre}) and bat abundance (in \texttt{batcomm\$ab}) along a disturbance gradient in a neotropical 
+rainforest. The abundance data were collected by \citet{Medellinetal2000} in 
+the Selva Lacandona of Chiapas, Mexico, in four habitats: rainforest (F), cacao 
+plantations (P), oldfields (O) and cornfields (C). The phylogeny is \citet{Fritzetal2009} 
+phylogeny pruned to retain only the species present in Medellin et al. 
+data set. 
+
+<<echo=TRUE,eval=TRUE,results=verbatim>>=
+data(batcomm)
+@
+
+<<echo=TRUE,eval=TRUE,results=verbatim>>=
+batab <- batcomm$ab
+rownames(batab)
+rownames(batab) <- c("rainforest","cacao plantations","oldfields","cornfields")
+@
+
+The following instruction can be used to obtain a species diversity profile in each habitat type thanks to Hill numbers \citep{Hill1973}
+\begin{figure}[!h]
+<<echo=TRUE,eval=TRUE,results=verbatim,fig=TRUE,pdf=TRUE,include=TRUE, width=8>>=
+plot(divparam(batab, q=seq(0, 3, le=50)), pch=1:4, col=1:4, 
+    axisLABEL = "Species diversity")
+@
+\caption{Species diversity profiles}
+\label{fig:div}
+\end{figure}
+
+Species diversity profiles (Figure \ref{fig:div}) show that, when abundance data are discarded (when 
+parameter \emph{q} of the Hill numbers is equal to 0), the rainforest largely 
+dominates in terms of the number of species, with cornfields having the 
+lowest richness. However, when diversity measures give slightly greater importance to abundance ($q \approx 0.5$), the cacao plantations and the 
+oldfields reach diversity levels almost as low as that of the cornfields. 
+When this importance increases again ($q>1$), the cacao plantations then 
+recover to medium-level biodiversity, while that of oldfields remains at the 
+same low level as cornfields. Our interpretation of the impact of 
+environmental disturbance on species diversity may thus depend on the way 
+abundance data are used in diversity indices. 
+
+The following associated instruction provides species evenness profiles, using the ratio of Hill numbers to their maximum possible value (equal to the number of species in each habitat):
+\begin{figure}[!h]
+<<echo=TRUE,eval=TRUE,results=verbatim,fig=TRUE,pdf=TRUE,include=TRUE, width=8>>=
+plot(eveparam(batab, q=seq(0, 3, le=50)), pch=1:4, col=1:4, 
+    axisLABEL = "Species evenness")
+@
+\caption{Species evenness profiles}
+\label{fig:eve}
+\end{figure}
+
+Parametric evenness indices indicate how evenly weighted species are in 
+diversity measurement. Evenness is maximum (=1) when their parameter ($q$) $=0$ because species 
+are given equal weight in the diversity index: independently of abundance, 
+species weights are even, and, with Hill numbers, diversity is equal to the number of species. 
+When $q$ increases, abundant species are overweighted compared to rare 
+species, we thus expect that the evenness in species weights decreases. With 
+Hill numbers, when \emph{q} tends to infinity, evenness varies between $1/n$ 
+($n$=number of species) if a species' relative abundance approaches unity  
+and 1 if species have even abundances. Applying Hill numbers to bat communities (Figure \ref{fig:eve}), we can observe that the rate of 
+decrease in species evenness, with parameter \emph{q} varies according to the 
+habitat considered. With Hill numbers, such differences could, in theory, be due to the fact that 
+habitats differ in their level of species richness. However, this is not the 
+case here has the rainforest with the highest species richness has one of the 
+lowest rate of decrease. Instead, the differences in the rate of decrease are 
+here due to the shape of abundance distribution where a single species 
+dominates in abundance in oldfields and cornfields but not in rainforest and 
+cacao plantations as shown by the dotplots of species abundances below (Figures \ref{fig:rai}, \ref{fig:cac}, \ref{fig:old}, \ref{fig:cor}).
+
+\begin{figure}[!p]
+<<echo=TRUE,eval=TRUE,results=verbatim,fig=TRUE,pdf=TRUE,include=TRUE>>= 
+dotchart(sort(unlist(batcomm$ab[1,])), font=3, main="Rainforest", xlab="Abundance")
+@
+\caption{Distribution of species abundances in the rainforest}
+\label{fig:rai}
+\end{figure}
+\FloatBarrier
+\begin{figure}[!p]
+<<echo=TRUE,eval=TRUE,results=verbatim,fig=TRUE,pdf=TRUE,include=TRUE>>= 
+dotchart(sort(unlist(batcomm$ab[2,])), font=3, main="Cacao plantations", xlab="Abundance")
+@
+\caption{Distribution of species abundances in cacao plantations}
+\label{fig:cac}
+\end{figure}
+\FloatBarrier
+\begin{figure}[!p]
+<<echo=TRUE,eval=TRUE,results=verbatim,fig=TRUE,pdf=TRUE,include=TRUE>>= 
+dotchart(sort(unlist(batcomm$ab[3,])), font=3, main="Oldfields", xlab="Abundance")
+@
+\caption{Distribution of species abundances in oldfields}
+\label{fig:old}
+\end{figure}
+\FloatBarrier
+\begin{figure}[!p]
+<<echo=TRUE,eval=TRUE,results=verbatim,fig=TRUE,pdf=TRUE,include=TRUE>>= 
+dotchart(sort(unlist(batcomm$ab[4,])), font=3, main="Cornfieds", xlab="Abundance")
+@
+\caption{Distribution of species abundances in the cornfields}
+\label{fig:cor}
+\end{figure}
+\FloatBarrier
+ 
+Phylogenetic data can be added as described in Figure \ref{fig:phydiv} to obtain the phylogenetic diversity 
+profile in each habitat type thanks to Hill numbers applied to phylogenetic 
+features \citep{PavoineRicotta2019a}. According to Figure \ref{fig:phydiv}, when rare species are given high weight in the measurement of phylogenetic 
+diversity (q < 2), the level of phylogenetic diversity decreases from the 
+rainforest (highest level) to cacao plantations and oldfields (medium) and 
+finally cornfields (lowest). Then all habitats reach similar levels of 
+phylogenetic diversity. 
+
+\begin{figure}[!h]
+<<echo=TRUE,eval=TRUE,results=verbatim,fig=TRUE,pdf=TRUE,include=TRUE, width=8>>= 
+phy <- read.tree(text=batcomm$tre) # Bat phylogenetic tree 
+ab <- batab[, phy$tip.label] 
+# Species in the abundance table are ordered as in the phylogenetic tree 
+plot(evodivparam(phy, ab, q=seq(0, 3, le=50)), pch=1:4, col=1:4) 
+# Resulting diversity profiles 
+@ 
+\caption{Phylogenetic diversity profiles}
+\label{fig:phydiv}
+\end{figure}
+\FloatBarrier
+
+Non-parametric phylogenetic diversity indices could also be used. Among them, 
+some are dedicated to "tree-based" diversity, that is to say diversity among 
+species knowing that a hierarchical structure, such as a phylogenetic tree, 
+links the species. Other indices are dedicated to "dissimilarity-based" 
+diversity, that is to say diversity among species knowing that there are 
+different degrees of dissimilarities between two species. Function 
+\texttt{evodiv} of \texttt{adiv} contains indices of "tree-based" diversity. 
+Functions \texttt{QE} and \texttt{Rentropy} implement indices of 
+"dissimilarity-based" diversity as illustrated in Figure \ref{fig:qere} below: 
+
+\begin{figure}[!h] 
+<<echo=TRUE,eval=TRUE,results=verbatim,fig=TRUE,pdf=TRUE,include=TRUE>>= 
+par(mfrow=c(1,2)) 
+barplot(QE(ab, as.dist(cophenetic(phy)))$diversity) 
+barplot(Rentropy(ab, as.dist(cophenetic(phy)))$diversity)
+par(mfrow=c(1,1))
+@ 
+\caption{Phylogenetic diversity in habitats according to the quadratic 
+entropy \citep[left,][]{Rao1982} and R entropy 
+\citep[right,][]{Pavoineetal2017}} 
+\label{fig:qere} 
+\end{figure}
+\FloatBarrier 
+
+Species abundances can be diplayed in front of the phylogenetic tree (log-transformed abundance) as shown in Figure \ref{fig:logab}.
+\begin{figure}[!h]
+<<echo=TRUE,eval=TRUE,results=verbatim,fig=TRUE,pdf=TRUE,include=TRUE>>=
+bat.4d <- phylo4d(phy, log(t(ab)+1))
+barp4d(bat.4d, center = FALSE, scale = FALSE, tip.cex = 0.75, data.xlim = c(0, 5))
+@
+\caption{(Log-transformed) species abundances in each habitat}
+\label{fig:logab}
+\end{figure}
+\FloatBarrier
+\vskip 5pt
+
+In the phylogenetic tree some species have more closely related sister 
+species than others. Originality indices (also named distinctiveness or 
+uniqueness) can be used to measure the degre of uniqueness of a species. A 
+species is unique if it has no close relatives in the phylogenetic tree. 
+In Figure \ref{fig:ori}, I used functions \texttt{distinctTree} and \texttt{distinctUltra} to 
+measure the phylogenetic originality of each bat species and function 
+\texttt{barp4d} to display it. 
+\begin{figure}[!h]
+<<echo=TRUE,eval=TRUE,results=verbatim,fig=TRUE,pdf=TRUE,include=TRUE>>= 
+ori <- cbind.data.frame(distinctTree(phy, c("ED", "ES")), 
+    distinctUltra(phy, c("Qb", "2Hb")))
+bat.4d <- phylo4d(phy, ori)
+barp4d(bat.4d, center = FALSE, scale = FALSE)
+@
+\caption{Species originalities (phylogenetic distinctiveness)}
+\label{fig:ori}
+\end{figure}
+\FloatBarrier 
+
+Tests can be run to evaluate if differences between the phylogenetic compositions of the habitats could have been obtained randomly:
+<<echo=TRUE,eval=TRUE,results=verbatim>>=
+pa <- ab; pa[ab>0] <- 1 # Matrix of the presence/absence of the species in the four habitats
+dphy <- cophenetic(phy) # Matrix of phylogenetic distances between species
+# P-value of the test with abundance data:
+rtestEqRS(ab, as.dist(dphy), nrep=999)$pvalue 
+# P-value of the test with presence/absence data:
+rtestEqRS(pa, as.dist(dphy), nrep=999)$pvalue # P-value of the test	
+@
+
+The p-value of the test with abundance is higher than 5\% and that with 
+presence-absence data is close to 5\%, suggesting that the phylogenetic 
+differences between the four habitats are weak and could have been obtained 
+at random. 
+
+Several functions exist in \texttt{adiv} to evaluate the amount of phylogenetic differences in the composition of several communities. For example below I use the chord distance applied to the abundance of phylogenetic features in communities:
+<<echo=TRUE,eval=TRUE,results=verbatim>>=
+evodiss(phy, ab, "Chord")
+@
+Parametric measures of $\alpha$, $\beta$, $\gamma$ phylogenetic diversity can also be obtained with function \texttt{abgevodivparam} (see Figure \ref{fig:abgphy} below).
+
+\begin{figure}[!h]
+<<echo=TRUE,eval=TRUE,results=verbatim,fig=TRUE,pdf=TRUE,include=TRUE>>= 
+plot(abgevodivparam(phy, ab, q=seq(0, 3, le=50)))
+@
+\caption{$\alpha$, $\beta$, $\gamma$ components of diversity in bat communities within, between and all over the different levels of the disturbance gradient (rainforest, cacao plantations, oldfields, cornfields), respectively}
+\label{fig:abgphy}
+\end{figure}
+\FloatBarrier
+
+Ordination analyses can also help to study the potential phylogenetic differences between the communities of the four habitats. Below is an example with the evolutionary correspondence analysis \citep[\texttt{evoCA}, ][]{Pavoine2016} applied to bat species' presences-absences and to their phylogenetic tree:
+<<echo=TRUE,eval=TRUE,results=verbatim>>=
+evoca <- evoCA(phy, pa, scannf=FALSE, nf=2) # Two axes are here retained.
+# % of inertia (eigenvalues) expressed by each axis:
+evoca$eig/sum(evoca$eig) 
+@
+
+Factorial map with coordinates for the habitats (Figure \ref{fig:scohab}):
+\begin{figure}[!h]
+<<echo=TRUE,eval=TRUE,results=verbatim,fig=TRUE,pdf=TRUE,include=TRUE>>=
+plot(evoca$li[, 1], evoca$li[, 2], xlab = "Axis1", ylab="Axis2", col="red", pch=19, asp=1)
+abline(h=0, col="grey"); abline(v=0, col="grey") 
+text(evoca$li[, 1], evoca$li[, 2], rownames(evoca$li), pos = c(2,2,4,2), offset=0.2)
+@
+\caption{Scores for habitats on the first two axes of evoCA}
+\label{fig:scohab}
+\end{figure}
+\FloatBarrier
+
+Factorial map with coordinates for the nodes of the phylogenetic tree (only the labels of the nodes contributing to more than 5\% of the inertia of one of the axes are displayed) (Figure \ref{fig:scospe}):
+<<echo=TRUE,eval=TRUE,results=verbatim>>=
+kept <- rownames(inertia.dudi(evoca, col=TRUE)$col.abs)[apply(inertia.dudi(evoca, 
+    col=TRUE)$col.abs, 1, max)>5]
+keptc <- kept[-10] # graphical improvements to avoid the labels superimpose
+keptc[9] <- paste(kept[9:10], collapse="\n")
+@
+
+\begin{figure}[!h]
+<<echo=TRUE,eval=TRUE,results=verbatim,fig=TRUE,pdf=TRUE,include=TRUE>>=
+plot(evoca$co[, 1], evoca$co[, 2], xlab = "Axis1", ylab="Axis2", col="grey", asp = 1)
+abline(h=0, col="grey"); abline(v=0, col="grey") 
+points(evoca$co[kept, 1], evoca$co[kept, 2], col ="red", pch = 19)
+positions <- c(2,2,2,4,1,2,4,3,1,3)
+text(evoca$co[kept[-10], 1], evoca$co[kept[-10], 2], gsub("_", " ", keptc), 
+    pos = positions, offset = 0.75, font=3)
+@
+\caption{Scores for species (tips) and nodes (of the phylogenetic tree) on the first two axes of evoCA}
+\label{fig:scospe}
+\end{figure}
+\FloatBarrier
+\vskip 1pt
+Note that several functions exist in R to display factorial maps with optimized positions for labels (see e.g. package \texttt{adegraphics}, function \texttt{adegpar} argument \texttt{plabels\$optim}, Siberchicot et al., 2017). Those functions are used or suggested in package \texttt{adiv} for graphical display. However, with presence/absence data, in phylogenetic or even simple correspondence analysis the number of labels that superimpose may be too high hampering these functions to be efficient, because several species may have identical patterns of occurrence across the sampled sites. For example, here species \emph{Chrotopterus auritus}, \emph{Enchisthenes hartii}, \emph{Micronycteris brachyotis}, \emph{Phyllostomus stenops}, and \emph{Trachops cirrhosus} were only observed in the rainforest. Manual adjustments of labels thanks to basic R scripts (as done in the R scripts above), in that case, allow optimum visualization.
+
+Codes for nodes on the phylogenetic tree can be obtained by the following instructions (Figure \ref{fig:phy}): 
+\vskip 10pt
+
+\begin{figure}[!h]
+<<echo=TRUE,eval=TRUE,results=verbatim,fig=TRUE,pdf=TRUE,include=TRUE>>=
+# phylogenetic tree with some of the tip labels colored
+tipcolors <- rep(1, 34)
+tipcolors[phy$tip.label %in% kept] <- "red"
+tipcolors[phy$tip.label== "Bauerus_dubiaquercus"] <- "violet"
+tipcolors[phy$tip.label%in%c("Myotis_keaysi", "Hylonycteris_underwoodi",  "Lichonycteris_obscura")] <- "blue"
+plot(phy, show.node.label=TRUE, tip.color=tipcolors, cex=0.75)
+@
+\caption{Phylogenetic tree with species names colored according to their contribution to the first two axes of evoCA; top-contributing species (red), species descending from top-contributing nodes (blue), top-contributing species that descend from top-contributing nodes (violet).}
+\label{fig:phy}
+\end{figure}
+\FloatBarrier
+\vskip 1pt
+
+Species coordinates on the evoCA axes can also be put in front of the phylogenetic tree using the following instruction (Figure \ref{fig:physcospe}):
+\begin{figure}[!h]
+<<echo=TRUE,eval=TRUE,results=verbatim,fig=TRUE,pdf=TRUE,include=TRUE>>=
+bat.4d <- phylo4d(phy, evoca$co[phy$tip.label, ])
+dotp4d(bat.4d, center = FALSE, scale = FALSE)
+@
+\caption{Species scores on the first two axes of evoCA (Comp1 and Comp2) in front of the phylogenetic tree}
+\label{fig:physcospe}
+\end{figure}
+\FloatBarrier
+
+A dynamic 3d plot with the phylogenetic tree plotted on the factorial map can be obtained as follows (Figure \ref{fig:3d}):
+<<echo=TRUE,eval=FALSE,results=verbatim,fig=FALSE,pdf=TRUE,include=FALSE>>=
+plot(evoca)
+@
+\vskip 1pt
+\begin{figure}[!h]
+\includegraphics{Fig3d}
+\caption{Three-dimensional factorial map where species and nodes have coordinates on the first two axes of evoCA and the third axis represents time of evolution and allows the phylogenetic tree to be visualized. The clearest the image of the phylogenetic tree, the strongest the phylogenetic differences between the compared habitats.}
+\label{fig:3d}
+\end{figure}
+\FloatBarrier
+\vskip 1pt
+All these diplays of the results of evoCA applied to bat communities show low phylogenetic differences between the habitats: differences in the species compositions of the habitats and in the abundances of these species imply species that are rather closely related on the phylogenetic tree.
+
+\begin{thebibliography}{9}
+\bibitem[Blomberg et al.(2003)]{Blombergetal2003} Blomberg,~S.P., Garland,~T., Ives,~A.R. (2003). Testing for phylogenetic signal in comparative data: behavioral traits are more labile. \emph{Evolution}, 57, 717--745. \url{https://doi.org/10.1111/j.0014-3820.2003.tb00285.x}
+\bibitem[Chao et al.(2010)]{Chaoetal2010} Chao,~A., Chiu,~C.-H., Jost,~L. (2010). Phylogenetic diversity measures based on Hill numbers. \emph{Philosophical Transactions of the Royal Society London Series B}, 365, 3599--3609. \url{https://doi.org/10.1098/rstb.2010.0272}
+\bibitem[Chiu et al.(2014)]{Chiuetal2014} Chiu,~C.-H., Jost,~L., Chao,~A. (2014). Phylogenetic beta diversity, similarity, and differentiation measures based on Hill numbers. \emph{Ecological Monographs}, 84, 21--44. \url{https://doi.org/10.1890/12-0960.1}
+\bibitem[Daroczy(1970)]{Daroczy1970} Daroczy,~Z. (1970). Generalized information functions. \emph{Information and Control}, 16, 36--51. \url{https://doi.org/10.1016/S0019-9958(70)80040-7}
+\bibitem[Doledec et al.(1996)]{Doledecetal1996} Doledec,~S., Chessel,~D., Ter Braak,~C.J.F., Champely,~S. (1996) Matching species traits to environmental variables: a new three-table ordination method. \emph{Environmental and Ecological Statistics}, 3, 143--166. \url{https://doi.org/10.1007/BF02427859}
+\bibitem[Eiswerth and Haney(1992)]{EiswerthHaney1992} Eiswerth,~M.E., Haney,~J.C. (1992). Allocating conservation expenditures: accounting for inter-species genetic distinctiveness. \emph{Ecological Economics}, 5, 235--249. \url{https://doi.org/10.1016/0921-8009(92)90003-B}
+\bibitem[Faith(1992)]{Faith1992} Faith,~D.P. (1992). Conservation evaluation and phylogenetic diversity. \emph{Biological Conservation}, 61, 1--10. \url{https://doi.org/10.1016/0006-3207(92)91201-3}
+\bibitem[Fritz et al.(2009)]{Fritzetal2009} Fritz,~S.A., Bininda-Emonds,~O.R.P., Purvis,~A. (2009). Geographic variation in predictors of mammalian extinction risk: big is bad, but only in the tropics. \emph{Ecology Letters}, 12, 538--549. \url{https://doi.org/10.1111/j.1461-0248.2009.01307.x}
+\bibitem[Gini(1912)]{Gini1912} Gini,~C. (1912). \emph{Variabilita e mutabilita}. Studi economicoaguridici delle facoltta di giurizprudenza dell, Universite di Cagliari III, Parte II.
+\bibitem[Gower and Legendre(1986)]{GowerLegendre1986} Gower,~J.C., Legendre,~P. (1986). Metric and Euclidean properties of dissimilarity coefficients. \emph{Journal of Classification}, 3, 5--48.
+\bibitem[Hardy(2008)]{Hardy2008} Hardy,~O.J. (2008). Testing the spatial phylogenetic structure of local communities: statistical performances of different null models and test statistics on a locally neutral community. \emph{Journal of Ecology}, 96, 914--926. \url{https://doi.org/10.1111/j.1365-2745.2008.01421.x}
+\bibitem[Havrda and Charvat(1967)]{HavrdaCharvat1967} Havrda,~M., Charvat,~F. (1967). Quantification method of classification processes: concept of structural alpha-entropy. \emph{Kybernatica}, 3, 30--35.
+\bibitem[Hill(1973)]{Hill1973} Hill,~M.O. (1973). Diversity and evenness: a unifying notation and its consequences. \emph{Ecology}, 54, 427--432. \url{https://doi.org/10.2307/1934352}
+\bibitem[Heip(1974)]{Heip1974} Heip,~C. (1974). A new index measuring evenness. \emph{Journal of the Marine Biological Association UK}, 54, 555--557. \url{https://doi.org/10.1017/S0025315400022736}
+\bibitem[Isaac et al.(2007)]{Isaacetal2007}Isaac,~N.J., Turvey,~S.T., Collen,~B., Waterman,~C., Baillie,~J.E. (2007). Mammals on the EDGE: conservation priorities based on threat and phylogeny. \emph{PloS ONE}, 2, e296. \url{https://doi.org/10.1371/journal.pone.0000296}
+\bibitem[Jombart and Dray (2008)]{JombartDray2008}Jombart,~T., Dray,~S. (2008). adephylo: exploratory analyses for the phylogenetic comparative method. \emph{Bioinformatics}, 26, 1907--1909. \url{https://doi.org/10.1093/bioinformatics/btq292}
+\bibitem[Kembel et al.(2010)]{Kembeletal2010} Kembel,~S.W., Cowan,~P.D., Helmus,~M.R., Cornwell,~W.K., Morlon,~H., Ackerly,~D.D., Blomberg,~S.P., Webb,~C.O. (2010). Picante: R tools for integrating phylogenies and ecology. \emph{Bioinformatics}, 26, 1463--1464. \url{https://doi.org/10.1093/bioinformatics/btq166}
+\bibitem[Kroonenberg and Lombardo(1999)]{KroonenbergLombardo1999} Kroonenberg,~P.M., Lombardo,~R. (1999). Nonsymmetric correspondence analysis: a tool for analysing contingency tables with a dependence structure. \emph{Multivariate Behavioral Research}, 34, 367--396. \url{https://doi.org/10.1207/S15327906MBR3403_4}
+\bibitem[Laliberte et al.(2014)]{Laliberteetal2014} Laliberte,~E., Legendre,~P., Shipley,~B. (2014). \emph{FD: measuring functional diversity from multiple traits, and other tools for functional ecology}. R package version 1.0-12. \url{https://CRAN.R-project.org/package=FD}
+\bibitem[Lauro and D'Ambra(1984)]{LauroDAmbra1984} Lauro,~N., D'Ambra,~L. (1984). Non-symmetrical correspondence analysis. In: Tomassone,~R. (Ed.), Data Analysis and Informatics, III, pp. 433--446. North-Holland, Amsterdam: Elsevier.
+\bibitem[Legendre and Legendre(1998)]{LegendreLegendre1998} Legendre,~P., Legendre,~L. (1998). \emph{Numerical Ecology}. Amsterdam: Elsevier.
+\bibitem[Magurran(2004)]{Magurran2004} Magurran,~A.E. (2004). \emph{Measuring biological diversity}. Oxford, U.K.: Blackwell Publishing.
+\bibitem[Margalef(1972)]{Margalef1972} Margalef,~R. (1972). Homage to Evelyn Hutchinson, or why is there an upper limit to diversity? \emph{Transactions of the Connecticut Academy of Arts and Sciences}, 44, 211--235.
+\bibitem[May(1990)]{May1990} May,~R.M. (1990). Taxonomy as destiny. \emph{Nature}, 347, 129--130. \url{https://doi.org/10.1038/347129a0}
+\bibitem[McIntosh(1967)]{McIntosh1967} McIntosh,~R.P. (1967). An index of diversity and the relation of certain concepts to diversity. \emph{Ecology}, 48, 392--404. \url{https://doi.org/10.2307/1932674}
+\bibitem[Medellin et al.(2000)]{Medellinetal2000} Medellin,~R., Equihua~M., Amin,~M.A. (2000). Bat diversity and abundance as indicators of disturbance in Neotropical rainforest. \emph{Conservation Biology}, 14, 1666--1675. \url{https://doi.org/10.1111/j.1523-1739.2000.99068.x}
+\bibitem[Menhinick(1964)]{Menhinick1964} Menhinick,~E.F. (1964). A comparison of some species-individuals diversity indices applied to samples of field insects. \emph{Ecology}, 45, 859--861. \url{https://doi.org/10.2307/1934933}
+\bibitem[Nipperess et al.(2010)]{Nipperessetal2010} Nipperess,~D.A., Faith,~D.P., Barton,~K. (2010). Resemblance in phylogenetic diversity among ecological assemblages. \emph{Journal of Vegetation Science}, 21, 809--820. \url{https://doi.org/10.1111/j.1654-1103.2010.01192.x}
+\bibitem[Oksanen et al.(2019)]{Oksanenetal2019} Oksanen,~J., Blanchet,~F.G., Friendly,~M., Kindt,~R., Legendre,~P. McGlinn,~D., ..., Wagner,~H. (2019). \emph{vegan: Community Ecology Package}. R package version 2.5-5. \url{https://CRAN.R-project.org/package=vegan}
+\bibitem[Orloci(1978)]{Orloci1978} Orloci,~L. (1978). \emph{Multivariate Analysis in Vegetation Research}. The Hague: Junk.
+\bibitem[Paradis et al.(2004)]{Paradisetal2004} Paradis,~E., Claude,~J., Strimmer,~K. (2004). APE: analyses of phylogenetics and evolution in R language. \emph{Bioinformatics}, 20, 289--290. \url{https://doi.org/10.1093/bioinformatics/btg412} 
+\bibitem[Pavoine(2016)]{Pavoine2016} Pavoine,~S. (2016) A guide through a family of phylogenetic dissimilarity measures among sites. \emph{Oikos}, \textbf{125}, 1719--1732. \url{https://doi.org/10.1111/oik.03262}
+\bibitem[Pavoine(2019)]{Pavoine2019} Pavoine,~S. (2019). An ordination approach to explore similarities among communities. \emph{Journal of Theoretical Biology}, 462, 85--96. \url{https://doi.org/10.1016/j.jtbi.2018.11.002}
+\bibitem[Pavoine et al.(2010)]{Pavoineetal2010} Pavoine,~S., Baguette,~M., Bonsall,~M.B. (2010). Decomposition of trait diversity among the nodes of a phylogenetic tree. \emph{Ecological Monographs}, 80, 485--507.
+\bibitem[Pavoine et al.(2013)]{Pavoineetal2013} Pavoine,~S., Blondel,~J., Dufour,~A.-B., Gasc,~A., Bonsall,~M. B. (2013). A new technique for analysing interacting factors affecting biodiversity patterns: crossed-DPCoA. \emph{PloS One}, 8, e54530. \url{https://doi.org/10.1371/journal.pone.0054530}
+\bibitem[Pavoine et al.(2017)]{Pavoineetal2017} Pavoine,~S., Bonsall,~M.B., Dupaix,~A., Jacob,~U., Ricotta,~C. (2017). From phylogenetic to functional originality: guide through indices and new developments. \emph{Ecological Indicators}, 82, 196--205. \url{https://doi.org/10.1016/j.ecolind.2017.06.056}
+\bibitem[Pavoine and Izsak(2014)]{PavoineIzsak2014} Pavoine,~S., Izsak,~J. (2014). New biodiversity measure that includes consistent interspecific and intraspecific components. \emph{Methods in Ecology and Evolution}, 5, 165--172. \url{https://doi.org/10.1111/2041-210X.12142}
+\bibitem[Pavoine et al.(2009)]{Pavoineetal2009} Pavoine,~S., Love,~M., Bonsall,~M.~B. (2009). Hierarchical partitioning of evolutionary and ecological patterns in the organization of phylogenetically-structured species assemblages: application to rockfish (genus: Sebastes) in the Southern California Bight. \emph{Ecology Letters}, 12, 898--908. \url{https://doi.org/10.1111/j.1461-0248.2009.01344.x}
+\bibitem[Pavoine et al.(2016)]{Pavoineetal2016} Pavoine,~S., Marcon,~E., Ricotta,~C. (2016). "Equivalent numbers" for species, phylogenetic, or functional diversity in a nested hierarchy of multiple scales. \emph{Methods in Ecology and Evolution}, 7, 1152--1163. \url{https://doi.org/10.1111/2041-210X.12591}
+\bibitem[Pavoine et al.(2005)]{Pavoineetal2005} Pavoine,~S., Ollier,~S., Dufour,~A. B. (2005). Is the originality of a species measurable? \emph{Ecology Letters}, 8, 579--586. \url{https://doi.org/10.1111/j.1461-0248.2005.00752.x}
+\bibitem[Pavoine et al.(2008)]{Pavoineetal2008} Pavoine,~S., Ollier,~S., Pontier,~D., Chessel,~D. (2008). Testing for phylogenetic signal in phenotypic traits: new matrices of phylogenetic proximities. \emph{Theoretical Population Biology}, 73, 79--91. \url{https://doi.org/10.1016/j.tpb.2007.10.001}
+\bibitem[Pavoine and Ricotta(2013)]{PavoineRicotta2013} Pavoine,~S., Ricotta,~C. (2013). Testing for phylogenetic signal in biological traits: the ubiquity of cross-product statistics. \emph{Evolution}, 67, 828--840. \url{https://doi.org/10.1111/j.1558-5646.2012.01823.x}
+\bibitem[Pavoine and Ricotta(2014)]{PavoineRicotta2014} Pavoine,~S., Ricotta,~C. (2014). Functional and phylogenetic similarity among communities. \emph{Methods in Ecology and Evolution}, 5, 666--675. \url{https://doi.org/10.1111/2041-210X.12193}
+\bibitem[Pavoine and Ricotta(2019a)]{PavoineRicotta2019a} Pavoine,~S., Ricotta,~C. (2019a). A simple translation from indices of species diversity to indices of phylogenetic diversity. \emph{Ecological Indicators}, 101, 552--561. \url{https://doi.org/10.1016/j.ecolind.2019.01.052}
+\bibitem[Pavoine and Ricotta(2019b)]{PavoineRicotta2019b} Pavoine,~S., Ricotta,~C. (2019b). Measuring functional dissimilarity among plots: adapting old methods to new questions. \emph{Ecological Indicators}, 97, 67--72. \url{https://doi.org/10.1016/j.ecolind.2018.09.048}
+\bibitem[Pavoine et al.(2011)]{Pavoineetal2011} Pavoine,~S., Vela,~E., Gachet,~S., de Belair,~G., Bonsall,~M.B. (2011). Linking patterns in phylogeny, traits, abiotic variables and space: a novel approach to linking environmental filtering and plant community assembly. \emph{Journal of Ecology}, 99, 165--175. \url{https://doi.org/10.1111/j.1365-2745.2010.01743.x}
+\bibitem[Pielou(1975)]{Pielou1975} Pielou,~E.C. (1975). \emph{Ecological diversity}. New York: Wiley InterScience.
+\bibitem[R Hackathon et al.(2019)]{RHackathon2019} R Hackathon~et~al. (2019). \emph{phylobase: Base Package for Phylogenetic Structures and Comparative Data}. R package version 0.8.6. \url{https://CRAN.R-project.org/package=phylobase}
+\bibitem[Rao(1982)]{Rao1982} Rao,~C.R. (1982). Diversity and dissimilarity coefficients: a unified approach. \emph{Theoretical Population Biology}, 21, 24--43. \url{https://doi.org/10.1016/0040-5809(82)90004-1}
+\bibitem[Rao(1986)]{Rao1986} Rao,~C.R. (1986). Rao's axiomatization of diversity measures. In: S. Kotz, N.L. Johnson (Eds), \emph{Encyclopedia of Statistical Sciences} (pp. 614--617). New York: Wiley and Sons.
+\bibitem[Redding(2003)]{Redding2003} Redding,~D.W. (2003). \emph{Incorporating genetic distinctness and reserve occupancy into a conservation priorisation approach}. Master thesis: University of East Anglia, Norwich.
+\bibitem[Redding and Mooers(2006)]{ReddingMooers2006} Redding,~D.W., Mooers,~A.O. (2006). Incorporating evolutionary measures into conservation prioritization. \emph{Conservation Biology}, 20, 1670--1678. \url{https://doi.org/10.1111/j.1523-1739.2006.00555.x}
+\bibitem[Renyi(1960)]{Renyi1960} Renyi,~A. (1960). On measures of entropy and information. \emph{Proceedings of the Fourth Berkeley Symposium on Mathematical Statistics and Probability}, 1, 547--561.
+\bibitem[Ricotta(2004)]{Ricotta2004} Ricotta,~C. (2004). A parametric diversity measure combining the relative abundances and taxonomic distinctiveness of species. \emph{Diversity and Distributions}, 10, 143--146. \url{https://doi.org/10.1111/j.1366-9516.2004.00069.x}
+\bibitem[Ricotta et al.(2018)]{Ricottaetal2018} Ricotta,~C., Bacaro,~G., Caccianiga,~M., Cerabolini,~B.E.L., Pavoine,~S. (2018). A new method for quantifying the phylogenetic redundancy of biological communities. \emph{Oecologia}, 186, 339--346. \url{https://doi.org/10.1007/s00442-017-4026-x}
+\bibitem[Ricotta et al.(2015)]{Ricottaetal2015} Ricotta,~C., Bacaro,~G., Pavoine,~S. (2015). A cautionary note on some phylogenetic dissimilarity measures. \emph{Journal of Plant Ecology}, 8, 12--16. \url{https://doi.org/10.1093/jpe/rtu008}
+\bibitem[Ricotta et al.(2016)]{Ricottaetal2016} Ricotta,~C., de Bello,~F., Moretti,~M., Caccianiga,~M., Cerabolini,~B.E., Pavoine,~S. (2016). Measuring the functional redundancy of biological communities: A quantitative guide. \emph{Methods in Ecology and Evolution}, 7, 1386--1395.  \url{https://doi.org/10.1111/2041-210X.12604}
+\bibitem[Ricotta et al.(2020)]{Ricottaetal2020} Ricotta,~C., Laroche,~F., Szeidl,~L., Pavoine,~S. (2020) From alpha to beta functional and phylogenetic redundancy. \emph{Methods in Ecology and Evolution}. In press.
+\bibitem[Ricotta and Pavoine(2015a)]{RicottaPavoine2015a} Ricotta,~C., Pavoine,~S. (2015a). A multiple-site dissimilarity measure for species presence/absence data and its relationship with nestedness and turnover. \emph{Ecological Indicators}, 54, 203--206. \url{https://doi.org/10.1016/j.ecolind.2015.02.026}
+\bibitem[Ricotta and Pavoine(2015b)]{RicottaPavoine2015b} Ricotta,~C., Pavoine,~S. (2015b) Measuring similarity among plots including similarity among species: an extension of traditional approaches. \emph{Journal of Vegetation Science}, 26, 1061--1067. \url{https://doi.org/10.1111/jvs.12329}
+\bibitem[Ricotta, Podani and Pavoine(2016)]{RicottaPodaniPavoine2016} Ricotta,~C., Podani,~J., Pavoine,~S. (2016). A family of functional dissimilarity measures for presence and absence data. \emph{Ecology and Evolution}, 6, 5383--5389. \url{https://doi.org/10.1002/ece3.2214}
+\bibitem[Schmera et al.(2009)]{Schmeraetal2009} Schmera,~D., Podani,~J., Eros,~T. (2009). Measuring the contribution of community members to functional diversity. \emph{Oikos}, 118, 961--971. \url{https://doi.org/10.1111/j.1600-0706.2009.17076.x}
+\bibitem[Siberchicot et al. (2017)]{Siberchicotetal2017} Siberchicot,~A., Julien-Laferrière,~A., Dufour,~A.-B., Thioulouse,~J., Dray,~S. (2017). adegraphics: an S4 lattice-based package for the representation of multivariate data. \emph{The R Journal}, 9, 198--212.
+\bibitem[Shannon(1948)]{Shannon1948} Shannon,~C.E. (1948). A mathematical theory of communication. \emph{Bell System technical journal}, 27, 379--423, 623--656.
+\bibitem[Simpson(1949)]{Simpson1949} Simpson,~E.H. (1949). Measurement of diversity. \emph{Nature}, 163, 688. \url{https://doi.org/10.1038/163688a0}
+\bibitem[Smith and Wilson(1996)]{SmithWilson1996} Smith,~B., Wilson,~J.B. (1996). A consumer's guide to evenness measures. \emph{Oikos}, 76, 70--82. \url{https://www.jstor.org/stable/3545749}
+\bibitem[Thioulouse et al.(2018)]{Thioulouseetal2018} Thioulouse,~J., Dray,~S., Dufour,~A.-B., Siberchicot,~A., Jombart,~J., Pavoine,~S. (2018). \emph{Multivariate Analysis of Ecological Data with ade4}. Springer.
+\bibitem[Tsallis(1988)]{Tsallis1988} Tsallis,~C. (1988). Possible generalization of Boltzmann-Gibbs statistics. \emph{Journal of Statistical Physics}, 52, 479--487. \url{https://doi.org/10.1007/BF01016429}
+\bibitem[Vane-Wright et al.(1991)]{VaneWrightetal1991} Vane-Wright,~R.I., Humphries,~C.J., Williams,~P.H. (1991). What to protect? Systematics and the agony of choice. \emph{Biological Conservation}, 55, 235--254. \url{https://doi.org/10.1016/0006-3207(91)90030-D}
+
+\end{thebibliography}
+
+\end{document}
