@@ -79,13 +79,13 @@ function(comm, dis = NULL, structures = NULL, option=c("eq", "normed1", "normed2
             }
             if(ncol(structures)==1){
                 firstw <- table(structures[, 1])
-                w <- 1/firstw[structures[, 1]]/length(levels(structures[, 1]))
+                w <- 1/firstw[structures[, 1]]/length(unique(structures[, 1]))
             }
             else {
                 listw <- lapply(2:nc, fun)
                 firstw <- table(structures[, 1])
                 firstw <- 1/firstw[structures[, 1]]
-                finalw <- 1/length(levels(structures[, ncol(structures)]))
+                finalw <- 1/length(unique(structures[, ncol(structures)]))
                 forw <- cbind.data.frame(as.vector(firstw), as.vector(listw), as.vector(rep(finalw, nrow(structures))))
                 w <- apply(forw, 1, prod)
             }
@@ -108,7 +108,7 @@ function(comm, dis = NULL, structures = NULL, option=c("eq", "normed1", "normed2
     ncomm <- nrow(df)
 
     if(!is.null(structures)){
-        if(length(levels(factor(structures[, 1])))==1) stop("All sites belong to a unique level in the first column of structures, remove this first column in structures")
+        if(length(unique(factor(structures[, 1])))==1) stop("All sites belong to a unique level in the first column of structures, remove this first column in structures")
         if(length(levels(factor(structures[, 1])))==nrow(df)) stop("Each site belongs to a distinct level in the first column of structures, this first column is useless, remove it and re-run")
     }
 
@@ -197,12 +197,12 @@ function(comm, dis = NULL, structures = NULL, option=c("eq", "normed1", "normed2
                 if (any(tab2 != 1)) {
                     stop(paste("non hierarchical design in structures, column", i, "in", i + 1))
                 }
-                if(length(levels(structures[, i]))==length(levels(structures[, i+1]))) stop("In structures, column ", i, " and ", i + 1, " are equivalent, remove one of them and rerun the function")
+                if(length(unique(structures[, i]))==length(unique(structures[, i+1]))) stop("In structures, column ", i, " and ", i + 1, " are equivalent, remove one of them and rerun the function")
             }
         }
         else{
-            if(length(levels(structures))==nrow(df)) stop("Leave structures as a NULL object because there are as many different levels in structures than there are rows in df; structures is uninformative")
-            if(length(levels(structures))==1) stop("Leave structures as a NULL object because there is only one level in structures; structures is uninformative")
+            if(length(unique(structures[, 1]))==nrow(df)) stop("Leave structures as a NULL object because there are as many different levels in structures than there are rows in df; structures is uninformative")
+            if(length(unique(structures[, 1]))==1) stop("Leave structures as a NULL object because there is only one level in structures; structures is uninformative")
         }
         W <- lapply(structures, function(x) tapply(w, x, sum))
         df1 <- sapply(df, function(x) tapply(x, structures[, nc], sum))
@@ -289,7 +289,7 @@ function(comm, dis = NULL, structures = NULL, option=c("eq", "normed1", "normed2
             colnames(res) <- "Equivalent numbers"
         }
         else if(option[1]=="normed1"){
-            beta1N <- (beta1Eq - 1) / (length(levels(structures[, nc])) - 1)
+            beta1N <- (beta1Eq - 1) / (length(unique(structures[, nc])) - 1)
             res <- cbind.data.frame(c(beta1N, resbeta))
             inter <- c("Inter-sites", paste("Inter-", colnames(structures), sep=""))
             intra <- c("Intra-sites", paste("Intra-", colnames(structures), sep=""))
@@ -298,7 +298,7 @@ function(comm, dis = NULL, structures = NULL, option=c("eq", "normed1", "normed2
             colnames(res) <- "Normed contributions to diversity"
         }
         else if(option[1]=="normed2"){
-            beta1N <- (beta1Eq - 1) / (length(levels(structures[, nc])) - 1)
+            beta1N <- (beta1Eq - 1) / (length(unique(structures[, nc])) - 1)
             res <- cbind.data.frame(c(beta1N, resbeta))
             inter <- c("Inter-sites", paste("Inter-", colnames(structures), sep=""))
             intra <- c("Intra-sites", paste("Intra-", colnames(structures), sep=""))

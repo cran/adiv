@@ -6,7 +6,7 @@ function(phyl, nbofsp, tol = 1e-8, give.list = TRUE)
     phyl.phylo <- arg.phyl$phyl.phylo
     rm(arg.phyl)
 
-    if(is.binary.tree(phyl.phylo))
+    if(is.binary.phylo(phyl.phylo))
         phy.h <- as.hclust(phyl.phylo) ## also test for ultrametricity 
     else{
         if(!is.ultrametric(phyl.phylo)) stop("the tree is not ultrametric")

@@ -13,7 +13,7 @@ function(phyl, rate = 0.1, method = 1:2)
   if (!(rate>=0 & rate<=1)) stop("rate must be between 0 and 1")
   if (rate == 0) return(0)
 
-  if(is.binary.tree(phyl.phylo))
+  if(is.binary.phylo(phyl.phylo))
       phy.h <- as.hclust(phyl.phylo) ## also test for ultrametricity 
   else{
       if(!is.ultrametric(phyl.phylo)) stop("the tree is not ultrametric")

@@ -42,24 +42,28 @@ tol = 1e-08)
 
 rtestEqRS(comm, dis = NULL, structures = NULL, 
 formula = c("QE", "EDI"), 
-option = c("normed1", "normed2", "eq"), level = 1, nrep = 99, 
+option = c("normed1", "normed2", "eq"), 
+popt = c("aggregated", "independent"), level = 1, nrep = 99, 
 alter = c("greater", "less", "two-sided"), tol = 1e-08)
 
 rtestEqRSintra(comm, dis = NULL, structures = NULL, 
 formula = c("QE", "EDI"), 
-option = c("normed1", "normed2", "eq"), level = 1, 
+option = c("normed1", "normed2", "eq"), 
+popt = c("aggregated", "independent"), level = 1, 
 nrep = 99, alter = c("greater", "less", "two-sided"), 
 tol = 1e-08, metmean = c("harmonic", "arithmetic"))
 
 rtestEqRao(comm, dis = NULL, structures = NULL, 
 formula = c("QE", "EDI"), 
 option = c("normed1", "normed2", "eq"), 
-wopt = c("even", "speciesab"), level = 1, nrep = 99, 
+wopt = c("even", "speciesab"), 
+popt = c("aggregated", "independent"), level = 1, nrep = 99, 
 alter = c("greater", "less", "two-sided"), tol = 1e-08, 
 metmean = c("harmonic", "arithmetic"))
 
 rtestwapqe(comm, dis = NULL, structures = NULL, 
 formula = c("QE", "EDI"), wopt = c("even", "speciesab"), 
+popt = c("aggregated", "independent"), 
 level = 1, nrep = 99, alter = c("greater", "less", "two-sided"),
 tol = 1e-08)
 }
@@ -77,6 +81,9 @@ either \code{"QE"} (default) or \code{"EDI"}. See details.
 }
   \item{wopt}{
 either \code{"even"} (default), \code{"speciesab"}, or a numeric vector. If \code{w="speciesab"}, then the communities will be weighted by their sum of species' abundances. If \code{w="even"}, the communities will be evenly weighted within the factors defined by the argument \code{structures}.}
+  \item{popt}{
+a sring: either \code{"aggregated"} or \code{"independent"}. This choice will define the permutation test within communities (level 1 of the permutation scheme). If \code{"aggregated"} is chosen, sampled individuals will be considered to be aggregated in space so that. (For example, consider that fish are sampled by net, and fish are aggregated in space, then when using the net, one might have zero abundance once because the net was not placed in a shoal of fish and a very high abundance another time because the net was placed in a shoal of fish; the permutation scheme was developed for this scenario). In that case, the abundance values of each species are permuted between communities. Permutations leading to an empty community (with all species abundances equal to zero) are excluded. If \code{"independent"} is chosen, sampled individuals will be considered independent from each other and now abundances are randomly defined with the only constraints that the sum of species abundance within a community is kept constant and the sum of abundance of a species across all communities (if argument \code{structures} is \code{NULL} or across the communities of a group (of level 2, see argument \code{level}) if \code{structures} is not \code{NULL}. Decimals are not allowed for abundance data with \code{popt = "independent"}.
+}
   \item{tol}{
 a tolerance threshold (a value between -\code{tol} and \code{tol} is considered equal to zero).}
   \item{metmean}{

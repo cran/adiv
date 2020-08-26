@@ -10,7 +10,7 @@ function(comm, dis = NULL, structures = NULL,
         if(!inherits(structures, "data.frame")) stop("structures should be a data frame or NULL")
         if(!nrow(structures)==nrow(dfold)) stop("incorrect number of rows in structures")
         structures <- structures[rowSums(dfold)>0, , drop=FALSE]
-        structures <- as.data.frame(apply(structures, 2, factor))
+        for(i in 1:ncol(structures)) structures[,i] <-factor(structures[,i]) 
         if(!is.null(rownames(structures))  & !is.null(rownames(df))){
             e <- sum(abs(match(rownames(df), rownames(structures))-(1:ncomm)))
             if(e>1e-8) warning("be careful that rownames in df should be in the same order as rownames in structures")

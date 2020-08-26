@@ -1,12 +1,16 @@
 rtestwapqe <-
 function(comm, dis = NULL, structures = NULL,
-formula = c("QE", "EDI"), wopt = c("even", "speciesab"),
-level = 1, nrep = 99, alter = c("greater", "less", "two-sided"), tol = 1e-8){
+formula = c("QE", "EDI"), wopt = c("even", "speciesab"), popt = c("aggregated", "independent"), level = 1, nrep = 99, alter = c("greater", "less", "two-sided"), tol = 1e-8){
 
     df <- comm
     dfold <- df
     df <- df[rowSums(df)>0, ]
     ncomm <- nrow(df)
+    if(!wopt[1]%in%c("even", "speciesab")) stop("Incorrect definition of wopt")
+    if(!popt[1]%in%c("aggregated", "independent")) stop("Incorrect definition of popt")
+    popt <- popt[1]
+    if(popt == "independent")
+        df <- round(df)
     if(!is.null(structures)){
         if(!inherits(structures, "data.frame")) stop("structures should be a data frame or NULL")
         if(!nrow(structures)==nrow(dfold)) stop("incorrect number of rows in structures")
@@ -103,8 +107,13 @@ level = 1, nrep = 99, alter = c("greater", "less", "two-sided"), tol = 1e-8){
 
     if(is.null(structures)){
         fun <- function(i){
-            dfperm <- as.data.frame(sapply(dfbrut, sample))
+            if(popt == "aggregated"){
+            dfperm <- as.data.frame(sapply(df, sample))
             if(any(rowSums(dfperm)<tol)) return(NA)
+            }
+            else{
+            dfperm <- as.data.frame(r2dtable(1,rowSums(df),colSums(df))[[1]])
+            }
             if(wopt[1]!="speciesab"){
                 dfperm <- as.data.frame(sweep(dfperm, 1, rowSums(dfperm), "/"))
                 dfperm <- dfperm*w
@@ -139,23 +148,38 @@ level = 1, nrep = 99, alter = c("greater", "less", "two-sided"), tol = 1e-8){
             x[posiori] <- x[posiori2]
             return(x)
         }
+        inde.permut <- function(x){
+            Tperm <- as.data.frame(r2dtable(1,rowSums(x),colSums(x))[[1]])
+            rownames(Tperm) <- rownames(x)
+            colnames(Tperm) <- colnames(x)
+            return(Tperm)
+        }
         fun <- function(i){
-            dfperm <- sapply(dfbrut, aggr.permut)
+            if(popt=="aggregated") {
+            dfperm <- sapply(df, aggr.permut)
             rownames(dfperm) <- rownames(df)
             dfperm <- as.data.frame(dfperm)
             if(any(rowSums(dfperm)<tol)) return(NA)
-            else{
-                if(wopt[1]!="speciesab"){
-                    dfperm <- as.data.frame(sweep(dfperm, 1, rowSums(dfperm), "/"))
-                    dfperm <- dfperm*w
-                }
-                op <- options()$warn
-                options(warn=-1)
-                a <- apqe(as.data.frame(t(dfperm)), dis = sqrt(2*d), structures)$results
-                options(warn=op)
-                res <- a[nrow(a) - 2, ] / a[nrow(a) - 1, ]
-                return(res)
             }
+            else{
+               dfsplit <- split(df, as.factor(structures[, 1]))
+               dfsplitR <- lapply(dfsplit, inde.permut)
+               dfperm <- as.data.frame(matrix(0, nrow(df), ncol(df)))
+               rownames(dfperm) <- rownames(df)
+               colnames(dfperm) <- colnames(df)
+               for(i in 1:length(dfsplitR)) {
+               dfperm[rownames(dfsplitR[[i]]), ] <- dfsplitR[[i]]
+            }}
+            if(wopt[1]!="speciesab"){
+                dfperm <- as.data.frame(sweep(dfperm, 1, rowSums(dfperm), "/"))
+                dfperm <- dfperm*w
+            }
+            op <- options()$warn
+            options(warn=-1)
+            a <- apqe(as.data.frame(t(dfperm)), dis = sqrt(2*d), structures)$results
+            options(warn=op)
+            res <- a[nrow(a) - 2, ] / a[nrow(a) - 1, ]
+            return(res)
         }
         ressim <- sapply(1:nrep, fun)
         op <- options()$warn

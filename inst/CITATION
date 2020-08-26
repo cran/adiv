@@ -1,0 +1,15 @@
+year <- sub("-.*", "", meta$Date)
+note <- sprintf("R package version %s", meta$Version)
+bibentry(bibtype = "Article",
+author = person("Sandrine", "Pavoine"),
+title = "adiv: An r package to analyse biodiversity in ecology",
+year = "2020",
+journal = "Methods in Ecology and Evolution",
+pages = "In press",
+url = "https://doi.org/10.1111/2041-210X.13430")
+bibentry(bibtype = "Manual",
+author = person("Sandrine", "Pavoine"),
+title = "{adiv}: Analysis of Diversity",
+year = year,
+note = note,
+url = "https://CRAN.R-project.org/package=adiv")

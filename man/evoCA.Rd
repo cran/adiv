@@ -10,7 +10,7 @@ The function \code{evoCA} performs the evolutionary correspondence analysis (evo
 \usage{
 evoCA(phyl, comm, scannf = TRUE, nf = 2, abundance = TRUE)
 
-\method{plot}{evoCA}(x, xaxis = 1, yaxis = 2, \dots)
+\method{plot}{evoCA}(x, xaxis = 1, yaxis = 2, graph = FALSE, \dots)
 }
 \arguments{
   \item{phyl}{
@@ -36,6 +36,9 @@ the number of the evoCA axis chosen for the x-axis of the 3d plot.
 }
   \item{yaxis}{
 the number of the evoCA axis chosen for the y-axis of the 3d plot.
+}
+  \item{graph}{
+a logical value. \code{plot.evoCA} depends on package \code{rgl}. This package will only work if you have graphics support on your computer. If you do have graphics support, choose graph = TRUE and you will be able to visualize the 3d plot with coordinates for species and phylogenetic nodes.
 }
   \item{\dots}{
 other arguments can be added and passed to the function \code{plot3d} of package rgl.
@@ -95,9 +98,15 @@ dist(evoCAbat$li)
 # which is equal to evoDchi2:
 evodiss(phy, ab, "chi2")
 
-plot(evoCAbat)
+# Run the following commands only 
+# if you have graphics support to use 
+# the rgl package on your computer:
+plot(evoCAbat, graph = TRUE)
+# With argument "graph = TRUE"
+# you will be able to vizualize the 3d plot.
 
-plot(evoCAbat, xaxis=1, yaxis=3)
+# See also,
+plot(evoCAbat, xaxis=1, yaxis=3, graph = TRUE)
 adegpar("plabels.optim" = O)
 
 }

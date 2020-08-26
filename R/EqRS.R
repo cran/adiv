@@ -44,10 +44,9 @@ option=c("eq", "normed1", "normed2"), formula = c("QE", "EDI"), tol = 1e-8){
         if(!inherits(structures, "data.frame")) stop("structures should be a data frame or NULL")
         if(!nrow(structures)==nrow(dfold)) stop("incorrect number of rows in structures")
         structures <- structures[rowSums(dfold)>0, , drop=FALSE]
-        structures <- as.data.frame(apply(structures, 2, factor))
         if(!is.null(rownames(structures)) & !is.null(rownames(df))){
             e <- sum(abs(match(rownames(df), rownames(structures))-(1:ncomm)))
-            if(e>1e-8) warning("be careful that rownames in df should be in the same order as rownames in structures")
+            if(e>1e-8) warning("be careful that rownames in comm should be in the same order as rownames in structures")
         }
         checknested <- function(forstru){
             n <- ncol(forstru)
@@ -75,13 +74,13 @@ option=c("eq", "normed1", "normed2"), formula = c("QE", "EDI"), tol = 1e-8){
             }
             if(ncol(structures)==1){
                 firstw <- table(structures[, 1])
-                w <- 1/firstw[structures[, 1]]/length(levels(structures[, 1]))
+                w <- 1/firstw[structures[, 1]]/length(unique(structures[, 1]))
             }
             else {
                 listw <- lapply(2:nc, fun)
                 firstw <- table(structures[, 1])
                 firstw <- 1/firstw[structures[, 1]]
-                finalw <- 1/length(levels(structures[, ncol(structures)]))
+                finalw <- 1/length(unique(structures[, ncol(structures)]))
                 forw <- cbind.data.frame(as.vector(firstw), as.vector(listw), as.vector(rep(finalw, nrow(structures))))
                 w <- apply(forw, 1, prod)
             }
@@ -90,6 +89,7 @@ option=c("eq", "normed1", "normed2"), formula = c("QE", "EDI"), tol = 1e-8){
     if(!is.null(structures)){
         if(length(levels(factor(structures[, 1])))==1) stop("All sites belong to a unique level in the first column of structures, remove this first column in structures")
         if(length(levels(factor(structures[, 1])))==nrow(df)) stop("Each site belongs to a distinct level in the first column of structures, this first column is useless, remove it and re-run")
+    for(i in 1:ncol(structures)) structures[,i] <-factor(structures[,i]) 
     }
 
     op <- options()$warn
@@ -141,7 +141,7 @@ option=c("eq", "normed1", "normed2"), formula = c("QE", "EDI"), tol = 1e-8){
         else if(option[1]=="normed2"){
 
             nc <- ncol(structures)
-            beta1N <- (beta1 - 1) / (length(levels(structures[, nc])) - 1)
+            beta1N <- (beta1 - 1) / (length(unique(structures[, nc])) - 1)
             fun <- function(i){
                 T <- as.factor(structures[, i])
                 poidsnum <- tapply(w, structures[, i], sum)
@@ -191,7 +191,7 @@ option=c("eq", "normed1", "normed2"), formula = c("QE", "EDI"), tol = 1e-8){
         else if(option[1]=="normed1"){
 
             nc <- ncol(structures)
-            beta1N <- (beta1 - 1) / (length(levels(structures[, nc])) - 1)
+            beta1N <- (beta1 - 1) / (length(unique(structures[, nc])) - 1)
             fun <- function(i){
                 T <- as.factor(structures[, i])
                 poidsnum <- tapply(w, structures[, i], sum)

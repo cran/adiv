@@ -1,4 +1,4 @@
-plot.evoCA <- function(x, xaxis = 1, yaxis = 2, ...){
+plot.evoCA <- function(x, xaxis = 1, yaxis = 2, graph = FALSE, ...){
 
 if(ncol(x$co)<max(xaxis, yaxis)) stop(paste(ncol(x$co), " axes only have been saved in evoCA, please change xaxis, yaxis, or run again function evoCA to include more axes"))
  
@@ -25,6 +25,7 @@ coord1 <- coordtoutes[namestips, ]
 listchildren <- sapply(namesnodes, function(u) children(tre4, u))
 names(listchildren) <- namesnodes
 
+options(rgl.useNULL = !graph)
 plot3d(coord1$X, coord1$Y, coord1$Z, xlim=range(coordtoutes$X), ylim=range(coordtoutes$Y), zlim=range(coordtoutes$Z), pch=19, xlab=paste("evoCA Axis", xaxis, sep=" "), ylab=paste("evoCA Axis", yaxis, sep=" "), zlab="Time of evolution", ...)
 
 for(i in 1: length(listchildren)){

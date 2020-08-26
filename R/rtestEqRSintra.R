@@ -1,11 +1,16 @@
 rtestEqRSintra <-
 function(comm, dis = NULL, structures =
 NULL, formula = c("QE", "EDI"), option=c("normed1", "normed2",
-"eq"), level = 1, nrep = 99, alter = c("greater", "less",
+"eq"), popt = c("aggregated", "independent"), level = 1, nrep = 99, alter = c("greater", "less",
 "two-sided"), tol = 1e-8, metmean=c("harmonic", "arithmetic")){
 
     df <- comm
     metmean <- metmean[1]
+    if(!option[1]%in%c("normed1", "normed2", "eq")) stop("Incorrect definition of option")
+    if(!popt[1]%in%c("aggregated", "independent")) stop("Incorrect definition of popt")
+    popt <- popt[1]
+    if(popt == "independent")
+        df <- round(df)
     if(option[1]=="eq")
         indexk <- 0
     else
@@ -37,12 +42,15 @@ NULL, formula = c("QE", "EDI"), option=c("normed1", "normed2",
     alter <- alter[1]
     if(is.null(structures)){
         fun <- function(i){
+            if(popt == "aggregated"){
             dfperm <- as.data.frame(sapply(df, sample))
             if(any(rowSums(dfperm)<tol)) return(NA)
-            else{
-                res <- EqRSintra(dfperm, dis = dis, NULL, formula = formula, option = option, tol = tol, metmean = metmean)[1, ]
-                return(res)
             }
+            else{
+            dfperm <- as.data.frame(r2dtable(1,rowSums(df),colSums(df))[[1]])
+            }
+            res <- EqRSintra(dfperm, dis = dis, NULL, formula = formula, option = option, tol = tol, metmean = metmean)[1, ]
+            return(res)
         }
         ressim <- sapply(1:nrep, fun)
         obs <- EqRSintra(df, dis = dis, NULL, formula = formula, option = option, tol = tol, metmean = metmean)[1, ]
@@ -63,16 +71,31 @@ NULL, formula = c("QE", "EDI"), option=c("normed1", "normed2",
 	       x[posiori] <- x[posiori2]
 	       return(x)
         }
+        inde.permut <- function(x){
+            Tperm <- as.data.frame(r2dtable(1,rowSums(x),colSums(x))[[1]])
+            rownames(Tperm) <- rownames(x)
+            colnames(Tperm) <- colnames(x)
+            return(Tperm)
+        }
         fun <- function(i){
+            if(popt=="aggregated") {
             dfperm <- sapply(df, aggr.permut)
             rownames(dfperm) <- rownames(df)
             dfperm <- as.data.frame(dfperm)
             if(any(rowSums(dfperm)<tol)) return(NA)
-            else{
-                res <- EqRSintra(dfperm, dis = dis, structures, formula = formula, option = option, tol = tol, metmean = metmean)
-                res <- res[nrow(res)- 2 + indexk, ]
-                return(res)
             }
+            else{
+               dfsplit <- split(df, as.factor(structures[, 1]))
+               dfsplitR <- lapply(dfsplit, inde.permut)
+               dfperm <- as.data.frame(matrix(0, nrow(df), ncol(df)))
+               rownames(dfperm) <- rownames(df)
+               colnames(dfperm) <- colnames(df)
+               for(i in 1:length(dfsplitR)) {
+               dfperm[rownames(dfsplitR[[i]]), ] <- dfsplitR[[i]]
+            }}
+            res <- EqRSintra(dfperm, dis = dis, structures, formula = formula, option = option, tol = tol, metmean = metmean)
+            res <- res[nrow(res)- 2 + indexk, ]
+            return(res)
         }
         ressim <- sapply(1:nrep, fun)
         obs <- EqRSintra(df, dis = dis, structures, formula = formula, option = option, tol = tol, metmean = metmean)

@@ -45,7 +45,7 @@ function(comm, dis = NULL, structures = NULL,
         if(!inherits(structures, "data.frame")) stop("structures should be a data frame or NULL")
         if(!nrow(structures)==nrow(dfold)) stop("incorrect number of rows in structures")
         structures <- structures[rowSums(dfold)>0, , drop=FALSE]
-        structures <- as.data.frame(apply(structures, 2, factor))
+        for(i in 1:ncol(structures)) structures[,i] <-factor(structures[,i])
         if(!is.null(rownames(structures)) & !is.null(rownames(df))){
             e <- sum(abs(match(rownames(df), rownames(structures))-(1:ncomm)))
             if(e>1e-8) warning("be careful that rownames in df should be in the same order as rownames in structures")
@@ -76,13 +76,13 @@ function(comm, dis = NULL, structures = NULL,
             }
             if(ncol(structures)==1){
                 firstw <- table(structures[, 1])
-                w <- 1/firstw[structures[, 1]]/length(levels(structures[, 1]))
+                w <- 1/firstw[structures[, 1]]/length(unique(structures[, 1]))
             }
             else {
                 listw <- lapply(2:nc, fun)
                 firstw <- table(structures[, 1])
                 firstw <- 1/firstw[structures[, 1]]
-                finalw <- 1/length(levels(structures[, ncol(structures)]))
+                finalw <- 1/length(unique(structures[, ncol(structures)]))
                 forw <- cbind.data.frame(as.vector(firstw), as.vector(listw), as.vector(rep(finalw, nrow(structures))))
                 w <- apply(forw, 1, prod)
             }
@@ -194,7 +194,7 @@ function(comm, dis = NULL, structures = NULL,
 
         }
         else if(option[1]=="normed1"){
-            beta1N <- (1 - 1/beta1) / (1 - 1/length(levels(structures[, nc])))
+            beta1N <- (1 - 1/beta1) / (1 - 1/length(unique(structures[, nc])))
             res <- cbind.data.frame(c(beta1N, resbeta))
             inter <- c("Inter-sites", paste("Inter-", colnames(structures), sep=""))
             intra <- c("Intra-sites", paste("Intra-", colnames(structures), sep=""))
@@ -203,7 +203,7 @@ function(comm, dis = NULL, structures = NULL,
             colnames(res) <- "Normed contributions to beta diversity"
         }
         else if(option[1]=="normed2"){
-            beta1N <- (beta1 - 1) / (length(levels(structures[, nc])) - 1)
+            beta1N <- (beta1 - 1) / (length(unique(structures[, nc])) - 1)
             res <- cbind.data.frame(c(beta1N, resbeta))
             inter <- c("Inter-sites", paste("Inter-", colnames(structures), sep=""))
             intra <- c("Intra-sites", paste("Intra-", colnames(structures), sep=""))
