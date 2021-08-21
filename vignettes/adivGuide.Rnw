@@ -72,7 +72,7 @@ options("warn"=-1)
 \pagestyle{fancy}
 \setkeys{Gin}{width=0.8\textwidth}
 \title{Guide through the functions available in package adiv}
-\date{February, 2020}
+\date{August, 2021}
 \author{Sandrine Pavoine}
 \maketitle
 
@@ -135,6 +135,8 @@ of diversity and evenness.}
     \hline
   \texttt{evodivparam}	& parametric diversity indices applied to phylogenetic diversity \citep{PavoineRicotta2019a} & \texttt{plot.evodivparam} \\
     \hline
+  \texttt{FPdivparam}	&   Parametric Indices of Functional and Phylogenetic Diversity \citep{PavoineRicotta2021}  & \texttt{plot.FPdivparam} \\
+    \hline
   \texttt{pIa} & index $I_a$ by \citet{Pavoineetal2009} & \\
     \hline
   \texttt{qDT} & $^qD(T)$ index developed by \citet{Chaoetal2010} as the mean diversity of order \emph{q} over \emph{T} years in a phylogenetic tree. In function \texttt{qDT}, the index is computed over the whole tree from root to tips. The function uses the formula of the $^qD(T)$ index extended to non-ultrametric trees (where the distance from tip to root can vary).	& \\
@@ -151,6 +153,8 @@ of diversity and evenness.}
     \hline
   \texttt{Rentropy}	& \citet{Pavoineetal2017} functional or phylogenetic entropy & \texttt{QE} \\
    \hline
+  \texttt{FPdivparam}	&   Parametric Indices of Functional and Phylogenetic Diversity \citep{PavoineRicotta2021}  & \texttt{plot.FPdivparam} \\
+    \hline
 \end{tabular} 
 * The quadratic entropy is also the core index used in functions \texttt{decdiv}, \texttt{wapqe}, \texttt{EqRao}, \texttt{EqRS}, \texttt{EqRSintra} (see Table \ref{tab:partitioning}).
 \end{center}
@@ -261,6 +265,8 @@ Main function	& Aim	& Associated functions \\
   \texttt{dissRicotta} & Ricotta et al. coefficient of the dissimilarities between communities \citep{Ricottaetal2015} & \\
      \hline
   \texttt{dsimcom} & \citet{PavoineRicotta2014} generalization of compositional similarity indices such as Jaccard and S\o rensen indices to include information on functional and phylogenetic similarity between species and abundance data for each species & sQ \\
+     \hline
+  \texttt{dislptransport} & \citet{Kosman1996} and \citet{Gregoriusetal2003} coefficient of the dissimilarities between communities \citep{Ricottaetal2021a} &  \\
      \hline
   \multicolumn{3}{|l|}{Dissimilarities between plots based on a (phylogenetic) tree with species as tips} \\
      \hline
@@ -500,7 +506,7 @@ uniqueness ($U_{\beta}$) between communities and its complement
 redundancy provided the trait-based diversity measure always is lower than or 
 equal to the species-based $\beta$ diversity \citep{Ricottaetal2020}. 
 \texttt{adiv} contains such indices of the $\beta$ trait-based (or 
-phylogenetic) uniqueness across two communities (function \texttt{betaTreeUniqueness}, Table \ref{tab:ori}). 
+phylogenetic) uniqueness across two communities (functions \texttt{betaUniqueness} and \texttt{betaTreeUniqueness}, Table \ref{tab:ori}). 
 
 \begin{table}
 \begin{center}
@@ -520,11 +526,17 @@ Main function & Aim & Associated functions \\
    \hline
 \texttt{distinctUltra} & species' originality that rely on the structure and branch lengths of ultrametric (phylogenetic) trees \citep{Pavoineetal2005, PavoineIzsak2014} & \texttt{orisaved} \\
    \hline
+\multicolumn{3}{|l|}{Abundance-weighted originality (=distinctiveness) of each species at a given place} \\
+   \hline
+\texttt{distinctAb} & dissimilarity- and abundance-based species' originality \citep{PavoineRicotta2021} & \\
+   \hline
 \multicolumn{3}{|l|}{Uniqueness versus redundancy in the whole community*} \\
    \hline
 \texttt{uniqueness} & community-level functional uniqueness and redundancy \citep{Ricottaetal2016} & \\
    \hline
 \texttt{treeUniqueness} & community-level phylogenetic (or tree-based) redundancy taking into account the branching pattern of the underlying phylogenetic tree (or any other tree, like a functional dendrogram) \citep{Ricottaetal2018, PavoineRicotta2019a} & \\	
+   \hline
+\texttt{betaUniqueness} & \citet{Ricottaetal2021a} plot-to-plot functional $\beta$ uniqueness & \\
    \hline
 \texttt{betaTreeUniqueness} & \citet{Ricottaetal2020} plot-to-plot functional or phylogenetic $\beta$ uniqueness \citep[index named $U_F$ for functional data and $U_P$ for phylogenetic data in ][]{Ricottaetal2020} & \\
    \hline
@@ -669,11 +681,11 @@ library(ade4)
 These packages will allow us to read, manipulate and display phylogenetic trees \citep[packages \texttt{ape} and \texttt{phylobase}, ][]{Paradisetal2004,RHackathon2019},  estimate the contribution of each node of the phylogenetic tree to the factorial map of the evolutionary correspondence analysis \citep[package \texttt{ade4},][]{Thioulouseetal2018}. 
 
 Load the data set named \texttt{batcomm} on bat communities. It is a list 
-that contains bat phylogeny (in 
-\texttt{batcomm\$tre}) and bat abundance (in \texttt{batcomm\$ab}) along a disturbance gradient in a neotropical 
+that contains bat phylogenies (below we use 
+\texttt{batcomm\$tre}) and bat abundances (below we use \texttt{batcomm\$ab}) along a disturbance gradient in a neotropical 
 rainforest. The abundance data were collected by \citet{Medellinetal2000} in 
 the Selva Lacandona of Chiapas, Mexico, in four habitats: rainforest (F), cacao 
-plantations (P), oldfields (O) and cornfields (C). The phylogeny is \citet{Fritzetal2009} 
+plantations (P), oldfields (O) and cornfields (C). The phylogeny we use below is \citet{Fritzetal2009} 
 phylogeny pruned to retain only the species present in Medellin et al. 
 data set. 
 
@@ -972,6 +984,7 @@ All these diplays of the results of evoCA applied to bat communities show low ph
 \bibitem[Fritz et al.(2009)]{Fritzetal2009} Fritz,~S.A., Bininda-Emonds,~O.R.P., Purvis,~A. (2009). Geographic variation in predictors of mammalian extinction risk: big is bad, but only in the tropics. \emph{Ecology Letters}, 12, 538--549. \url{https://doi.org/10.1111/j.1461-0248.2009.01307.x}
 \bibitem[Gini(1912)]{Gini1912} Gini,~C. (1912). \emph{Variabilita e mutabilita}. Studi economicoaguridici delle facoltta di giurizprudenza dell, Universite di Cagliari III, Parte II.
 \bibitem[Gower and Legendre(1986)]{GowerLegendre1986} Gower,~J.C., Legendre,~P. (1986). Metric and Euclidean properties of dissimilarity coefficients. \emph{Journal of Classification}, 3, 5--48.
+\bibitem[Gregorius et al.(2003)]{Gregoriusetal2003} Gregorius, H.-R., Gillet, E.M., Ziehe, M. (2003) Measuring differences of trait distributions between populations. \emph{Biometrical Journal}, 8, 959--973 \url{https://doi.org/10.1002/bimj.200390063}
 \bibitem[Hardy(2008)]{Hardy2008} Hardy,~O.J. (2008). Testing the spatial phylogenetic structure of local communities: statistical performances of different null models and test statistics on a locally neutral community. \emph{Journal of Ecology}, 96, 914--926. \url{https://doi.org/10.1111/j.1365-2745.2008.01421.x}
 \bibitem[Havrda and Charvat(1967)]{HavrdaCharvat1967} Havrda,~M., Charvat,~F. (1967). Quantification method of classification processes: concept of structural alpha-entropy. \emph{Kybernatica}, 3, 30--35.
 \bibitem[Hill(1973)]{Hill1973} Hill,~M.O. (1973). Diversity and evenness: a unifying notation and its consequences. \emph{Ecology}, 54, 427--432. \url{https://doi.org/10.2307/1934352}
@@ -979,6 +992,7 @@ All these diplays of the results of evoCA applied to bat communities show low ph
 \bibitem[Isaac et al.(2007)]{Isaacetal2007}Isaac,~N.J., Turvey,~S.T., Collen,~B., Waterman,~C., Baillie,~J.E. (2007). Mammals on the EDGE: conservation priorities based on threat and phylogeny. \emph{PloS ONE}, 2, e296. \url{https://doi.org/10.1371/journal.pone.0000296}
 \bibitem[Jombart and Dray (2008)]{JombartDray2008}Jombart,~T., Dray,~S. (2008). adephylo: exploratory analyses for the phylogenetic comparative method. \emph{Bioinformatics}, 26, 1907--1909. \url{https://doi.org/10.1093/bioinformatics/btq292}
 \bibitem[Kembel et al.(2010)]{Kembeletal2010} Kembel,~S.W., Cowan,~P.D., Helmus,~M.R., Cornwell,~W.K., Morlon,~H., Ackerly,~D.D., Blomberg,~S.P., Webb,~C.O. (2010). Picante: R tools for integrating phylogenies and ecology. \emph{Bioinformatics}, 26, 1463--1464. \url{https://doi.org/10.1093/bioinformatics/btq166}
+\bibitem[Kosman(1996)]{Kosman1996} Kosman, E. (1996) Difference and diversity of plant pathogen populations: a new approach for measuring. \emph{Phytopathology}, 86, 1152--1155.
 \bibitem[Kroonenberg and Lombardo(1999)]{KroonenbergLombardo1999} Kroonenberg,~P.M., Lombardo,~R. (1999). Nonsymmetric correspondence analysis: a tool for analysing contingency tables with a dependence structure. \emph{Multivariate Behavioral Research}, 34, 367--396. \url{https://doi.org/10.1207/S15327906MBR3403_4}
 \bibitem[Laliberte et al.(2014)]{Laliberteetal2014} Laliberte,~E., Legendre,~P., Shipley,~B. (2014). \emph{FD: measuring functional diversity from multiple traits, and other tools for functional ecology}. R package version 1.0-12. \url{https://CRAN.R-project.org/package=FD}
 \bibitem[Lauro and D'Ambra(1984)]{LauroDAmbra1984} Lauro,~N., D'Ambra,~L. (1984). Non-symmetrical correspondence analysis. In: Tomassone,~R. (Ed.), Data Analysis and Informatics, III, pp. 433--446. North-Holland, Amsterdam: Elsevier.
@@ -1007,6 +1021,7 @@ All these diplays of the results of evoCA applied to bat communities show low ph
 \bibitem[Pavoine and Ricotta(2014)]{PavoineRicotta2014} Pavoine,~S., Ricotta,~C. (2014). Functional and phylogenetic similarity among communities. \emph{Methods in Ecology and Evolution}, 5, 666--675. \url{https://doi.org/10.1111/2041-210X.12193}
 \bibitem[Pavoine and Ricotta(2019a)]{PavoineRicotta2019a} Pavoine,~S., Ricotta,~C. (2019a). A simple translation from indices of species diversity to indices of phylogenetic diversity. \emph{Ecological Indicators}, 101, 552--561. \url{https://doi.org/10.1016/j.ecolind.2019.01.052}
 \bibitem[Pavoine and Ricotta(2019b)]{PavoineRicotta2019b} Pavoine,~S., Ricotta,~C. (2019b). Measuring functional dissimilarity among plots: adapting old methods to new questions. \emph{Ecological Indicators}, 97, 67--72. \url{https://doi.org/10.1016/j.ecolind.2018.09.048}
+\bibitem[Pavoine and Ricotta(2021)]{PavoineRicotta2021} Pavoine,~S., Ricotta,~C. (2021) On the relationships between rarity, uniqueness, distinctiveness, originality and functional/phylogenetic diversity. \emph{BiorXiv}. \url{https://doi.org/10.1101/2021.08.09.455640}
 \bibitem[Pavoine et al.(2011)]{Pavoineetal2011} Pavoine,~S., Vela,~E., Gachet,~S., de Belair,~G., Bonsall,~M.B. (2011). Linking patterns in phylogeny, traits, abiotic variables and space: a novel approach to linking environmental filtering and plant community assembly. \emph{Journal of Ecology}, 99, 165--175. \url{https://doi.org/10.1111/j.1365-2745.2010.01743.x}
 \bibitem[Pielou(1975)]{Pielou1975} Pielou,~E.C. (1975). \emph{Ecological diversity}. New York: Wiley InterScience.
 \bibitem[R Hackathon et al.(2019)]{RHackathon2019} R Hackathon~et~al. (2019). \emph{phylobase: Base Package for Phylogenetic Structures and Comparative Data}. R package version 0.8.6. \url{https://CRAN.R-project.org/package=phylobase}
@@ -1019,7 +1034,8 @@ All these diplays of the results of evoCA applied to bat communities show low ph
 \bibitem[Ricotta et al.(2018)]{Ricottaetal2018} Ricotta,~C., Bacaro,~G., Caccianiga,~M., Cerabolini,~B.E.L., Pavoine,~S. (2018). A new method for quantifying the phylogenetic redundancy of biological communities. \emph{Oecologia}, 186, 339--346. \url{https://doi.org/10.1007/s00442-017-4026-x}
 \bibitem[Ricotta et al.(2015)]{Ricottaetal2015} Ricotta,~C., Bacaro,~G., Pavoine,~S. (2015). A cautionary note on some phylogenetic dissimilarity measures. \emph{Journal of Plant Ecology}, 8, 12--16. \url{https://doi.org/10.1093/jpe/rtu008}
 \bibitem[Ricotta et al.(2016)]{Ricottaetal2016} Ricotta,~C., de Bello,~F., Moretti,~M., Caccianiga,~M., Cerabolini,~B.E., Pavoine,~S. (2016). Measuring the functional redundancy of biological communities: A quantitative guide. \emph{Methods in Ecology and Evolution}, 7, 1386--1395.  \url{https://doi.org/10.1111/2041-210X.12604}
-\bibitem[Ricotta et al.(2020)]{Ricottaetal2020} Ricotta,~C., Laroche,~F., Szeidl,~L., Pavoine,~S. (2020) From alpha to beta functional and phylogenetic redundancy. \emph{Methods in Ecology and Evolution}. In press.
+\bibitem[Ricotta et al.(2020)]{Ricottaetal2020} Ricotta,~C., Laroche,~F., Szeidl,~L., Pavoine,~S. (2020) From alpha to beta functional and phylogenetic redundancy. \emph{Methods in Ecology and Evolution}, 11, 487--493. \url{https://doi.org/10.1111/2041-210X.13353}
+\bibitem[Ricotta et al.(2021)]{Ricottaetal2021a} Ricotta,~C., Kosman,~E., Laroche,~F., Pavoine,~S. (2021) Beta redundancy for functional ecology. \emph{Methods in Ecology and Evolution}, 12, 1062--1069. \url{https://doi.org/10.1111/2041-210X.13587}
 \bibitem[Ricotta and Pavoine(2015a)]{RicottaPavoine2015a} Ricotta,~C., Pavoine,~S. (2015a). A multiple-site dissimilarity measure for species presence/absence data and its relationship with nestedness and turnover. \emph{Ecological Indicators}, 54, 203--206. \url{https://doi.org/10.1016/j.ecolind.2015.02.026}
 \bibitem[Ricotta and Pavoine(2015b)]{RicottaPavoine2015b} Ricotta,~C., Pavoine,~S. (2015b) Measuring similarity among plots including similarity among species: an extension of traditional approaches. \emph{Journal of Vegetation Science}, 26, 1061--1067. \url{https://doi.org/10.1111/jvs.12329}
 \bibitem[Ricotta, Podani and Pavoine(2016)]{RicottaPodaniPavoine2016} Ricotta,~C., Podani,~J., Pavoine,~S. (2016). A family of functional dissimilarity measures for presence and absence data. \emph{Ecology and Evolution}, 6, 5383--5389. \url{https://doi.org/10.1002/ece3.2214}

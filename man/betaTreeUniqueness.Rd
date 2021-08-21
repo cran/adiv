@@ -22,7 +22,7 @@ The tolerance threshold \code{tol} is particularly important if your tree is not
 The function returns a matrix with the values of the functional or phylogenetic beta uniqueness for each pair of plots. 
 }
 \references{
-Ricotta, C., Laroche, F., Szeidl, L., Pavoine, S. (2020) From alpha to beta functional and phylogenetic redundancy. \emph{Methods in Ecology and Evolution}. In press.
+Ricotta, C., Laroche, F., Szeidl, L., Pavoine, S. (2020) From alpha to beta functional and phylogenetic redundancy. \emph{Methods in Ecology and Evolution}, \bold{11}, 487--493.
 }
 \author{
 Sandrine Pavoine \email{sandrine.pavoine@mnhn.fr}

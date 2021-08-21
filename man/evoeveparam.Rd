@@ -32,7 +32,7 @@ evoeveparam(phyl, comm, method = c("hill", "tsallis", "renyi"),
   \item{legend}{a logical. If TRUE a legend is given with the colour, the type of line (etc.) used to define the evenness curve of each community.}
   \item{legendposi}{a string that gives the position of the legend to be passed to function \code{legend} of the base of R.}
 \item{axisLABEL}{
-a string to diplay on the main axis of the plot to designate what we are measuring. The default is \code{"Tree-based evenness"}.} 
+a string to display on the main axis of the plot to designate what we are measuring. The default is \code{"Tree-based evenness"}.} 
   \item{type}{a string to be passed to the graphic argument \code{type} of functions \code{plot} and \code{lines} used to draw the evenness curve of each community.}
   \item{col}{vector of colours to be passed to the graphic argument \code{col} of functions \code{plot} and \code{lines} to define the colour of the evenness curve of each community.}
   \item{lty}{vector of type of line (plain, broken etc.) to be passed to the graphic argument \code{lty} of functions \code{plot} and \code{lines} used to draw the evenness curve of each community.}

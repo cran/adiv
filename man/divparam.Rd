@@ -42,7 +42,7 @@ a logical. If TRUE a legend is given with the colour, the type of line (etc.) us
 a string or a numeric that gives the position of the legend to be passed to function \code{legend} of the base of R.
 }
 \item{axisLABEL}{
-a string to diplay on the main axis of the plot to designate what we are measuring. The default is \code{"Diversity"}. 
+a string to display on the main axis of the plot to designate what we are measuring. The default is \code{"Diversity"}. 
 }
   \item{type}{
 a string to be passed to the graphic argument \code{type} of functions \code{plot} and \code{lines} used to draw the diversity curve of each community.

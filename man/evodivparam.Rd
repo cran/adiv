@@ -24,14 +24,14 @@ evodivparam(phyl, comm,
 \arguments{
   \item{phyl}{an object inheriting the class \code{phylo} (see package ape), \code{phylo4} (see package phylobase), or \code{hclust}.}
   \item{comm}{a data frame or a matrix typically with communities as rows, species as columns and abundance as entry. Species should be labeled as in the phylogenetic tree where they are the tips.}
-  \item{method}{a string: either "hill" for the Hill numbers (Hill 1973), "tsallis" for the Tsallis or HCDT entropy (Harvda and Charvat 1967; Daroczy 1970; Tsallis 1988), or "renyi" for Renyi's entropy (Renyi 1960). If several value are given, only the first one is considered. See details.}
+  \item{method}{a string: either "hill" for the Hill numbers (Hill 1973), "tsallis" for the Tsallis or HCDT entropy (Harvda and Charvat 1967; Daroczy 1970; Tsallis 1988), or "renyi" for Renyi's entropy (Renyi 1960). If several values are given, only the first one is considered. See details.}
   \item{q}{a vector with nonnegative value(s) for parameter \code{q}. See details.}
   \item{tol}{numeric tolerance threshold: values between -\code{tol} and \code{tol} are considered equal to zero.}
   \item{x}{an object of class \code{evodivparam} obtained with function \code{evodivparam}.}
   \item{legend}{a logical. If TRUE a legend is given with the colour, the type of line (etc.) used to define the diversity curve of each community.}
   \item{legendposi}{a string that gives the position of the legend to be passed to function \code{legend} of the base of R.}
 \item{axisLABEL}{
-a string to diplay on the main axis of the plot to designate what we are measuring. The default is \code{"Tree-based diversity"}.} 
+a string to display on the main axis of the plot to designate what we are measuring. The default is \code{"Tree-based diversity"}.} 
   \item{type}{a string to be passed to the graphic argument \code{type} of functions \code{plot} and \code{lines} used to draw the diversity curve of each community.}
   \item{col}{vector of colours to be passed to the graphic argument \code{col} of functions \code{plot} and \code{lines} to define the colour of the diversity curve of each community.}
   \item{lty}{vector of type of line (plain, broken etc.) to be passed to the graphic argument \code{lty} of functions \code{plot} and \code{lines} used to draw the diversity curve of each community.}
