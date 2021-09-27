@@ -92,8 +92,9 @@ if(method == "KY") {
        ORIval <- distinctAb(comm = commdiv, disORtree = dis, method = "KstarI", palpha = aaa)[[1]]
        ORIval[is.na(ORIval)] <- 0
        divv <- rowSums(ORIval)
-       if(equivalent){ 
-       if(is.null(dmax) | (dmax-max(dis)) >= tol)  dmax <- max(dis)
+       if(equivalent){
+       if(is.null(dmax))  dmax <- max(dis)
+       if((dmax-max(dis)) >= tol)   dmax <- max(dis) 
        if(abs(aaa-1) > tol) divv <- (( 1-(aaa-1)*divv/dmax ))^(1/(1-aaa))
        else divv <- exp(divv/dmax)
        }
