@@ -42,7 +42,7 @@ DJac <- function (comm, dis, diag = FALSE, upper = FALSE)
                 if (length(compb) == 1) 
                   B[i, j] <- min(bY)
                 else {
-                  if (length(compY)==1)   C[i, j] <- sum(bY)
+                  if (length(compY)==1)   B[i, j] <- sum(bY)
                   else B[i, j] <- sum(apply(bY, 1, min))
                 }
             }

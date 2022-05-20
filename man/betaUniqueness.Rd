@@ -8,7 +8,7 @@ The function \code{betaUniqueness} calculates uniqueness and redundancy taking a
 betaUniqueness(comm, dis, Nind = 10000)
 }
 \arguments{
-\item{comm}{a matrix containing the relative or absolute abundance of all species in plots. Columns are species and plots are rows. Column labels (species names) should be assigned as in \code{mtree}.}
+\item{comm}{a matrix containing the relative or absolute abundance of all species in plots. Columns are species and plots are rows. Column labels (species names) should be assigned as in \code{dis}.}
 \item{dis}{a matrix or an object of class dist providing the functional dissimilarities between species (dissimilarities are nonnegative, symmetric, and the dissimilarity between a species and itself is zero). \bold{Species here must be in the same order as in the columns of comm}.}
 \item{Nind}{an integer. The algorithmic index will be applied by assuming that each plot contains \code{Nind} individuals. The highest \code{Nind}, the most precise the index value will be (see Gregorius et al. 2003, for more details).}
 }

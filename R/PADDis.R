@@ -54,12 +54,14 @@ function (comm, dis, method = NULL, diag = FALSE, upper = FALSE)
            bY <- dis[compb, compY]
            if(is.null(compb)) B[i, j] <- 0
            else {if(length(compb)==1) B[i, j] <- min(bY)
+           else if(length(compY)==1) B[i, j] <- sum(bY)
            else	B[i, j] <- sum(apply(bY, 1, min)) }
            compc <- (1:nsp)[df[j,]>1e-8 & df[i, ]<1e-8]
            compX <- (1:nsp)[df[i, ]>1e-8]
            cX <- dis[compc, compX]
            if(is.null(compc)) C[i, j] <- 0
            else {if(length(compc)==1) C[i, j] <- min(cX)
+           else if(length(compY)==1) C[i, j] <- sum(cX)
     		else C[i, j] <- sum(apply(cX, 1, min)) }
     }
     }
