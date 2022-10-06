@@ -36,7 +36,8 @@ decdiv <- function(phyl, comm, dis = NULL, tol = 1e-08, option = 1:5, formula = 
         e[is.na(e)] <- names(e[is.na(e)])
         nodeLabels(tre4) <- e
     }
-    lTips <- listTips(tre4)
+    lTips <- descendants(tre4, getNode(tre4, type="internal"), type="tips")
+    names(lTips) <- as.vector(nodeLabels(tre4))
     if(any(!rownames(df)%in%tipLabels(tre4)))
         stop("some species labels in comm are not in phyl")
     df <- df[tipLabels(tre4), , drop=FALSE]
@@ -59,7 +60,8 @@ decdiv <- function(phyl, comm, dis = NULL, tol = 1e-08, option = 1:5, formula = 
         DDis <- DDis/max(DDis)
         dis <- sqrt(2*DDis)
     }
-    lDD <- listDD(tre4)
+    lDD <- descendants(tre4, getNode(tre4, type="internal"), type = "children")
+    names(lDD) <- as.vector(nodeLabels(tre4))
     mB <- cbind.data.frame(lapply(lTips, function(x) match(tipLabels(tre4), names(x), nomatch=0)))
     mB[mB > 0] <- 1
     rownames(mB) <- tipLabels(tre4)

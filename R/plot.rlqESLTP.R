@@ -1,6 +1,6 @@
 plot.rlqESLTP <-
 function(x, which = NULL, phyl = NULL, xy = NULL, traits = NULL,
-	env = NULL, type = NULL, ax = 1, disp = c("dots", "bars", "grid", "squares"), ...){
+	env = NULL, type = NULL, ax = 1, disp = c("dots", "bars", "grid"), ...){
 
     if(is.null(which)) stop("Specify which graph you would like to plot")
 	disp <- disp[1]
@@ -26,13 +26,7 @@ function(x, which = NULL, phyl = NULL, xy = NULL, traits = NULL,
      CB <- cbind.data.frame(x$lQ_givenT[phyl$tip.label, ax], x$lQ_givenP[phyl$tip.label, ax], x$lQ[phyl$tip.label, ax])
      colnames(CB) <- c("trait-based", "phylogeny-based","global scores")  
      X.4d <- phylo4d(phyl, as.matrix(CB))
-     if(disp == "squares"){
-         parmar <- par()$mar
-         par(mar=rep(.1,4))
-         table.phylo4d(X.4d, show.node.label=FALSE, symbol="squares", center=FALSE, scale=FALSE)
-         par(mar=parmar)
-    }
-    else if(disp == "dots")
+    if(disp == "dots")
          dotp4d(X.4d, center=FALSE, scale=FALSE)
     else if(disp == "bars")
          barp4d(X.4d, center=FALSE, scale=FALSE)
@@ -43,13 +37,7 @@ function(x, which = NULL, phyl = NULL, xy = NULL, traits = NULL,
 	CB <- as.data.frame(x$lQ[phyl$tip.label, ax])
       colnames(CB) <- "global"
      X.4d <- phylo4d(phyl, as.matrix(CB))
-     if(disp == "squares"){
-         parmar <- par()$mar
-         par(mar=rep(.1,4))
-         table.phylo4d(X.4d, show.node.label=FALSE, symbol="squares", center=FALSE, scale=FALSE)
-         par(mar=parmar)
-     }
-    else if(disp == "dots")
+    if(disp == "dots")
          dotp4d(X.4d, center=FALSE, scale=FALSE)
     else if(disp == "bars")
          barp4d(X.4d, center=FALSE, scale=FALSE)

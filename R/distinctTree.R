@@ -12,13 +12,16 @@ distinctTree <- function (phyl, method = c("ED", "ES", "Delta*"), palpha = 0, st
     if("Delta"%in%method) nbMeth <- nbMeth + length(palpha)-1
     resWeights <- as.data.frame(matrix(0, nbesp, nbMeth))
     rownames(resWeights) <- tipLabels(phyl)
+    CtipToRoot <- function(TRE4, TIPS){
+        LL <- lapply(TIPS, function(ti) ancestors(TRE4, ti))
+        LL <- lapply(LL, function(x) x[-length(x)])
+        return(LL)
+    }
     for (k in 1:length(method)) {
         meth <- method[k]
         if (meth == "ED") {
-            allPath <- lapply(getNode(phyl, type = "tip"), 
-                function(tip) .tipToRoot(phyl, tip, getNode(phyl, 
-                  nbesp + 1), include.root = FALSE))
-            nTip.node <- lapply(listTips(phyl), length)
+            allPath <- CtipToRoot(phyl, getNode(phyl, type = "tip"))
+            nTip.node <- lapply(descendants(phyl, getNode(phyl, type="internal"), type="tips"), length)
             length.node <- edgeLength(phyl, getNode(phyl, type = "internal"))
             weight.node <- length.node/unlist(nTip.node)
             reslist <- lapply(allPath, function(x) sum(unlist(weight.node)[x - 
@@ -31,10 +34,8 @@ distinctTree <- function (phyl, method = c("ED", "ES", "Delta*"), palpha = 0, st
             names(resWeights)[k] <- "ED"
         }
         else if(meth == "ES"){
-            allPath <- lapply(getNode(phyl, type = "tip"), 
-                function(tip) .tipToRoot(phyl, tip, getNode(phyl, 
-                  nbesp + 1), include.root = FALSE))
-            ndescendents <- sapply(listDD(phyl), length)
+            allPath <- CtipToRoot(phyl, getNode(phyl, type = "tip"))
+            ndescendents <- sapply(descendants(phyl, getNode(phyl, type="internal"), type = "children"), length)
             length.node <- edgeLength(phyl, getNode(phyl, type = "internal"))
             reslist <- lapply(allPath, function(x) sum(length.node[x - 
                 nbesp]/cumprod(ndescendents[x - nbesp]), na.rm = TRUE))
@@ -46,10 +47,8 @@ distinctTree <- function (phyl, method = c("ED", "ES", "Delta*"), palpha = 0, st
             names(resWeights)[k] <- "ES"
         }
         else{
-            allPath <- lapply(getNode(phyl, type = "tip"), 
-                function(tip) .tipToRoot(phyl, tip, getNode(phyl, 
-                  nbesp + 1), include.root = FALSE))
-            nTip.node <- unlist(lapply(listTips(phyl), length))
+            allPath <- CtipToRoot(phyl, getNode(phyl, type = "tip"))
+            nTip.node <- unlist(lapply(descendants(phyl, getNode(phyl, type="internal"), type="tips"), length))
             length.node <- edgeLength(phyl, getNode(phyl, type = "internal"))
             if(length(palpha)<2){
                 if(abs(palpha-1)>1e-10)

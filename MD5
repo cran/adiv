@@ -1,5 +1,5 @@
-ee8e018159d2e7a71f12c5d0a52f1aa2 *DESCRIPTION
-2329548e145c9d94a8984ebd010e6cf3 *NAMESPACE
+8a09137eab21970d91930bda6677a521 *DESCRIPTION
+ece0c6b298bc45e1922db603ff196541 *NAMESPACE
 510d0c3278cb0c413925603314ef6f76 *R/CFbinary.R
 58b4f088e2caabd71876e99f7d3ac97b *R/CFprop.R
 c2a4fc3cecb3cceeeb00d398863a7a8d *R/DJac.R
@@ -23,6 +23,7 @@ a00face7256208ee24fe7942b71d7008 *R/abgdivparam.R
 6c07794dd1565be7855859426eabe3ff *R/abgevodivparam.R
 ec73baf77b87754df6e96452dac1db21 *R/apd.R
 6384be8078ba32bca95d5f70321c3474 *R/aptree.R
+a80f5087f296afe311a5e632f84b9617 *R/autoLab.R
 861d8b02339f92049451cb9188216167 *R/barp4d.R
 3b1eef79267391be50fe73fed00bb20a *R/betaTreeUniqueness.R
 6546bac83bcc260e6f950fa17b693f35 *R/betaUniqueness.R
@@ -34,7 +35,7 @@ ca6f0008266f8de9f04174832d203a39 *R/checkphyloarg.R
 1dd4e5b5cad05ee78c331226cbc5db6d *R/crossdpcoa_version2.R
 95889f705ce4cf0bb11c2f51c696836f *R/dbMANOVAspecies.R
 032f0e9bce4a7c16df3c0e36db3e1a8f *R/dbMANOVAspecies_pairwise.R
-e9cf535dc702dc1cc89db4e94782105c *R/decdiv.R
+13992a64ccea0096f86d8f6cc3f36fb7 *R/decdiv.R
 5c92c2fefaba697a83bca96aeac6efec *R/discomQE.R
 7af78eae89c376198052d1e5f0b0b5be *R/dislptransport.R
 a01ac5bd9d66c048f35fb2687529db1d *R/dissABC.R
@@ -42,8 +43,8 @@ a01ac5bd9d66c048f35fb2687529db1d *R/dissABC.R
 94ba433ef9266c84c9d982b480118ba9 *R/distMS.R
 5509bbfb90e045a839d3879442b80f78 *R/distinctAb.R
 67c761a452f2d08becbf384dca80ceaf *R/distinctDis.R
-1cd79d411b85631f86fd95c7672f4bd7 *R/distinctTopo.R
-95f6ca7ca9afb4eb2a9771c1207cb89d *R/distinctTree.R
+98c5fb16b96b8155b7515b79644f7da9 *R/distinctTopo.R
+c5e03604a86e9a53b866efb052f50ae0 *R/distinctTree.R
 6afed8c8b893329e0fd0e90420b9dc7f *R/distinctUltra.R
 cc2780b27981a269cf0befdd4b11b9ff *R/divparam.R
 1b2ba00c03583d16b39cadb499c38b94 *R/dotp4d.R
@@ -77,14 +78,14 @@ d705e0e92048ec8bbd546a429f4c3c11 *R/plot.FPdivparam.R
 fab3d806ae7ed4a09dbd7abea8c213b9 *R/plot.aptree.R
 53e529d440c0271679509ef729e1c976 *R/plot.decdiv.R
 800a70c2fa7be709f8a7ed7ce2b2ebc7 *R/plot.divparam.R
-9294ec4fd23b4ef926f375108f4a20cd *R/plot.dspca.R
+b389bc156ffea0e1f2067cb03dec342f *R/plot.dspca.R
 bed39a05e95ccbf4d50c118123271341 *R/plot.eveparam.R
 4a1bf1df33b959fe626157dbda54b322 *R/plot.evoCA.R
 88cadf07c230b16cf056b64935d41c37 *R/plot.evodivparam.R
 e5105574aee8402919b39ca9bdaed032 *R/plot.evoeveparam.R
 8a3714b642e474762dbc888ae41d7b20 *R/plot.evouniparam.R
 4a180e2c0b0421e9fa10bccc8842867b *R/plot.phylo4d.R
-f52515b37f2de8806e483ec434a7094d *R/plot.rlqESLTP.R
+e200475134bbab53ce07d0bafecfaee6 *R/plot.rlqESLTP.R
 f014409f810670951c9976a0f5504fdf *R/plot.rtestaptree.R
 8fb8404072db1d88c0cbd4e00000a275 *R/qDT.R
 baccd63a80a96dbb6a065f88ed359b9d *R/qHdiv.R
@@ -106,7 +107,7 @@ e591ede8c34ffe74858c7b74024b3bfe *R/summary.rlqESLTP.R
 4a54934b23e6aa76d6278f15b6ce433a *R/twoHmax.R
 b2558c980eeac65986846e25ff3803a0 *R/uniqueness.R
 e39548aa7430721e93596284a4406b29 *R/wapqe.R
-1b3a0ae33edc5fb0d783fe4a72efda6a *build/partial.rdb
+cfec169d2ee3868ea07d85a04d1ba7b8 *build/partial.rdb
 5ba3e91c2406e5a1add642d1ebf31f35 *data/RDMCCP16.rda
 bd3ffc521e094d8372292968bed77189 *data/RP15EI.rda
 57943449bf0704c6b0fb58955bd57241 *data/RP15JVS.rda
@@ -155,7 +156,7 @@ c0bd14d777c035b35d17f307c698de9e *man/distinctDis.Rd
 8f9ee6e06edafb1e65cca246536b0443 *man/distinctUltra.Rd
 bb62cabda61de65ffe2fc980d7c4d05a *man/divparam.Rd
 b0104c16c4eeb3d9cee3abc98e6581dc *man/dsimcom.Rd
-a91420f1fc9b949e3c9b7da7c1425875 *man/dspca.Rd
+b78a886b336ff158a684fc42d9a42116 *man/dspca.Rd
 c2ea2f3e7c0f9e32cae1a388ee92cdcf *man/eveparam.Rd
 d3783f5f8d9a9cfe3ac3802cc38e2929 *man/evoCA.Rd
 e3c9b4289f00eae540b8c0a5f0caed89 *man/evoNSCA.Rd
@@ -174,7 +175,7 @@ f9b80f37e3dd9abe13f1d2bdd22e7915 *man/qDT.Rd
 32f76111424f1ee4e508df5e9237483a *man/qHdiv.Rd
 4ff298e7336ccd25731c1d24785f6287 *man/randEH.Rd
 2927094a99c6b48b39c3a9deaf867011 *man/rare_Rao.Rd
-7a689a5741f35ed804eb4deca61365d7 *man/rlqESLTP.Rd
+3452a7991afff7352c801575f56e4253 *man/rlqESLTP.Rd
 2ee9fefa4d9b06cba4c6756d69a94339 *man/rockfish.Rd
 69a9a1978bedd88a964fe2473a8241f7 *man/speciesdiv.Rd
 f11375f5254e20cf9c515c9547f25712 *man/specieseve.Rd

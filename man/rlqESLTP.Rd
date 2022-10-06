@@ -13,7 +13,7 @@ rlqESLTP(dudiE, dudiS, dudiL, dudiT, dudiP, ...)
 
 \method{plot}{rlqESLTP}(x, which = NULL, phyl = NULL, 
     xy = NULL, traits = NULL, env = NULL, type = NULL, 
-    ax = 1, disp = c("dots", "bars", "grid", "squares"), ...)
+    ax = 1, disp = c("dots", "bars", "grid"), ...)
 
 \method{summary}{rlqESLTP}(object, ...)
 }
@@ -53,7 +53,7 @@ a vector that provides the type of each table to be analysed in \code{env} (if e
   \item{ax}{
 a numeric indicating the axis of interest.}
   \item{disp}{
-a string indicating which method to use to display species scores in front of the phylogeny: one of \code{"dots"} (for a dot plot), \code{"bars"} (for a barplot), \code{"grid"} (for a gridplot for vizualizing scores by a color gradient), and \code{"squares"} (also for vizualizing scores by the color [white = negative, black = positive] and sizes [absolute value] of squares).}
+a string indicating which method to use to display species scores in front of the phylogeny: one of \code{"dots"} (for a dot plot), \code{"bars"} (for a barplot), and \code{"grid"} (for a gridplot for vizualizing scores by a color gradient).}
   \item{\dots}{
 further arguments passed to or from other methods.}
 }

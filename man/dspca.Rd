@@ -44,7 +44,7 @@ a logical specifying whether arrows must be used to indicate the positions of th
 a logical specifying whether points must be used to indicate the positions of the species and those of the communities.
 } 
 \item{autolab}{
-a logical indicating if the function autoLab of package \code{FactoMineR} must be used to display the labels. If there are more than 50 species or more than 50 communities, this option may be time-consuming. If \code{autolab = FALSE}, the names of species and those of the communities will be placed quickly but may overlap.
+a logical indicating if a function autoLab extracted from package \code{FactoMineR} version 2.6 must be used to display the labels. If there are more than 50 species or more than 50 communities, this option may be time-consuming. If \code{autolab = FALSE}, the names of species and those of the communities will be placed quickly but may overlap.
 }
 \item{title}{
 a string (if \code{type="X"} or \code{type="Y"}) or a vector of strings (if \code{type="X&Y"}) giving the title of each graph.

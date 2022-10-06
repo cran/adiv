@@ -47,7 +47,7 @@ plot.dspca <- function(x, xaxis = 1, yaxis = 2, labels = TRUE, arrows = TRUE, po
             points(x$X[, xaxis], x$X[, yaxis], col = colSp, ...)
         if(labels) {
             if(autolab) 
-                 autoLab(x$X[, xaxis], x$X[, yaxis], labels = rownames(x$X), col = colSp, ...)
+                 .autoLab(x$X[, xaxis], x$X[, yaxis], labels = rownames(x$X), col = colSp, ...)
             else {
                pos <- rep(2, nSp)
                pos[x$X[, xaxis] > 0] <- 4
@@ -65,7 +65,7 @@ plot.dspca <- function(x, xaxis = 1, yaxis = 2, labels = TRUE, arrows = TRUE, po
             points(x$Y[, xaxis], x$Y[, yaxis], col = colCo, ...)
         if(labels) {
             if(autolab) 
-                 autoLab(x$Y[, xaxis], x$Y[, yaxis], labels = rownames(x$Y), col = colCo, ...)
+                 .autoLab(x$Y[, xaxis], x$Y[, yaxis], labels = rownames(x$Y), col = colCo, ...)
             else {
                pos <- rep(2, nCo)
                pos[x$Y[, xaxis] > 0] <- 4
@@ -102,7 +102,7 @@ plot.dspca <- function(x, xaxis = 1, yaxis = 2, labels = TRUE, arrows = TRUE, po
             points(x$X[, xaxis], x$X[, yaxis], col = colSp, ...)
         if(labels) {
             if(autolab) 
-                 autoLab(x$X[, xaxis], x$X[, yaxis], labels = rownames(x$X), col = colSp, ...)
+                 .autoLab(x$X[, xaxis], x$X[, yaxis], labels = rownames(x$X), col = colSp, ...)
             else {
                pos <- rep(2, nSp)
                pos[x$X[, xaxis] > 0] <- 4
@@ -142,7 +142,7 @@ plot.dspca <- function(x, xaxis = 1, yaxis = 2, labels = TRUE, arrows = TRUE, po
             points(x$Y[, xaxis], x$Y[, yaxis], col = colCo, ...)
         if(labels) {
             if(autolab) 
-                 autoLab(x$Y[, xaxis], x$Y[, yaxis], labels = rownames(x$Y), col = colCo, ...)
+                 .autoLab(x$Y[, xaxis], x$Y[, yaxis], labels = rownames(x$Y), col = colCo, ...)
             else {
                pos <- rep(2, nCo)
                pos[x$Y[, xaxis] > 0] <- 4
