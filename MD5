@@ -1,4 +1,4 @@
-8a09137eab21970d91930bda6677a521 *DESCRIPTION
+9c162b37a04b660f7808573ba82b19e0 *DESCRIPTION
 ece0c6b298bc45e1922db603ff196541 *NAMESPACE
 510d0c3278cb0c413925603314ef6f76 *R/CFbinary.R
 58b4f088e2caabd71876e99f7d3ac97b *R/CFprop.R
@@ -107,7 +107,7 @@ e591ede8c34ffe74858c7b74024b3bfe *R/summary.rlqESLTP.R
 4a54934b23e6aa76d6278f15b6ce433a *R/twoHmax.R
 b2558c980eeac65986846e25ff3803a0 *R/uniqueness.R
 e39548aa7430721e93596284a4406b29 *R/wapqe.R
-cfec169d2ee3868ea07d85a04d1ba7b8 *build/partial.rdb
+7110c5e93f4d25454a3aafb7ee309a50 *build/partial.rdb
 5ba3e91c2406e5a1add642d1ebf31f35 *data/RDMCCP16.rda
 bd3ffc521e094d8372292968bed77189 *data/RP15EI.rda
 57943449bf0704c6b0fb58955bd57241 *data/RP15JVS.rda
@@ -117,7 +117,6 @@ bd3ffc521e094d8372292968bed77189 *data/RP15EI.rda
 dd4818c7dbd9fc3c44fe4371443483d9 *data/birdData.rda
 8a5b388ae85531e64a8735febc2f8684 *data/rockfish.rda
 e9954184838352ad8e39f6f3377ac7bf *inst/CITATION
-b607381270c658e3735463dfaef0c4c8 *inst/doc/adivGuide.pdf
 aaee06d58feda3a5b30fb713c7090c41 *man/CF.Rd
 9764e0c31bec67a48e1660fb4dfc2b5e *man/DP.Rd
 0c6cf1bed39d8acf09dfb354e1be4c7c *man/EH.Rd
@@ -182,5 +181,3 @@ f11375f5254e20cf9c515c9547f25712 *man/specieseve.Rd
 08b5ba23ab9ba2fd1b7c8d047e1c34b9 *man/treeUniqueness.Rd
 5bcf6478457029fabc25f740b34b38bb *man/twoHmax.Rd
 25629a6cc122a9e47a7b8b0ee263fb4e *man/uniqueness.Rd
-e77e990ea5d4413a48292dce777a8680 *vignettes/Fig3d.png
-2df94fccb09846be33ae07c0d930c0b4 *vignettes/adivGuide.Rnw
